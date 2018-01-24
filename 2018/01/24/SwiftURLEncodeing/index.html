@@ -79,20 +79,22 @@
 
 
 
-<meta name="description" content="如题所示，本文讲述build号具体的配置方法，也就是说在已经给工程配置好fastlane自动打包工具的前提下。如果你尚未使用这个工具，可以点击一下几篇文章学习如何使用：【CI】持续集成-引导篇【CI】持续集成-第一篇 fastlane下面进入正题 step1 修改工程配置修改buildsettings里面的version配置，current project version 随便填一个。versio">
+<meta name="description" content="日常的开发当中，网络请求是不可或缺的。而在网络访问请求中，经常会遇到有中文空格字符的情况，直接用这些字符串去访问是无法正常访问，需要我们做进一步的处理。 一般处理1let urlString = &amp;quot;http://10.0.3.86/中文/main.html#/help&amp;quot; 比如以上的url，想使用webview进行访问或者是原生发起http请求，都需要进行转码处理。有人会问，这有">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Fastlane自动打包工具build号自增处理配置方法">
-<meta property="og:url" content="https://www.jianshu.com/u/6aea1100cc05/2018/01/17/IncreasBuildNumberWithFastlane/index.html">
+<meta property="og:title" content="Swift中URL处理中的注意点">
+<meta property="og:url" content="https://www.jianshu.com/u/6aea1100cc05/2018/01/24/SwiftURLEncodeing/index.html">
 <meta property="og:site_name" content="抢手的哥的技术博客">
-<meta property="og:description" content="如题所示，本文讲述build号具体的配置方法，也就是说在已经给工程配置好fastlane自动打包工具的前提下。如果你尚未使用这个工具，可以点击一下几篇文章学习如何使用：【CI】持续集成-引导篇【CI】持续集成-第一篇 fastlane下面进入正题 step1 修改工程配置修改buildsettings里面的version配置，current project version 随便填一个。versio">
+<meta property="og:description" content="日常的开发当中，网络请求是不可或缺的。而在网络访问请求中，经常会遇到有中文空格字符的情况，直接用这些字符串去访问是无法正常访问，需要我们做进一步的处理。 一般处理1let urlString = &amp;quot;http://10.0.3.86/中文/main.html#/help&amp;quot; 比如以上的url，想使用webview进行访问或者是原生发起http请求，都需要进行转码处理。有人会问，这有">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1447375-eadcb5ae43006646.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1447375-c76535321c288da1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-01-17T05:06:21.015Z">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1447375-7e42bf91528876c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1447375-fee78cebefc1331c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1447375-d729f1de206f6ab9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1447375-8e4a9b88fe4a3f03.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-01-24T08:23:30.644Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Fastlane自动打包工具build号自增处理配置方法">
-<meta name="twitter:description" content="如题所示，本文讲述build号具体的配置方法，也就是说在已经给工程配置好fastlane自动打包工具的前提下。如果你尚未使用这个工具，可以点击一下几篇文章学习如何使用：【CI】持续集成-引导篇【CI】持续集成-第一篇 fastlane下面进入正题 step1 修改工程配置修改buildsettings里面的version配置，current project version 随便填一个。versio">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1447375-eadcb5ae43006646.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="Swift中URL处理中的注意点">
+<meta name="twitter:description" content="日常的开发当中，网络请求是不可或缺的。而在网络访问请求中，经常会遇到有中文空格字符的情况，直接用这些字符串去访问是无法正常访问，需要我们做进一步的处理。 一般处理1let urlString = &amp;quot;http://10.0.3.86/中文/main.html#/help&amp;quot; 比如以上的url，想使用webview进行访问或者是原生发起http请求，都需要进行转码处理。有人会问，这有">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1447375-7e42bf91528876c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -122,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="https://www.jianshu.com/u/6aea1100cc05/2018/01/17/IncreasBuildNumberWithFastlane/"/>
+  <link rel="canonical" href="https://www.jianshu.com/u/6aea1100cc05/2018/01/24/SwiftURLEncodeing/"/>
 
 
 
 
 
-  <title>Fastlane自动打包工具build号自增处理配置方法 | 抢手的哥的技术博客</title>
+  <title>Swift中URL处理中的注意点 | 抢手的哥的技术博客</title>
   
 
 
@@ -235,7 +237,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.jianshu.com/u/6aea1100cc05/2018/01/17/IncreasBuildNumberWithFastlane/">
+    <link itemprop="mainEntityOfPage" href="https://www.jianshu.com/u/6aea1100cc05/2018/01/24/SwiftURLEncodeing/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="抢手的哥">
@@ -252,7 +254,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Fastlane自动打包工具build号自增处理配置方法</h1>
+          <h1 class="post-title" itemprop="name headline">Swift中URL处理中的注意点</h1>
         
 
         <div class="post-meta">
@@ -264,8 +266,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-17T13:06:21+08:00">
-                2018-01-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-24T16:22:14+08:00">
+                2018-01-24
               </time>
             
 
@@ -302,10 +304,19 @@
       
 
       
-        <p>如题所示，本文讲述build号具体的配置方法，也就是说在已经给工程配置好fastlane自动打包工具的前提下。<br>如果你尚未使用这个工具，可以点击一下几篇文章学习如何使用：<br><a href="http://www.jianshu.com/p/6e6503b47453">【CI】持续集成-引导篇</a><br><a href="http://www.jianshu.com/p/2d88a88467a5">【CI】持续集成-第一篇 fastlane</a><br>下面进入正题</p>
-<h2 id="step1-修改工程配置"><a href="#step1-修改工程配置" class="headerlink" title="step1 修改工程配置"></a>step1 修改工程配置</h2><p>修改buildsettings里面的version配置，current project version 随便填一个。versionsystem 选择apple generic。<br><img src="http://upload-images.jianshu.io/upload_images/1447375-eadcb5ae43006646.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="t1.jpeg"><br>修改info.plist的路径由绝对路径变为相对路径<br><img src="http://upload-images.jianshu.io/upload_images/1447375-c76535321c288da1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="t2.jpg"></p>
-<h2 id="step2-配置fastfile"><a href="#step2-配置fastfile" class="headerlink" title="step2 配置fastfile"></a>step2 配置fastfile</h2><p>推荐用sublime text打开fastfile，编辑器右下角选择Ruby语言，方便编码。<br>定义专门的函数处理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">def updateProjectBuildNumber</span><br><span class="line"> </span><br><span class="line">currentTime = Time.new.strftime(&quot;%Y%m%d&quot;)</span><br><span class="line">build = get_build_number()</span><br><span class="line">if build.include?&quot;#&#123;currentTime&#125;.&quot;</span><br><span class="line"># =&gt; 为当天版本 计算迭代版本号</span><br><span class="line">lastStr = build[build.length-2..build.length-1]</span><br><span class="line">lastNum = lastStr.to_i</span><br><span class="line">lastNum = lastNum + 1</span><br><span class="line">lastStr = lastNum.to_s</span><br><span class="line">if lastNum &lt; 10</span><br><span class="line">lastStr = lastStr.insert(0,&quot;0&quot;)</span><br><span class="line">end</span><br><span class="line">build = &quot;#&#123;currentTime&#125;.#&#123;lastStr&#125;&quot;</span><br><span class="line">else</span><br><span class="line"># =&gt; 非当天版本 build 号重置</span><br><span class="line">build = &quot;#&#123;currentTime&#125;.01&quot;</span><br><span class="line">end</span><br><span class="line">puts(&quot;*************| 更新build #&#123;build&#125; |*************&quot;)</span><br><span class="line"># =&gt; 更改项目 build 号</span><br><span class="line">increment_build_number(</span><br><span class="line">build_number: &quot;#&#123;build&#125;&quot;</span><br><span class="line">)</span><br><span class="line">end</span><br><span class="line">定义好updateProjectBuildNumber函数后，在自定义的每个lane方法中，调用一下即可。</span><br><span class="line">eg：</span><br><span class="line">lane :uat do</span><br><span class="line"> </span><br><span class="line">updateProjectBuildNumber  // 这里调用</span><br><span class="line">currentTime = Time.new.strftime(&quot;%Y-%m-%d-%H-%M&quot;)</span><br><span class="line">ipaName = &quot;UAT-#&#123;currentTime&#125;.ipa&quot;</span><br><span class="line">gym(</span><br><span class="line">scheme: &quot;XXX-UAT&quot;,</span><br><span class="line">export_method:&quot;ad-hoc&quot;,</span><br><span class="line">archive_path:&quot;./build/uat&quot;,</span><br><span class="line">output_directory:&quot;./build/uat&quot;,</span><br><span class="line">output_name:ipaName</span><br><span class="line">) # Build your app - more options available</span><br><span class="line">#deliver(force: true)</span><br><span class="line">pgyer(api_key: &quot;xxxxx&quot;, user_key: &quot;xxxxx&quot;)</span><br><span class="line"># frameit</span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
-<p>配置完了 就可以本地打包自增build号了，当然，可以根据自己项目需求自定义build号的规则，百度一下Ruby语法即可。</p>
+        <p>日常的开发当中，网络请求是不可或缺的。而在网络访问请求中，经常会遇到有中文空格字符的情况，直接用这些字符串去访问是无法正常访问，需要我们做进一步的处理。</p>
+<h2 id="一般处理"><a href="#一般处理" class="headerlink" title="一般处理"></a>一般处理</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let urlString = &quot;http://10.0.3.86/中文/main.html#/help&quot;</span><br></pre></td></tr></table></figure>
+<p>比如以上的url，想使用webview进行访问或者是原生发起http请求，都需要进行转码处理。<br>有人会问，这有什么难的？拿起键盘就是干<br><img src="http://upload-images.jianshu.io/upload_images/1447375-7e42bf91528876c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="就是干.png"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">OC：</span><br><span class="line">NSString* encodedString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];</span><br><span class="line"></span><br><span class="line">Swift：</span><br><span class="line">let encodedString = urlString.addingPercentEscapes(using: .utf8)</span><br></pre></td></tr></table></figure></p>
+<p>一敲代码，emmmmm~~ Xcode发警告了，该方法已经过期，用下面的方法替代，于是紧接着:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">OC:</span><br><span class="line">NSString* encodedString = [urtString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];</span><br><span class="line"></span><br><span class="line">Swift:</span><br><span class="line">let encodedString = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)</span><br></pre></td></tr></table></figure>
+<p>OK,转码处理一下，再访问转码之后的url。<br><strong>what？还是不能正常访问？</strong><br>我们来看看转码之后的url是什么：<br><img src="http://upload-images.jianshu.io/upload_images/1447375-fee78cebefc1331c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br><strong>原来是因为最后的#被转码成了%23</strong><br>前端开发的小伙伴说这个#不能动，只能我们不转码。不转码那么夹杂中文字符怎么办呢？—— <strong>修改参数</strong>。<br><strong>所以我们的需求变化成：除了url里面的#不动，其他该转码的都转码</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NSMutableCharacterSet *set  = [[NSCharacterSet URLQueryAllowedCharacterSet] mutableCopy];</span><br><span class="line">[set addCharactersInString:@&quot;#&quot;];</span><br><span class="line">NSString *encodedString     = [urlSring stringByAddingPercentEncodingWithAllowedCharacters:set];</span><br></pre></td></tr></table></figure>
+<p>如上手动修改转码参数，OK 可以了。<br>Swift如法炮制<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let charSet = CharacterSet.urlQueryAllowed as! NSMutableCharacterSet</span><br><span class="line">charSet.addCharacters(in: &quot;#&quot;)</span><br><span class="line">let encodingString = urlStr.addingPercentEncoding(withAllowedCharacters: charSet as CharacterSet)</span><br></pre></td></tr></table></figure></p>
+<p>虽然语言不一样，但是思路一样。<strong>emmmm…你会惊人的发现，根本不管用！！！</strong><br><img src="http://upload-images.jianshu.io/upload_images/1447375-d729f1de206f6ab9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="wc.png"></p>
+<h3 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h3><p>问题是出在<figure class="highlight plain"><figcaption><span>charSet </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## Swift正确的写法</span><br><span class="line">顺着原因一路分析，应该这么写：</span><br></pre></td></tr></table></figure></p>
+<p>方法一：<br>let charSet = CharacterSet.urlQueryAllowed as NSCharacterSet<br>let mutSet = charSet.mutableCopy() as! NSMutableCharacterSet<br>mutSet.addCharacters(in: “#”)<br>let encodingURL = urlStr.addingPercentEncoding(withAllowedCharacters: mutSet as CharacterSet)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">当然还有其他写法：</span><br></pre></td></tr></table></figure></p>
+<p>方法二：<br>let charSet = NSMutableCharacterSet()<br>charSet.formUnion(with: CharacterSet.urlQueryAllowed)<br>charSet.addCharacters(in: “#”)<br>let encodingURL = urlStr.addingPercentEncoding(withAllowedCharacters: charSet as CharacterSet)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">方法一和二本质是一样的，其实沿用的OC的思想，先构造一个可变对象，再加入自定义的字符。**如果要像OC这么搞，那么苹果设计swift的意义何在？换句话说，swift用结构体写重写这个类一定考虑到这个问题，那就应该有相应的处理方法。**</span><br><span class="line"></span><br><span class="line">查阅官方文档吧，少年！</span><br><span class="line">![image.png](http://upload-images.jianshu.io/upload_images/1447375-3c58407983a74f5a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br><span class="line">果不其然，找到一个方法，用来插入字符。</span><br><span class="line">所以还有第三种写法：</span><br></pre></td></tr></table></figure></p>
+<p>方法三：<br>var charSet = CharacterSet.urlQueryAllowed<br>charSet.insert(charactersIn: “#”)<br>let encodingURL = urlStr.addingPercentEncoding(withAllowedCharacters: charSet )<br>```<br>我们来看一下最终结果<br><img src="http://upload-images.jianshu.io/upload_images/1447375-8e4a9b88fe4a3f03.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="结果.png"><br>OK，符合需求！</p>
 
       
     </div>
@@ -330,8 +341,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/17/SelfSginedCertificateAdaptionForMoyaAndKingfisher/" rel="next" title="Moya，KingFisher中使用自签名证书发起HTTPS请求">
-                <i class="fa fa-chevron-left"></i> Moya，KingFisher中使用自签名证书发起HTTPS请求
+              <a href="/2018/01/22/Gitlab-RunnerErrorAnalysis/" rel="next" title="gitlab-runner之build failed with exit status 1问题分析">
+                <i class="fa fa-chevron-left"></i> gitlab-runner之build failed with exit status 1问题分析
               </a>
             
           </div>
@@ -339,10 +350,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/01/17/AdaptionForiOS11andiPhoneX/" rel="prev" title="适配iOS 11和iPhoneX屏幕适配遇到的一些坑">
-                适配iOS 11和iPhoneX屏幕适配遇到的一些坑 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -490,7 +497,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#step1-修改工程配置"><span class="nav-number">1.</span> <span class="nav-text">step1 修改工程配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#step2-配置fastfile"><span class="nav-number">2.</span> <span class="nav-text">step2 配置fastfile</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一般处理"><span class="nav-number">1.</span> <span class="nav-text">一般处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#原因分析"><span class="nav-number">1.1.</span> <span class="nav-text">原因分析</span></a></li></ol></li></ol></div>
             
 
           </div>
