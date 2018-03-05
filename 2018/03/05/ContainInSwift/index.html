@@ -79,22 +79,17 @@
 
 
 
-<meta name="description" content="随着iOS 11正式版,以及Xcode9正式版的发布，已有项目工程对于新版本系统和机型的适配就提上了日程。下面简单讲一讲遇到的一些坑，同时也向在解决问题中查阅的资料文章作者表示感谢！ 安全区域坑NO.1 iOS 11下APP中tableView内容下移20pt 整个页面隐藏了导航栏（自定义导航栏），下面就是一个tableview，加上了MJRefresh第三方。可以明显看出上方状态栏的部分空白，整">
+<meta name="description" content="1.正确姿势当我们在用Swift进行编码的时候，经常会用到contains(element:)方法来判断Array是否包含了某个元素。举个栗子：123456enum Animal &amp;#123;  case dog  case cat&amp;#125;let animals: [Animal] = [.dog, .dog]let hasCat = animals.contains(.cat)">
 <meta property="og:type" content="article">
-<meta property="og:title" content="适配iOS 11和iPhoneX屏幕适配遇到的一些坑">
-<meta property="og:url" content="https://www.jianshu.com/u/6aea1100cc05/2018/01/17/AdaptionForiOS11andiPhoneX/index.html">
+<meta property="og:title" content="Swift中使用Contains的正确姿势">
+<meta property="og:url" content="https://www.jianshu.com/u/6aea1100cc05/2018/03/05/ContainInSwift/index.html">
 <meta property="og:site_name" content="抢手的哥的技术博客">
-<meta property="og:description" content="随着iOS 11正式版,以及Xcode9正式版的发布，已有项目工程对于新版本系统和机型的适配就提上了日程。下面简单讲一讲遇到的一些坑，同时也向在解决问题中查阅的资料文章作者表示感谢！ 安全区域坑NO.1 iOS 11下APP中tableView内容下移20pt 整个页面隐藏了导航栏（自定义导航栏），下面就是一个tableview，加上了MJRefresh第三方。可以明显看出上方状态栏的部分空白，整">
+<meta property="og:description" content="1.正确姿势当我们在用Swift进行编码的时候，经常会用到contains(element:)方法来判断Array是否包含了某个元素。举个栗子：123456enum Animal &amp;#123;  case dog  case cat&amp;#125;let animals: [Animal] = [.dog, .dog]let hasCat = animals.contains(.cat)">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1447375-74617a67ad70b287.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1447375-af9395ec319c1c97.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1447375-842058207ad29076.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1447375-bca78de3065ddcc0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-01-17T05:39:59.000Z">
+<meta property="og:updated_time" content="2018-03-05T06:04:46.101Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="适配iOS 11和iPhoneX屏幕适配遇到的一些坑">
-<meta name="twitter:description" content="随着iOS 11正式版,以及Xcode9正式版的发布，已有项目工程对于新版本系统和机型的适配就提上了日程。下面简单讲一讲遇到的一些坑，同时也向在解决问题中查阅的资料文章作者表示感谢！ 安全区域坑NO.1 iOS 11下APP中tableView内容下移20pt 整个页面隐藏了导航栏（自定义导航栏），下面就是一个tableview，加上了MJRefresh第三方。可以明显看出上方状态栏的部分空白，整">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1447375-74617a67ad70b287.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="Swift中使用Contains的正确姿势">
+<meta name="twitter:description" content="1.正确姿势当我们在用Swift进行编码的时候，经常会用到contains(element:)方法来判断Array是否包含了某个元素。举个栗子：123456enum Animal &amp;#123;  case dog  case cat&amp;#125;let animals: [Animal] = [.dog, .dog]let hasCat = animals.contains(.cat)">
 
 
 
@@ -124,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="https://www.jianshu.com/u/6aea1100cc05/2018/01/17/AdaptionForiOS11andiPhoneX/"/>
+  <link rel="canonical" href="https://www.jianshu.com/u/6aea1100cc05/2018/03/05/ContainInSwift/"/>
 
 
 
 
 
-  <title>适配iOS 11和iPhoneX屏幕适配遇到的一些坑 | 抢手的哥的技术博客</title>
+  <title>Swift中使用Contains的正确姿势 | 抢手的哥的技术博客</title>
   
 
 
@@ -237,7 +232,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.jianshu.com/u/6aea1100cc05/2018/01/17/AdaptionForiOS11andiPhoneX/">
+    <link itemprop="mainEntityOfPage" href="https://www.jianshu.com/u/6aea1100cc05/2018/03/05/ContainInSwift/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="抢手的哥">
@@ -254,7 +249,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">适配iOS 11和iPhoneX屏幕适配遇到的一些坑</h1>
+          <h1 class="post-title" itemprop="name headline">Swift中使用Contains的正确姿势</h1>
         
 
         <div class="post-meta">
@@ -266,8 +261,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-17T13:39:59+08:00">
-                2018-01-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-05T14:00:46+08:00">
+                2018-03-05
               </time>
             
 
@@ -304,20 +299,19 @@
       
 
       
-        <p>随着iOS 11正式版,以及Xcode9正式版的发布，已有项目工程对于新版本系统和机型的适配就提上了日程。下面简单讲一讲遇到的一些坑，同时也向在解决问题中查阅的资料文章作者表示感谢！</p>
-<h3 id="安全区域"><a href="#安全区域" class="headerlink" title="安全区域"></a>安全区域</h3><h4 id="坑NO-1-iOS-11下APP中tableView内容下移20pt"><a href="#坑NO-1-iOS-11下APP中tableView内容下移20pt" class="headerlink" title="坑NO.1 iOS 11下APP中tableView内容下移20pt"></a>坑NO.1 iOS 11下APP中tableView内容下移20pt</h4><p><img src="http://upload-images.jianshu.io/upload_images/1447375-74617a67ad70b287.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>整个页面隐藏了导航栏（自定义导航栏），下面就是一个tableview，加上了MJRefresh第三方。可以明显看出上方状态栏的部分空白，整个tableview内容下滑了20pt。</p>
-<p>原因：iOS 11中automaticallyAdjustsScrollViewInsets属性被废弃了，self.automaticallyAdjustsScrollViewInsets = NO 就等于没有设置（默认是YES），于是顶部就多了一定的contentInset。点开系统头文件就会有提示说明</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/1447375-af9395ec319c1c97.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>解决方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if (@available(iOS 11.0, *)) &#123;</span><br><span class="line">    self.tableView.contentInsetAdjustmentBehavior = 	UIScrollViewContentInsetAdjustmentNever;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    self.automaticallyAdjustsScrollViewInsets = NO;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>关于安全区域适配，简书上的这篇文章<a href="http://www.jianshu.com/p/efbc8619d56b">iOS 11 安全区域适配</a>总结介绍得非常详细，请参考这篇文章。</p>
-<h3 id="iPhoneX"><a href="#iPhoneX" class="headerlink" title="iPhoneX"></a>iPhoneX</h3><h4 id="坑NO-2-LaunchImage问题"><a href="#坑NO-2-LaunchImage问题" class="headerlink" title="坑NO.2 LaunchImage问题"></a>坑NO.2 LaunchImage问题</h4><p>关于带刘海的iPhoneX，如果你的APP在iPhoneX上运行发现没有充满屏幕，上下有黑色区域，那么你应该也像我一样LaunchImage没有用storyboard而是用的Assets。Assets中解决办法添加一张启动图，尺寸为1125x2436，或者直接启用LaunchScreen.storyboard。<br>另外在这里提供一个判断iPhoneX机型的宏定义，前提是launchimage已经设置好。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#define IS_iPhoneX  UIScreen.mainScreen.currentMode.size.width == 1125 &amp;&amp; UIScreen.mainScreen.currentMode.size.height == 2436</span><br></pre></td></tr></table></figure>
-<h4 id="坑NO-3-storyboard、xib上的安全区问题"><a href="#坑NO-3-storyboard、xib上的安全区问题" class="headerlink" title="坑NO.3 storyboard、xib上的安全区问题"></a>坑NO.3 storyboard、xib上的安全区问题</h4><p>本人在做解决第二个坑的时候，创建了storyboard作为启动图使用。按照以往的思路，搞一个imageView覆盖到整个控制器的view上去，拉好约束，一编译<br>编译发现系统报了个错。<br><img src="http://upload-images.jianshu.io/upload_images/1447375-842058207ad29076.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h5 id="原因"><a href="#原因" class="headerlink" title="原因:"></a>原因:</h5><p>苹果在iOS7中引入的Top Layout Guide和Bottom Layout Guide,这些布局指南在iOS 11中被弃用，取而代之的是Safe Area Layout Guide.</p>
-<p>因为项目要求系统最低适配iOS 8，所以要对这里进行处理。</p>
-<h5 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h5><p>1、打开右侧的 Show the File inspetcor<br>2、去掉 Use Safe Area Layout Guides<br><img src="http://upload-images.jianshu.io/upload_images/1447375-bca78de3065ddcc0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>如图，这样一来就和之前的界面一样。</p>
-<p>目前遇到的就这些坑，欢迎大家指正补充~<br>最后，作为该行从业人员，不得不讲一句：“苹果爸爸说啥就是啥🙂🙂”</p>
+        <h2 id="1-正确姿势"><a href="#1-正确姿势" class="headerlink" title="1.正确姿势"></a>1.正确姿势</h2><p>当我们在用Swift进行编码的时候，经常会用到contains(element:)方法来判断Array是否包含了某个元素。举个栗子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">enum Animal &#123;</span><br><span class="line">  case dog</span><br><span class="line">  case cat</span><br><span class="line">&#125;</span><br><span class="line">let animals: [Animal] = [.dog, .dog]</span><br><span class="line">let hasCat = animals.contains(.cat)       // fasle</span><br></pre></td></tr></table></figure></p>
+<p>看起来灰常的简单对不？然鹅，我们把Animal的枚举定义修改成带参数的枚举，比如这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">enum Animal &#123;</span><br><span class="line">  case dog(String)</span><br><span class="line">  case cat(String)</span><br><span class="line">&#125;</span><br><span class="line">let animals: [Animal] = [.dog(&quot;汪汪&quot;), .dog(&quot;阿黄&quot;)]</span><br><span class="line">let hasCat = animals.contains(.cat(&quot;喵喵&quot;))      // compile error</span><br></pre></td></tr></table></figure></p>
+<p>编译报错了，为毛？<br>原因是能使用contains(element:)的元素是需要遵循Equatable协议的，但是Animal是没有遵循的，所以会报错。</p>
+<p>那肿么办？幸好苹果还提供了另外一个方法来判断<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">public func contains(where predicate: (Element) throws -&gt; Bool)</span><br><span class="line">rethrows -&gt; Bool</span><br></pre></td></tr></table></figure></p>
+<p>这个方法提供了一个闭包参数—— predicate，当数组中的元素没有遵循Equatable协议时，我们可以用这个参数来定义检查元素的规则。</p>
+<p>所以之前代码中的错误代码改成这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">enum Animal &#123;</span><br><span class="line">    case dog(String)</span><br><span class="line">    case cat(String)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let animals : [Animal] = [.dog(&quot;汪汪&quot;), .dog(&quot;阿黄&quot;)]</span><br><span class="line">let hasCat = animals.contains &#123; (animal) -&gt; Bool in</span><br><span class="line">    </span><br><span class="line">    if case .cat = animal &#123;</span><br><span class="line">        return true</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return false</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// fasle</span><br></pre></td></tr></table></figure></p>
+<p>这么改hasCat就能正确计算出是false了。</p>
+<h2 id="2-进阶用法"><a href="#2-进阶用法" class="headerlink" title="2.进阶用法"></a>2.进阶用法</h2><p>另外，我们可以自定义predicate，来定义检查筛选的条件，比如：<br>检查数组中是否有元素大于100。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let expenses = [21.37, 55.21, 9.32, 10.18, 388.77, 11.41]</span><br><span class="line">let hasBigPurchase = expenses.contains &#123; $0 &gt; 100 &#125;</span><br><span class="line">// &apos;hasBigPurchase&apos; == true</span><br></pre></td></tr></table></figure></p>
+<p>再给个栗子：检查一个数组的元素，它可是否以除以7。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">let array = [2, 5, 6, 7, 19, 40]</span><br><span class="line"></span><br><span class="line">array.contains &#123; (element) -&gt; Bool in</span><br><span class="line">    element % 7 == 0</span><br><span class="line">&#125;</span><br><span class="line">或者</span><br><span class="line">array.contains &#123; $0 % 7 == 0 &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里的$0就是指数组的元素；</p>
+<blockquote>
+<p>原文链接：<br><a href="https://medium.com/@iostechset/contains-function-in-swift-5e0276638eb5" target="_blank" rel="noopener">Contains in Swift</a> – by 故胤道长（英文博客，需要科学上网工具）<br><a href="https://developer.apple.com/documentation/swift/array/2297359-contains" target="_blank" rel="noopener">官方文档</a></p>
+</blockquote>
 
       
     </div>
@@ -342,8 +336,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/17/IncreasBuildNumberWithFastlane/" rel="next" title="Fastlane自动打包工具build号自增处理配置方法">
-                <i class="fa fa-chevron-left"></i> Fastlane自动打包工具build号自增处理配置方法
+              <a href="/2018/01/24/SwiftURLEncodeing/" rel="next" title="Swift中URL处理中的注意点">
+                <i class="fa fa-chevron-left"></i> Swift中URL处理中的注意点
               </a>
             
           </div>
@@ -351,10 +345,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/01/17/updateCocoapodsIssue/" rel="prev" title="更新cocoapods 遇到的坑">
-                更新cocoapods 遇到的坑 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -502,7 +492,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安全区域"><span class="nav-number">1.</span> <span class="nav-text">安全区域</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#坑NO-1-iOS-11下APP中tableView内容下移20pt"><span class="nav-number">1.1.</span> <span class="nav-text">坑NO.1 iOS 11下APP中tableView内容下移20pt</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iPhoneX"><span class="nav-number">2.</span> <span class="nav-text">iPhoneX</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#坑NO-2-LaunchImage问题"><span class="nav-number">2.1.</span> <span class="nav-text">坑NO.2 LaunchImage问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#坑NO-3-storyboard、xib上的安全区问题"><span class="nav-number">2.2.</span> <span class="nav-text">坑NO.3 storyboard、xib上的安全区问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#原因"><span class="nav-number">2.2.1.</span> <span class="nav-text">原因:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解决方法："><span class="nav-number">2.2.2.</span> <span class="nav-text">解决方法：</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-正确姿势"><span class="nav-number">1.</span> <span class="nav-text">1.正确姿势</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-进阶用法"><span class="nav-number">2.</span> <span class="nav-text">2.进阶用法</span></a></li></ol></div>
             
 
           </div>
