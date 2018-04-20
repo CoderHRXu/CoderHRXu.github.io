@@ -232,6 +232,150 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.jianshu.com/u/6aea1100cc05/2018/04/20/Swift4QRCodeTool/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="抢手的哥">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="抢手的哥的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/20/Swift4QRCodeTool/" itemprop="url">Swift4如何扫描二维码了解一下</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-20T17:29:05+08:00">
+                2018-04-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="1-扫码简史"><a href="#1-扫码简史" class="headerlink" title="1.扫码简史"></a>1.扫码简史</h2><p>这些年移动互联网的普及，也让二维码技术成功的推广。在遥远的iOS7.0之前的年代，我们实现二维码扫描的功能，还需要借助两大开源组件ZXing和ZBar来实现。iOS7.0以后，苹果提供了AVFoundation框架，来实现二维码是扫码，而且效率更高。<br>与此同时，苹果的Swift开发语言，也经历了从1.0诞生到4.1，其中不乏一些新特性以及API的变化。</p>
+<p>本文讲解了如何用Swift4，实现二维码扫描的功能</p>
+<h2 id="2-具体实现"><a href="#2-具体实现" class="headerlink" title="2.具体实现"></a>2.具体实现</h2><h3 id="2-1权限控制"><a href="#2-1权限控制" class="headerlink" title="2.1权限控制"></a>2.1权限控制</h3><p>实现二维码扫描，必然要打开手机摄像头，就需要获取权限。首先，在你的项目工程的info.plist中加入如下key-value，否则app调试的时候崩溃。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;key&gt;NSCameraUsageDescription&lt;/key&gt;</span><br><span class="line">&lt;string&gt;CameraUsageDescription&lt;/string&gt;</span><br></pre></td></tr></table></figure></p>
+<p>另外需要手动去检测当前APP的摄像头权限。如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">func checkCameraAuth() -&gt; Bool &#123;</span><br><span class="line">let status = AVCaptureDevice.authorizationStatus(for: .video)</span><br><span class="line">return status == .authorized</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>不难看出，status是个枚举值，只有 .authorized才是已经获取摄像头权限，其余的都不行。</p>
+<h3 id="2-2-上代码"><a href="#2-2-上代码" class="headerlink" title="2.2 上代码"></a>2.2 上代码</h3><h4 id="2-2-1-初始化"><a href="#2-2-1-初始化" class="headerlink" title="2.2.1 初始化"></a>2.2.1 初始化</h4><p>导入AVFoundation框架之后，我们就可以初始化捕捉设备、创建捕捉会话、输入媒体类型、设置代理等<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">// 捕捉设备</span><br><span class="line">guard let device = AVCaptureDevice.default(for: .video)  else &#123;</span><br><span class="line">return</span><br><span class="line">&#125;</span><br><span class="line">do &#123;</span><br><span class="line">// 输入</span><br><span class="line">inPut: AVCaptureDeviceInput = try AVCaptureDeviceInput.init(device: device)</span><br><span class="line">&#125; catch  &#123;</span><br><span class="line">print(error)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/// 输出</span><br><span class="line">let outPut: AVCaptureMetadataOutput = &#123;</span><br><span class="line">let outPut = AVCaptureMetadataOutput.init()</span><br><span class="line">outPut.connection(with: .metadata)</span><br><span class="line">return outPut</span><br><span class="line">&#125;()</span><br><span class="line"></span><br><span class="line">/// 会话 session</span><br><span class="line">let session: AVCaptureSession = &#123;</span><br><span class="line">let session = AVCaptureSession.init()</span><br><span class="line">if session.canSetSessionPreset(.high)&#123;</span><br><span class="line">session.sessionPreset = .high</span><br><span class="line">&#125;</span><br><span class="line">return session</span><br><span class="line">&#125;()</span><br><span class="line"></span><br><span class="line">/// 预览层</span><br><span class="line">let preLayer: AVCaptureVideoPreviewLayer = AVCaptureVideoPreviewLayer.init()</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-2-2-设置代理"><a href="#2-2-2-设置代理" class="headerlink" title="2.2.2 设置代理"></a>2.2.2 设置代理</h4><p>初始化之后，开始设置代理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 设代理</span><br><span class="line">outPut.setMetadataObjectsDelegate(self as AVCaptureMetadataOutputObjectsDelegate, queue: DispatchQueue.main)</span><br><span class="line">// 指定预览层的捕捉会话</span><br><span class="line">preLayer.session = session</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-2-3-指定会话输入输出"><a href="#2-2-3-指定会话输入输出" class="headerlink" title="2.2.3 指定会话输入输出"></a>2.2.3 指定会话输入输出</h4><p>然后把捕捉会话添加输入输出<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 捕捉会话加入input和output</span><br><span class="line">if session.canAddInput(input) &amp;&amp; session.canAddOutput(outPut) &#123;</span><br><span class="line">session.addInput(input)</span><br><span class="line">session.addOutput(outPut)</span><br><span class="line">// 设置元数据处理类型(注意, 一定要将设置元数据处理类型的代码添加到  会话添加输出之后)</span><br><span class="line">outPut.metadataObjectTypes = [.ean13, .ean8, .upce, .code39, .code93, .code128, .code39Mod43, .qr]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>设置元数据处理类型， 可见不仅有二维码，而且还有其他条码，就不一一介绍了。注意, 一定要将设置元数据处理类型的代码添加到会话添加输出之后。</p>
+<h4 id="2-2-4-添加会话预览图层"><a href="#2-2-4-添加会话预览图层" class="headerlink" title="2.2.4 添加会话预览图层"></a>2.2.4 添加会话预览图层</h4><p>接着开始在页面添加预览层, 这样才能看到摄像头捕捉到的画面。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 添加预览图层</span><br><span class="line">let flag = view.layer.sublayers?.contains(preLayer)</span><br><span class="line">if flag == false || flag == nil &#123;</span><br><span class="line">self.preLayer.frame = view.bounds</span><br><span class="line">view.layer.insertSublayer(preLayer, at: 0)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-2-5-开启会话"><a href="#2-2-5-开启会话" class="headerlink" title="2.2.5 开启会话"></a>2.2.5 开启会话</h4><p>到此为止，这个session捕捉会话需要的参数都全了，然后开始愉快的开始这个会话<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 启动会话</span><br><span class="line">session.startRunning()</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-2-6-监听捕捉会话输出代理"><a href="#2-2-6-监听捕捉会话输出代理" class="headerlink" title="2.2.6 监听捕捉会话输出代理"></a>2.2.6 监听捕捉会话输出代理</h4><p>开启捕捉会话，我们就可以在代理方法中查看会话捕捉到的东西。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!)</span><br></pre></td></tr></table></figure>
+<p>识别到的就在这个方法里告诉你。<br>什么？什么？，方法不调用？<br><strong>敲黑板！！！API有变化了</strong><br>Swift4.0的代理方法在下面<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection)&#123;</span><br><span class="line">var resultStrs = [String]()</span><br><span class="line">for obj in metadataObjects &#123;</span><br><span class="line">guard let codeObj = obj as? AVMetadataMachineReadableCodeObject else &#123;</span><br><span class="line">return</span><br><span class="line">&#125; </span><br><span class="line">resultStrs.append(codeObj.stringValue ?? &quot;&quot;)</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在这个方法里面就能拿到扫码之后的结果了。</p>
+<h4 id="2-2-7-思考"><a href="#2-2-7-思考" class="headerlink" title="2.2.7 思考"></a>2.2.7 思考</h4><p><strong>写到这里，不经停下思考：</strong><br><strong>1.这里还只是基本的扫码功能，就已经这么多代码了，关于扫码页面的长啥样子的代码我还没写；</strong><br><strong>2.一般开发中页面少不了UI的网络的代码，难道我要再把这么一大坨AVFoundation代码都写到控制器吗？</strong><br><strong>3.如果我一个项目里面，不止一个地方用到扫码，难道我还要再把这么多代码再复制几遍</strong></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1447375-b4a08ca6b7f7de8f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="WTF.png"></p>
+<h2 id="3-封装"><a href="#3-封装" class="headerlink" title="3.封装"></a>3.封装</h2><p><strong>高内聚 低耦合</strong><br>就按照这个原则来封装。<br>1.首先把这些AVFoundation模块的代码，统统抽到一个工具类里，需要的时候，直接拿工具类调用，识别结果delegate返回。<br>2.可以根据经验，把一些定制的需求也放进去，比如说扫码的时候，中间透明的框框，加上周边的黑色蒙板。<br>3.扩展一些其他功能，比如扫码成功播放一段提示音等待</p>
+<p>什么？你准备动手了？别着急，我已经弄好了,使劲戳👇👇</p>
+<h2 id="HRQRCodeScanTool"><a href="#HRQRCodeScanTool" class="headerlink" title="HRQRCodeScanTool"></a><a href="https://github.com/CoderHRXu/HRQRCodeScanTool" target="_blank" rel="noopener">HRQRCodeScanTool</a></h2><p>最简单的，在控制器中，你只需要<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// in ViewController</span><br><span class="line">HRQRCodeScanTool.shared.delegate  = self</span><br><span class="line">HRQRCodeScanTool.shared.beginScanInView(view: view)</span><br></pre></td></tr></table></figure></p>
+<p>然后扫码结果代理返回</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// scan result will call in  delegate methods </span><br><span class="line">func scanQRCodeFaild(error: HRQRCodeTooError)&#123;</span><br><span class="line">print(error)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func scanQRCodeSuccess(resultStrs: [String])&#123;</span><br><span class="line">print(resultStrs.first)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果你需要二维码描边，你只需要设置这几个属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">open var isDrawQRCodeRect: Bool    true    是否描绘二维码边框 默认true</span><br><span class="line">open var drawRectColor: UIColor    UIColor.red    二维码边框颜色 默认红色</span><br><span class="line">open var drawRectLineWith: CGFloat    2    二维码边框线宽 默认2</span><br></pre></td></tr></table></figure></p>
+<p>如果你需要添加蒙板，你只需要设置这几个属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">open var isShowMask: Bool    true    是否展示黑色蒙版板层 默认开启</span><br><span class="line">open var maskColor: UIColor    Black.alpha 0.5    蒙板层 默认黑色 alpha 0.5</span><br><span class="line">open var centerWidth: CGFloat    200    中心非蒙板区域的宽</span><br><span class="line">open var centerHeight: CGFloat    5.0    中心非蒙板区域的宽</span><br><span class="line">open var centerPosition: CGPoint?    nil    中心非蒙板区域的中心点 默认Veiw的中心</span><br></pre></td></tr></table></figure></p>
+<p>哪里需要扫码，直接接入工具类，没多少行代码搞定，就问你爽不爽。<br>另外，项目里还提供了两个扩展，用来识别二维码图片，以及图片生成二维码，需要的各位看官老爷自取。<br><img src="https://upload-images.jianshu.io/upload_images/1447375-f471166df94d37f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="yeah.png"><br>还支持Cocoapods哦</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://www.jianshu.com/u/6aea1100cc05/2018/04/17/KoaStaticServer/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1423,133 +1567,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.jianshu.com/u/6aea1100cc05/2018/01/17/SelfSginedCertificateAdaptionForMoyaAndKingfisher/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="抢手的哥">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="抢手的哥的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/17/SelfSginedCertificateAdaptionForMoyaAndKingfisher/" itemprop="url">Moya，KingFisher中使用自签名证书发起HTTPS请求</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-17T13:05:08+08:00">
-                2018-01-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="HTTPS握手"><a href="#HTTPS握手" class="headerlink" title="HTTPS握手"></a>HTTPS握手</h3><p>先说声https握手，发送 HTTPS 请求首先要进行 SSL/TLS 握手，握手过程大致如下：</p>
-<p>1.客户端发起握手请求，携带随机数、支持算法列表等参数。<br>2.服务端收到请求，选择合适的算法，下发公钥证书和随机数。<br>3.客户端对服务端证书进行校验，并发送随机数信息，该信息使用公钥加密。<br>4.服务端通过私钥获取随机数信息。<br>5.双方根据以上交互的信息生成session ticket，用作该连接后续数据传输的加密密钥。<br>上述过程中，和“IP直连”有关的是第3步，客户端需要验证服务端下发的证书，验证过程有以下两个要点：</p>
-<p>1.客户端用本地保存的根证书解开证书链，确认服务端下发的证书是由可信任的机构颁发的。<br>2.客户端需要检查证书的 domain 域和扩展域，看是否包含本次请求的 host。<br>如果上述两点都校验通过，就证明当前的服务端是可信任的，否则就是不可信任，应当中断当前连接。</p>
-<p>当客户端使用“IP直连”解析域名时，请求URL中的host会被替换成解析出来的IP，所以在证书验证的第2步，会出现domain不匹配的情况，导致SSL/TLS握手不成功。</p>
-<h3 id="问题的产生："><a href="#问题的产生：" class="headerlink" title="问题的产生："></a>问题的产生：</h3><pre><code>平时的swift项目开发过程中，我们需要在测试服进行开发以及测试，当网络环境配置成https的时候，经常需要加载网络请求，或者展示网络图片，测试服都是自建证书，默认情况下Moya，和KingFisher不会通过验证，导致网络(图片)加载不同。
-</code></pre><h3 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h3><p>关闭Https的证书认证<br>验证自签名证书，CN 是否合法</p>
-<h3 id="Moya"><a href="#Moya" class="headerlink" title="Moya"></a>Moya</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">方法一：</span><br><span class="line">/// 关闭https认证</span><br><span class="line">let serverTrustPolicies: [String: ServerTrustPolicy] = [</span><br><span class="line">“172.16.88.106”: .disableEvaluation</span><br><span class="line">]</span><br><span class="line">let manager = Manager(</span><br><span class="line">configuration: URLSessionConfiguration.default,</span><br><span class="line">serverTrustPolicyManager: ServerTrustPolicyManager(policies: serverTrustPolicies)</span><br><span class="line">)</span><br><span class="line">let provider = MoyaProvider(manager: manager, plugins: [NetworkLoggerPlugin(verbose: true)])</span><br><span class="line">方法一是一种变通实现的方法，它直接关闭了Https的Domain验证，虽然可以请求正常进行，但是如果在客户端和服务器之间增加代理，请求发送时代理替换证书，那么代理就可以轻易拿到请求的数据，出于安全考虑并不推荐这种做法。</span><br><span class="line">方法二：</span><br><span class="line">ServerTrustPolicy枚举中使用pinCertificates。</span><br><span class="line">case pinCertificates(certificates: [SecCertificate], validateCertificateChain: Bool, validateHost: Bool)</span><br><span class="line">传入自签名证书信息。</span><br><span class="line">示例代码：</span><br><span class="line">let path = Bundle.main .path(forResource: &quot;selfSigned_pubCA.cer&quot;, ofType: nil)</span><br><span class="line">let data = NSData(contentsOfFile: path!)</span><br><span class="line">let certificates :[SecCertificate] = [data as! SecCertificate]</span><br><span class="line">let policies : [String : ServerTrustPolicy] = [&quot;172.16.88.230&quot; : .pinCertificates(certificates: certificates, validateCertificateChain: true, validateHost: true)]</span><br><span class="line">把这个 policies 作为参数传进manager 构造函数中即可</span><br></pre></td></tr></table></figure>
-<h3 id="KingFisher信任Host方法"><a href="#KingFisher信任Host方法" class="headerlink" title="KingFisher信任Host方法"></a>KingFisher信任Host方法</h3><p>A lightweight, pure-Swift library for downloading and caching images from the web.<br><a href="https://github.com/onevcat/Kingfisher" target="_blank" rel="noopener">https://github.com/onevcat/Kingfisher</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//取出downloader单例</span><br><span class="line">let downloader = KingfisherManager.shared.downloader</span><br><span class="line">//信任ip为106的</span><br><span class="line">Serverdownloader.trustedHosts = Set([&quot;172.16.88.106&quot;])</span><br><span class="line">//使用KingFisher给ImageView赋网络图片</span><br><span class="line">iconView.kf.setImage(with: iconUrl)</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1604,7 +1621,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
