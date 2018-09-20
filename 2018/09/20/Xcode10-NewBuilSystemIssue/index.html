@@ -79,20 +79,17 @@
 
 
 
-<meta name="description" content="如题所示，本文讲述build号具体的配置方法，也就是说在已经给工程配置好fastlane自动打包工具的前提下。如果你尚未使用这个工具，可以点击一下几篇文章学习如何使用：【CI】持续集成-引导篇【CI】持续集成-第一篇 fastlane下面进入正题 step1 修改工程配置修改buildsettings里面的version配置，current project version 随便填一个。versio">
+<meta name="description" content="Xcode10 Version 10.0 (10A255)发布，笔者第一时间升级。很显然使用的过程中出现了不少问题，相信大家都有所耳闻，最典型的就是libstdc++.6.0.9问题，网上已经有不少方法了，这里就不多说了。 遇到的问题除了这个问题之外，笔者还遇到了build system的问题。在Xcode菜单栏选择Workspace Setting```1234就会出现如下的界面![build">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Fastlane自动打包工具build号自增处理配置方法">
-<meta property="og:url" content="https://www.jianshu.com/u/6aea1100cc05/2018/01/17/IncreasBuildNumberWithFastlane/index.html">
+<meta property="og:title" content="踩坑Xcode 10之New Build System">
+<meta property="og:url" content="https://www.jianshu.com/u/6aea1100cc05/2018/09/20/Xcode10-NewBuilSystemIssue/index.html">
 <meta property="og:site_name" content="抢手的哥的技术博客">
-<meta property="og:description" content="如题所示，本文讲述build号具体的配置方法，也就是说在已经给工程配置好fastlane自动打包工具的前提下。如果你尚未使用这个工具，可以点击一下几篇文章学习如何使用：【CI】持续集成-引导篇【CI】持续集成-第一篇 fastlane下面进入正题 step1 修改工程配置修改buildsettings里面的version配置，current project version 随便填一个。versio">
+<meta property="og:description" content="Xcode10 Version 10.0 (10A255)发布，笔者第一时间升级。很显然使用的过程中出现了不少问题，相信大家都有所耳闻，最典型的就是libstdc++.6.0.9问题，网上已经有不少方法了，这里就不多说了。 遇到的问题除了这个问题之外，笔者还遇到了build system的问题。在Xcode菜单栏选择Workspace Setting```1234就会出现如下的界面![build">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1447375-eadcb5ae43006646.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1447375-c76535321c288da1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-01-17T05:06:21.000Z">
+<meta property="og:updated_time" content="2018-09-20T08:50:30.231Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Fastlane自动打包工具build号自增处理配置方法">
-<meta name="twitter:description" content="如题所示，本文讲述build号具体的配置方法，也就是说在已经给工程配置好fastlane自动打包工具的前提下。如果你尚未使用这个工具，可以点击一下几篇文章学习如何使用：【CI】持续集成-引导篇【CI】持续集成-第一篇 fastlane下面进入正题 step1 修改工程配置修改buildsettings里面的version配置，current project version 随便填一个。versio">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1447375-eadcb5ae43006646.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="踩坑Xcode 10之New Build System">
+<meta name="twitter:description" content="Xcode10 Version 10.0 (10A255)发布，笔者第一时间升级。很显然使用的过程中出现了不少问题，相信大家都有所耳闻，最典型的就是libstdc++.6.0.9问题，网上已经有不少方法了，这里就不多说了。 遇到的问题除了这个问题之外，笔者还遇到了build system的问题。在Xcode菜单栏选择Workspace Setting```1234就会出现如下的界面![build">
 
 
 
@@ -122,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="https://www.jianshu.com/u/6aea1100cc05/2018/01/17/IncreasBuildNumberWithFastlane/"/>
+  <link rel="canonical" href="https://www.jianshu.com/u/6aea1100cc05/2018/09/20/Xcode10-NewBuilSystemIssue/"/>
 
 
 
 
 
-  <title>Fastlane自动打包工具build号自增处理配置方法 | 抢手的哥的技术博客</title>
+  <title>踩坑Xcode 10之New Build System | 抢手的哥的技术博客</title>
   
 
 
@@ -235,7 +232,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.jianshu.com/u/6aea1100cc05/2018/01/17/IncreasBuildNumberWithFastlane/">
+    <link itemprop="mainEntityOfPage" href="https://www.jianshu.com/u/6aea1100cc05/2018/09/20/Xcode10-NewBuilSystemIssue/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="抢手的哥">
@@ -252,7 +249,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Fastlane自动打包工具build号自增处理配置方法</h1>
+          <h1 class="post-title" itemprop="name headline">踩坑Xcode 10之New Build System</h1>
         
 
         <div class="post-meta">
@@ -264,8 +261,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-17T13:06:21+08:00">
-                2018-01-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-20T16:44:44+08:00">
+                2018-09-20
               </time>
             
 
@@ -302,10 +299,15 @@
       
 
       
-        <p>如题所示，本文讲述build号具体的配置方法，也就是说在已经给工程配置好fastlane自动打包工具的前提下。<br>如果你尚未使用这个工具，可以点击一下几篇文章学习如何使用：<br><a href="http://www.jianshu.com/p/6e6503b47453">【CI】持续集成-引导篇</a><br><a href="http://www.jianshu.com/p/2d88a88467a5">【CI】持续集成-第一篇 fastlane</a><br>下面进入正题</p>
-<h2 id="step1-修改工程配置"><a href="#step1-修改工程配置" class="headerlink" title="step1 修改工程配置"></a>step1 修改工程配置</h2><p>修改buildsettings里面的version配置，current project version 随便填一个。versionsystem 选择apple generic。<br><img src="http://upload-images.jianshu.io/upload_images/1447375-eadcb5ae43006646.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="t1.jpeg"><br>修改info.plist的路径由绝对路径变为相对路径<br><img src="http://upload-images.jianshu.io/upload_images/1447375-c76535321c288da1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="t2.jpg"></p>
-<h2 id="step2-配置fastfile"><a href="#step2-配置fastfile" class="headerlink" title="step2 配置fastfile"></a>step2 配置fastfile</h2><p>推荐用sublime text打开fastfile，编辑器右下角选择Ruby语言，方便编码。<br>定义专门的函数处理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">def updateProjectBuildNumber</span><br><span class="line"> </span><br><span class="line">currentTime = Time.new.strftime(&quot;%Y%m%d&quot;)</span><br><span class="line">build = get_build_number()</span><br><span class="line">if build.include?&quot;#&#123;currentTime&#125;.&quot;</span><br><span class="line"># =&gt; 为当天版本 计算迭代版本号</span><br><span class="line">lastStr = build[build.length-2..build.length-1]</span><br><span class="line">lastNum = lastStr.to_i</span><br><span class="line">lastNum = lastNum + 1</span><br><span class="line">lastStr = lastNum.to_s</span><br><span class="line">if lastNum &lt; 10</span><br><span class="line">lastStr = lastStr.insert(0,&quot;0&quot;)</span><br><span class="line">end</span><br><span class="line">build = &quot;#&#123;currentTime&#125;.#&#123;lastStr&#125;&quot;</span><br><span class="line">else</span><br><span class="line"># =&gt; 非当天版本 build 号重置</span><br><span class="line">build = &quot;#&#123;currentTime&#125;.01&quot;</span><br><span class="line">end</span><br><span class="line">puts(&quot;*************| 更新build #&#123;build&#125; |*************&quot;)</span><br><span class="line"># =&gt; 更改项目 build 号</span><br><span class="line">increment_build_number(</span><br><span class="line">build_number: &quot;#&#123;build&#125;&quot;</span><br><span class="line">)</span><br><span class="line">end</span><br><span class="line">定义好updateProjectBuildNumber函数后，在自定义的每个lane方法中，调用一下即可。</span><br><span class="line">eg：</span><br><span class="line">lane :uat do</span><br><span class="line"> </span><br><span class="line">updateProjectBuildNumber  // 这里调用</span><br><span class="line">currentTime = Time.new.strftime(&quot;%Y-%m-%d-%H-%M&quot;)</span><br><span class="line">ipaName = &quot;UAT-#&#123;currentTime&#125;.ipa&quot;</span><br><span class="line">gym(</span><br><span class="line">scheme: &quot;XXX-UAT&quot;,</span><br><span class="line">export_method:&quot;ad-hoc&quot;,</span><br><span class="line">archive_path:&quot;./build/uat&quot;,</span><br><span class="line">output_directory:&quot;./build/uat&quot;,</span><br><span class="line">output_name:ipaName</span><br><span class="line">) # Build your app - more options available</span><br><span class="line">#deliver(force: true)</span><br><span class="line">pgyer(api_key: &quot;xxxxx&quot;, user_key: &quot;xxxxx&quot;)</span><br><span class="line"># frameit</span><br><span class="line">end</span><br></pre></td></tr></table></figure></p>
-<p>配置完了 就可以本地打包自增build号了，当然，可以根据自己项目需求自定义build号的规则，百度一下Ruby语法即可。</p>
+        <p>Xcode10 Version 10.0 (10A255)发布，笔者第一时间升级。很显然使用的过程中出现了不少问题，相信大家都有所耳闻，最典型的就是<a href="http://www.cnblogs.com/chao8888/p/9674314.html" target="_blank" rel="noopener">libstdc++.6.0.9问题</a>，网上已经有不少方法了，这里就不多说了。</p>
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><p>除了这个问题之外，笔者还遇到了build system的问题。在Xcode菜单栏选择<br><figure class="highlight plain"><figcaption><span>Workspace Setting```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">就会出现如下的界面</span><br><span class="line">![build system.png](https://upload-images.jianshu.io/upload_images/1447375-50b354ddfb81afbb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br><span class="line">可以看出Xcode10是默认选中的最新的</span><br><span class="line">```New Build System(Default)</span><br></pre></td></tr></table></figure></p>
+<p>，在这个编译系统的环境下，我打包的CI脚本一直会报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/bin/sh -c /Users/apple/Library/Developer/Xcode/DerivedData/XXX-bcebrkpahigmkngytwmzustybhev/Build/Intermediates.noindex/ArchiveIntermediates/XXX-SIT/IntermediateBuildFilesPath/XXX.build/Release-SIT-iphoneos/XXX.build/Script-187F7F6921537B0600C427DD.sh</span><br><span class="line">[14:59:47]: ▸ Updating build number to 20180920145946</span><br><span class="line">[14:59:47]: ▸ Set: Entry, &quot;:CFBundleVersion&quot;, Does Not Exist</span><br><span class="line">[14:59:47]: ▸ File Doesn&apos;t Exist, Will Create: /Users/apple/Library/Developer/Xcode/DerivedData/XXX-bcebrkpahigmkngytwmzustybhev/Build/Intermediates.noindex/ArchiveIntermediates/XXX-SIT/BuildProductsPath/Release-SIT-iphoneos/XXX.app.dSYM/Contents/Info.plist</span><br><span class="line">[14:59:47]: ▸ Command PhaseScriptExecution failed with a nonzero exit code</span><br></pre></td></tr></table></figure>
+<p>问题是出在了更改项目工程buildnumber的shell脚本里：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># Update build number with buldTime</span><br><span class="line">buildNumber=$(date +%Y%m%d%H%M%S)</span><br><span class="line">echo &quot;Updating build number to $buildNumber&quot;</span><br><span class="line">/usr/libexec/PlistBuddy -c &quot;Set :CFBundleVersion $buildNumber&quot; &quot;$&#123;TARGET_BUILD_DIR&#125;/$&#123;INFOPLIST_PATH&#125;&quot;</span><br><span class="line">/usr/libexec/PlistBuddy -c &quot;Set :CFBundleVersion $buildNumber&quot; &quot;$&#123;BUILT_PRODUCTS_DIR&#125;/$&#123;WRAPPER_NAME&#125;.dSYM/Contents/Info.plist&quot;</span><br></pre></td></tr></table></figure>
+<p>这段脚本会在最后会把xxx.app.dSYM中的info.plist中的CFBundleVersion值修改成当前时间，而报错说，这个info.plist不存在，创建的时候出问题报错。</p>
+<p><strong>这会不会是苹果的bug??</strong></p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>把build system切换到<br><code>Legacy Build System</code>，换言之就是切换成老的编译系统，就OK了。</p>
 
       
     </div>
@@ -330,8 +332,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/17/SelfSginedCertificateAdaptionForMoyaAndKingfisher/" rel="next" title="Moya，KingFisher中使用自签名证书发起HTTPS请求">
-                <i class="fa fa-chevron-left"></i> Moya，KingFisher中使用自签名证书发起HTTPS请求
+              <a href="/2018/04/20/Swift4QRCodeTool/" rel="next" title="Swift4如何扫描二维码了解一下">
+                <i class="fa fa-chevron-left"></i> Swift4如何扫描二维码了解一下
               </a>
             
           </div>
@@ -339,10 +341,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/01/17/AdaptionForiOS11andiPhoneX/" rel="prev" title="适配iOS 11和iPhoneX屏幕适配遇到的一些坑">
-                适配iOS 11和iPhoneX屏幕适配遇到的一些坑 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -490,7 +488,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#step1-修改工程配置"><span class="nav-number">1.</span> <span class="nav-text">step1 修改工程配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#step2-配置fastfile"><span class="nav-number">2.</span> <span class="nav-text">step2 配置fastfile</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#遇到的问题"><span class="nav-number">1.</span> <span class="nav-text">遇到的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决方法"><span class="nav-number">2.</span> <span class="nav-text">解决方法</span></a></li></ol></div>
             
 
           </div>
