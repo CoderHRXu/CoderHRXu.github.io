@@ -232,6 +232,152 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.jianshu.com/u/6aea1100cc05/2018/01/17/FastlaneWithXcode9Issue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="抢手的哥">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="抢手的哥的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/17/FastlaneWithXcode9Issue/" itemprop="url">当Fastlane遇到Xcode9打包出来不一定是ipa而是坑</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-17T13:49:19+08:00">
+                2018-01-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Fastlane简介"><a href="#Fastlane简介" class="headerlink" title="Fastlane简介"></a>Fastlane简介</h2><p><a href="https://fastlane.tools/" target="_blank" rel="noopener">Fastlane</a>  是用Ruby语言编写的一套自动化工具集和框架，每一个工具实际都对应一个Ruby脚本，用来执行某一个特定的任务。Fastlane的强大之处，就是可以将不同的工具（<a href="https://docs.fastlane.tools/actions/" target="_blank" rel="noopener">action</a>）有机而灵活的结合在一起，从而形成一个完整的自动化流程，大大提高了日常的开发测试效率，推荐大家使用。<br>如果你尚未使用这个工具，可以点击一下几篇文章学习如何使用：<br><a href="http://www.jianshu.com/p/6e6503b47453">【CI】持续集成-引导篇</a><br><a href="http://www.jianshu.com/p/2d88a88467a5">【CI】持续集成-第一篇 fastlane</a></p>
+<h2 id="背景-amp-现象"><a href="#背景-amp-现象" class="headerlink" title="背景&amp;现象"></a>背景&amp;现象</h2><p>公司项目日常开发中，已经使用了fastlane，配合gitlab一起实现自动打包以及分发，使用期间感觉很顺畅，没有出过什么问题。但是，自从Xcode升级到Xcode9正式版之后打包一直出问题，打不了包。</p>
+<h5 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h5><p>fastlane版本： 2.59.0<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">| Key                         | Value                                       |</span><br><span class="line">| --------------------------- | ------------------------------------------- |</span><br><span class="line">| OS                          | 10.13                                       |</span><br><span class="line">| Ruby                        | 2.3.3                                       |</span><br><span class="line">| Bundler?                    | false                                       |</span><br><span class="line">| Git                         | git version 2.13.5 (Apple Git-94)           |</span><br><span class="line">| Installation Source         | ~/.rvm/gems/ruby-2.3.3/bin/fastlane         |</span><br><span class="line">| Host                        | Mac OS X 10.13 (17A365)                     |</span><br><span class="line">| Ruby Lib Dir                | ~/.rvm/rubies/ruby-2.3.3/lib                |</span><br><span class="line">| OpenSSL Version             | OpenSSL 1.0.2k  26 Jan 2017                 |</span><br><span class="line">| Is contained                | false                                       |</span><br><span class="line">| Is homebrew                 | false                                       |</span><br><span class="line">| Is installed via Fabric.app | false                                       |</span><br><span class="line">| Xcode Path                  | /Applications/Xcode.app/Contents/Developer/ |</span><br><span class="line">| Xcode Version               | 9.0                                         |</span><br><span class="line"></span><br><span class="line">*generated on:* **2017-09-30**</span><br></pre></td></tr></table></figure></p>
+<p>工程项目中 provisioning profile（以下简称pp文件)，灵活运用了match这个action外加手动配置。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-1697cd95bad7cd6a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="工程配置.png"></p>
+<h4 id="错误描述："><a href="#错误描述：" class="headerlink" title="错误描述："></a>错误描述：</h4><p><img src="http://upload-images.jianshu.io/upload_images/1447375-d1045b328b601048.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="error.png"><br>看到了框框的那句话，刚开始以为是推送证书或者是provisioning profile的问题，然后手动在此执行了match，把证书什么的里里外外更新了一遍，发现还是不起作用。没办法，只能翻看github 看看issue，看看有木有类似的处理方案。</p>
+<h5 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h5><p>功夫不负有心人，喵神大佬道破真相：<br><a href="https://github.com/fastlane/fastlane/issues/9589" target="_blank" rel="noopener">Xcode9将不会允许你访问钥匙串里的内容，除非设置allowProvisioningUpdates。</a></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-79ee4612a68db052.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="社会我喵神.png"><br>所以说，在执行xcode -exportArchive的时候，因为权限访问钥匙串，所以无法读取到项目工程里的pp文件，进而打包失败，并且报错说缺少pp文件。</p>
+<p>所以解决方法，在你的fastfile里gym action加入 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+<p>gym(<br>    scheme: scheme,<br>    export_method: “ad-hoc”,<br>    silent:true,<br>    output_directory:outputDirectory,<br>    output_name:ipaName,<br>    archive_path:outputDirectory,<br>    export_xcargs: “-allowProvisioningUpdates”,<br>)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">保存，再执行一次打包命令，请注意，这个时候xcode会弹窗让你确认，点```一直允许```就是了。特别注意的是，如果和我们公司一样的环境，那么那台远程打包的服务器，在更新完fastfile第一次跑的时候，要远程连接上去手动点击确认框，不然打包脚本就会一直卡在那里。</span><br><span class="line">![image.png](http://upload-images.jianshu.io/upload_images/1447375-5dd59d3cb0fb6fd9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br><span class="line"></span><br><span class="line">到此为止，Xcode9读取钥匙串权限的问题就结束了。</span><br><span class="line">## 但是，你以为这样就结束了吗？就能打包成功了吗？</span><br><span class="line"></span><br><span class="line">紧接着又是另外一个错误：</span><br><span class="line">![不匹配.png](http://upload-images.jianshu.io/upload_images/1447375-3aeed0119a88534a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br><span class="line">WTF，明明打包方式是ad-hoc，但是匹配的pp文件确是AppStore的？😓😓</span><br><span class="line">## 这必然是个坑</span><br><span class="line">在此打开了[官方文档](https://docs.fastlane.tools/codesigning/xcode-project/)看到了这么一句话</span><br><span class="line">![image.png](http://upload-images.jianshu.io/upload_images/1447375-bf3da1d9b383afb0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br><span class="line">翻译一下，如果你们没用match这个action，来管理pp文件，我们推荐你在fastfile里面，自己定义一个map，指定bundleID 和 pp文件，以保证能够正常构建app。但是我在文章开头就po图了，我项目工程里的pp文件都是用match来管理的。所以刚开始，这段话被我忽略了。后续又是一阵在github issue上漫游。https://github.com/fastlane/fastlane/issues/10315 找到一个类似的问题。</span><br><span class="line">##### 既然bundleID，或者pp文件不对，那我能不能尝试着主动写死正确的bundleID和pp文件名，放进fastfile？</span><br><span class="line">于是把gym加了个参数，不同环境下指定好：</span><br></pre></td></tr></table></figure></p>
+<pre><code>gym(
+    scheme: scheme,
+    export_method: &quot;ad-hoc&quot;,
+    silent:true,
+    output_directory:outputDirectory,
+    output_name:ipaName,
+    archive_path:outputDirectory,
+    export_xcargs: &quot;-allowProvisioningUpdates&quot;,
+    export_options: {
+        provisioningProfiles: {
+            app_identifier =&gt; &quot;match AdHoc #{app_identifier}&quot;
+        }
+    }
+)
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">保存，重新run打包脚本，终于可以成功打包了😁😄。</span><br><span class="line">![oh yeah.png](http://upload-images.jianshu.io/upload_images/1447375-12a45d828532d107.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 简单说说Xcode8和9打包</span><br><span class="line">笔者由于fastlane问题没解决，所以这期间打包工作都是手动完成的，``` Product - Archive ```然后等待Xcode自动打，这些操作相信大家都会的，不多说了。选择测试包之后，弹出框框问你是否瘦身，一般别管就是。然后重点来了，相比Xcode8多了这么个页面：</span><br><span class="line">![image.png](http://upload-images.jianshu.io/upload_images/1447375-a1ad5f89db8449ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br><span class="line">选择pp文件，从网络获取，Xcode必须要登录开发者账号，从账号里面拉取相关pp文件，还要自己选择是哪个。</span><br><span class="line">![image.png](http://upload-images.jianshu.io/upload_images/1447375-e0b6232d81dae8eb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br><span class="line">平时的测试包选择“ad-hoc”就是，然后接着生产ipa。在Xcode8里，最终生成的一个ipa文件夹，里面就一个ipa，但是xcode9除了ipa之外，还有一些其他的东西，如下图。</span><br><span class="line">![image.png](http://upload-images.jianshu.io/upload_images/1447375-1d881fb388b187c3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br><span class="line">除了ipa之外，有个东西引起了我的注意```ExportOptions.plist ``` 预览了一下这个plist，里面就记录了刚刚上几步的一些选择项。比如瘦身选项，还有个很关键的东西``` provisioningProfile```这个字段是个dictionary。</span><br><span class="line">![image.png](http://upload-images.jianshu.io/upload_images/1447375-df5bc2f32e68d04a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br><span class="line"> ### 难道没有一种似曾相识的赶脚？</span><br><span class="line">再次看看这张图：</span><br><span class="line">![error.png](http://upload-images.jianshu.io/upload_images/1447375-d1045b328b601048.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br><span class="line">红框框的部分的最后，说的plist就是它。这个就是Xcode在导出ipa的时候一些参数。另外，手动Xcode打包和在终端里面敲 xcodebuild -archivePath，xcodebuild -exportArchive -exportOptionsPlist 本质是一样的，都是打包，参数就是同一个。</span><br><span class="line">再回过头来，看看我们最终的解决方案，我们在gym中添加了一个字段，就是在写参数而已</span><br><span class="line">``` </span><br><span class="line">export_options: &#123;</span><br><span class="line">				provisioningProfiles: &#123;</span><br><span class="line">					app_identifier =&gt; &quot;match AdHoc #&#123;app_identifier&#125;&quot;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="可能原因"><a href="#可能原因" class="headerlink" title="可能原因"></a>可能原因</h3><p>到这一步，在回头看看以上出现的bundleID和PP文件不匹配错误，在用match管理pp文件的前提下，有可能是因为Xcode9引起的问题，打包流程或者参数读写哪里有点变化，需要fastlane团队做进一步适配更新。上文中issue的链接状态到截止笔者写作完成之时，任是在open状态。所以这个原因有待关注，当然也希望能有大佬在指出原因，感激不尽~</p>
+<p>至此为止，踩过的坑全部都填平了。不光是fastlane，用其他的一些工具或者第三方的时候还是要多多关注github上的issue，这里是块大大宝藏，等待被你挖掘！</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://www.jianshu.com/u/6aea1100cc05/2018/01/17/updateCocoapodsIssue/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1516,7 +1662,7 @@ default: {
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
