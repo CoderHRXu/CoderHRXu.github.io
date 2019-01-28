@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="description" content="iOS项目里，涉及到double类型是数据，经常会用到四舍五入这样的取值方式，网上查阅资料之后，经常会不起作用，最终把有效的方法，总结了一下。OC:1234567891011121314151617/** 四舍五入字符串 @param round 小数位 eg: 2 @param numberString 数字 eg 0.125 @return 四舍五入之后的 eg: 0.13 */- (doub">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="https://www.jianshu.com/u/6aea1100cc05/2018/01/15/hello-world/index.html">
+<meta property="og:title" content="iOS小数四舍五入总结">
+<meta property="og:url" content="https://www.jianshu.com/u/6aea1100cc05/2019/01/28/iOS_round_numberString/index.html">
 <meta property="og:site_name" content="抢手的哥的技术博客">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="iOS项目里，涉及到double类型是数据，经常会用到四舍五入这样的取值方式，网上查阅资料之后，经常会不起作用，最终把有效的方法，总结了一下。OC:1234567891011121314151617/** 四舍五入字符串 @param round 小数位 eg: 2 @param numberString 数字 eg 0.125 @return 四舍五入之后的 eg: 0.13 */- (doub">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-15T10:00:58.000Z">
+<meta property="og:updated_time" content="2019-01-28T07:06:57.743Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="twitter:title" content="iOS小数四舍五入总结">
+<meta name="twitter:description" content="iOS项目里，涉及到double类型是数据，经常会用到四舍五入这样的取值方式，网上查阅资料之后，经常会不起作用，最终把有效的方法，总结了一下。OC:1234567891011121314151617/** 四舍五入字符串 @param round 小数位 eg: 2 @param numberString 数字 eg 0.125 @return 四舍五入之后的 eg: 0.13 */- (doub">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="https://www.jianshu.com/u/6aea1100cc05/2018/01/15/hello-world/"/>
+  <link rel="canonical" href="https://www.jianshu.com/u/6aea1100cc05/2019/01/28/iOS_round_numberString/"/>
 
 
 
 
 
-  <title>Hello World | 抢手的哥的技术博客</title>
+  <title>iOS小数四舍五入总结 | 抢手的哥的技术博客</title>
   
 
 
@@ -232,7 +232,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.jianshu.com/u/6aea1100cc05/2018/01/15/hello-world/">
+    <link itemprop="mainEntityOfPage" href="https://www.jianshu.com/u/6aea1100cc05/2019/01/28/iOS_round_numberString/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="抢手的哥">
@@ -249,7 +249,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Hello World</h1>
+          <h1 class="post-title" itemprop="name headline">iOS小数四舍五入总结</h1>
         
 
         <div class="post-meta">
@@ -261,8 +261,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-15T18:00:58+08:00">
-                2018-01-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T15:05:50+08:00">
+                2019-01-28
               </time>
             
 
@@ -299,15 +299,8 @@
       
 
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+        <p>iOS项目里，涉及到double类型是数据，经常会用到四舍五入这样的取值方式，网上查阅资料之后，经常会不起作用，最终把有效的方法，总结了一下。<br>OC:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> 四舍五入字符串</span><br><span class="line"></span><br><span class="line"> @param round 小数位 eg: 2</span><br><span class="line"> @param numberString 数字 eg 0.125</span><br><span class="line"> @return 四舍五入之后的 eg: 0.13</span><br><span class="line"> */</span><br><span class="line">- (double )roundNumberStringWithRound:(NSInteger)round numberString:(NSString *)numberString&#123;</span><br><span class="line">    </span><br><span class="line">    if (numberString == nil) &#123;</span><br><span class="line">        return 0;</span><br><span class="line">    &#125;</span><br><span class="line">    NSDecimalNumberHandler *roundingBehavior    = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundPlain scale:round raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:NO raiseOnDivideByZero:NO];</span><br><span class="line">    NSDecimalNumber *aDN                        = [[NSDecimalNumber alloc] initWithString:numberString];</span><br><span class="line">    NSDecimalNumber *resultDN                   = [aDN decimalNumberByRoundingAccordingToBehavior:roundingBehavior];</span><br><span class="line">    return resultDN.doubleValue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Swift：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">/// 四舍五入2位小数小数</span><br><span class="line">///</span><br><span class="line">/// - round: 小数位（默认2位小数）</span><br><span class="line">/// - Parameter numberString: 格式化之前 eg 0.125</span><br><span class="line">/// - Returns: 格式化之后 eg: 0.13</span><br><span class="line">func roundNumberString(round:Int = 2, numberString : String) -&gt; Double &#123;</span><br><span class="line">    if numberString.isEmpty || round == 0 &#123;</span><br><span class="line">        return 0.0</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    let roudingBehavior     = NSDecimalNumberHandler(roundingMode: .plain, scale: Int16(round), raiseOnExactness: false, raiseOnOverflow: false, raiseOnUnderflow: false, raiseOnDivideByZero: false)</span><br><span class="line">    let aDn                 = NSDecimalNumber(string: numberString)</span><br><span class="line">    let resultDn            = aDn.rounding(accordingToBehavior: roudingBehavior)</span><br><span class="line">    return resultDn.doubleValue</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -332,15 +325,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2019/01/03/JsonToModelPit/" rel="next" title="iOS项目中Json转Model的坑">
+                <i class="fa fa-chevron-left"></i> iOS项目中Json转Model的坑
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/01/17/UseShellModifyXcodeBuildNumber/" rel="prev" title="使用shell脚本自动修改Xcode工程编译版本号">
-                使用shell脚本自动修改Xcode工程编译版本号 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -392,17 +385,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -478,22 +462,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
