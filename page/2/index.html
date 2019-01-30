@@ -232,6 +232,139 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.jianshu.com/u/6aea1100cc05/2018/01/17/MethodsOfSwift/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="抢手的哥">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="抢手的哥的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/17/MethodsOfSwift/" itemprop="url">Swift常用方法总结----不定期更新</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-17T17:25:43+08:00">
+                2018-01-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="1-本地读取json文件"><a href="#1-本地读取json文件" class="headerlink" title="1.本地读取json文件"></a>1.本地读取json文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func readJsonFileByFileName(fileName : String) -&gt; Any? &#123;</span><br><span class="line">       </span><br><span class="line">       let path    = Bundle.main.path(forResource: &quot;\(fileName).json&quot;, ofType: nil)</span><br><span class="line">       let data    = NSData(contentsOfFile: path!)</span><br><span class="line">       let jsonStr = try? JSONSerialization.jsonObject(with: data! as Data, options:.allowFragments)</span><br><span class="line">       return jsonStr</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-实现手机号银行卡号输入加空格"><a href="#2-实现手机号银行卡号输入加空格" class="headerlink" title="2.实现手机号银行卡号输入加空格"></a>2.实现手机号银行卡号输入加空格</h3><p>eg：188 8888 8888</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -&gt; Bool &#123;</span><br><span class="line">        </span><br><span class="line">        let oldStr = textField.text</span><br><span class="line">        var newStr = (oldStr as NSString?)?.replacingCharacters(in: range, with: string)</span><br><span class="line">        if textField.placeholder == &quot;请输入银行预留手机号&quot; &#123;</span><br><span class="line">            </span><br><span class="line">            newStr = newStr?.replacingOccurrences(of: &quot; &quot;, with: &quot;&quot;)</span><br><span class="line">            </span><br><span class="line">            let expression = &quot;^([1]&#123;1&#125;([34578]&#123;1&#125;([0-9]&#123;0,9&#125;+)?)?)?$&quot;</span><br><span class="line">            let regex = try?NSRegularExpression.init(pattern: expression, options: .caseInsensitive)</span><br><span class="line">            let numOfMatches = regex?.matches(in: newStr!, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, (newStr?.characters.count)!))</span><br><span class="line">            </span><br><span class="line">            if numOfMatches?.count == 0 &#123;</span><br><span class="line">                </span><br><span class="line">                return false</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            _ = self.formatPhoneNumText(textField: textField, range: range, string: string)</span><br><span class="line">            </span><br><span class="line">            return false</span><br><span class="line">        &#125;</span><br><span class="line">        else if textField.placeholder == &quot;请输入银行卡号&quot;&#123;</span><br><span class="line">        </span><br><span class="line">            </span><br><span class="line">            // 只能输入数字</span><br><span class="line">            let characterSet = NSCharacterSet.init(charactersIn: &quot;0123456789&quot;)</span><br><span class="line">            </span><br><span class="line">            let tempString = string.replacingOccurrences(of: &quot; &quot;, with: &quot;&quot;)</span><br><span class="line">            if (tempString.rangeOfCharacter(from: characterSet.inverted) != nil) &#123;</span><br><span class="line">                </span><br><span class="line">                return false</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            var text = ((oldStr as NSString?)?.replacingCharacters(in: range, with: string))!</span><br><span class="line">            text = text.replacingOccurrences(of: &quot; &quot;, with: &quot;&quot;)</span><br><span class="line">            </span><br><span class="line">            var newString = &quot;&quot;</span><br><span class="line">            </span><br><span class="line">            while (text.characters.count) &gt; 0 &#123;</span><br><span class="line">                </span><br><span class="line">                let subString = (text as NSString).substring(to: min(text.characters.count, 4))</span><br><span class="line">                newString = newString.appending(subString)</span><br><span class="line">                if subString.characters.count == 4 &#123;</span><br><span class="line">                    </span><br><span class="line">                    newString = newString.appending(&quot; &quot;)</span><br><span class="line">                &#125;</span><br><span class="line">                text = (text as NSString).substring(from: min(text.characters.count, 4))</span><br><span class="line">            &#125;</span><br><span class="line">            newString = newString.trimmingCharacters(in: characterSet.inverted)</span><br><span class="line">            </span><br><span class="line">            if newString.characters.count &gt;= 24 &#123;</span><br><span class="line">                </span><br><span class="line">                return false</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            if range.location != textField.text?.characters.count &#123;</span><br><span class="line">                </span><br><span class="line">                textField.text = newString</span><br><span class="line">                </span><br><span class="line">                return false</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            textField.text = newString</span><br><span class="line">            </span><br><span class="line">         </span><br><span class="line">            return false</span><br><span class="line">            </span><br><span class="line">            </span><br><span class="line">            </span><br><span class="line">        &#125;else &#123;</span><br><span class="line">            // 只能输入数字</span><br><span class="line">            let characterSet = NSCharacterSet.init(charactersIn: &quot;0123456789&quot;)</span><br><span class="line">            </span><br><span class="line">            let tempString = string.replacingOccurrences(of: &quot; &quot;, with: &quot;&quot;)</span><br><span class="line">            if (tempString.rangeOfCharacter(from: characterSet.inverted) != nil) &#123;</span><br><span class="line">                </span><br><span class="line">                return false</span><br><span class="line">            &#125;</span><br><span class="line">            if (newStr?.characters.count)! &gt; 20 &#123;</span><br><span class="line">                </span><br><span class="line">                return false</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        return true</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">private func formatPhoneNumText (textField:UITextField, range:NSRange, string:String) -&gt; Bool &#123;</span><br><span class="line">        </span><br><span class="line">        var text = textField.text!</span><br><span class="line">        </span><br><span class="line">        // 只能输入数字</span><br><span class="line">        let characterSet = NSCharacterSet.init(charactersIn: &quot;0123456789&quot;)</span><br><span class="line">        </span><br><span class="line">        let tempString = string.replacingOccurrences(of: &quot; &quot;, with: &quot;&quot;)</span><br><span class="line">        if (tempString.rangeOfCharacter(from: characterSet.inverted) != nil) &#123;</span><br><span class="line">            </span><br><span class="line">            return false</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        text = ((text as NSString?)?.replacingCharacters(in: range, with: string))!</span><br><span class="line">        text = text.replacingOccurrences(of: &quot; &quot;, with: &quot;&quot;)</span><br><span class="line">        </span><br><span class="line">        text.insert(&quot; &quot;, at: (text.startIndex))</span><br><span class="line">        var newString = &quot;&quot;</span><br><span class="line">        </span><br><span class="line">        while (text.characters.count) &gt; 0 &#123;</span><br><span class="line">            </span><br><span class="line">            let subString = (text as NSString).substring(to: min(text.characters.count, 4))</span><br><span class="line">            newString = newString.appending(subString)</span><br><span class="line">            if subString.characters.count == 4 &#123;</span><br><span class="line">                </span><br><span class="line">                newString = newString.appending(&quot; &quot;)</span><br><span class="line">            &#125;</span><br><span class="line">            text = (text as NSString).substring(from: min(text.characters.count, 4))</span><br><span class="line">        &#125;</span><br><span class="line">        newString = newString.trimmingCharacters(in: characterSet.inverted)</span><br><span class="line">        </span><br><span class="line">        if newString.characters.count &gt;= 14 &#123;</span><br><span class="line">            </span><br><span class="line">            return false</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        if range.location != textField.text?.characters.count &#123;</span><br><span class="line">            </span><br><span class="line">            textField.text = newString</span><br><span class="line">            </span><br><span class="line">            if textField == self.phoneTextField &#123;</span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            return false</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        textField.text = newString</span><br><span class="line">        </span><br><span class="line">        if textField == self.phoneTextField &#123;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">        return false</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-给UITextField的placeholder设置字体大小"><a href="#3-给UITextField的placeholder设置字体大小" class="headerlink" title="3.给UITextField的placeholder设置字体大小"></a>3.给UITextField的placeholder设置字体大小</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">使用：textField.verticalLeftPlaceholder(phFontSize: 15)</span><br><span class="line"></span><br><span class="line">源码：</span><br><span class="line">extension UITextField &#123;</span><br><span class="line">    </span><br><span class="line">    func verticalLeftPlaceholder(phFontSize size: CGFloat = 15, text: String = &quot;&quot;)  &#123;</span><br><span class="line">        </span><br><span class="line">        var placeholderStr = text</span><br><span class="line">        </span><br><span class="line">        if text.isEmpty &#123;</span><br><span class="line">            </span><br><span class="line">            placeholderStr = self.placeholder ?? &quot;&quot;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        let pStyle = NSMutableParagraphStyle()</span><br><span class="line">        pStyle.minimumLineHeight    = (self.font?.lineHeight)! - ((self.font?.lineHeight)! - UIFont.systemFont(ofSize: size).lineHeight)/2.0</span><br><span class="line">        let aString = NSAttributedString(string: placeholderStr, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: size), NSParagraphStyleAttributeName: pStyle])</span><br><span class="line">        </span><br><span class="line">        self.attributedPlaceholder    = aString</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4-插入排序"><a href="#4-插入排序" class="headerlink" title="4.插入排序"></a>4.插入排序</h3><p>⒈ 从第一个元素开始，该元素可以认为已经被排序<br>⒉ 取出下一个元素，在已经排序的元素序列中从后向前扫描<br>⒊ 如果该元素（已排序）大于新元素，将该元素移到下一位置<br>⒋ 重复步骤3，直到找到已排序的元素小于或者等于新元素的位置<br>⒌ 将新元素插入到下一位置中<br>⒍ 重复步骤2~5</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public func insertionSort(arr: inout Array&lt;Int&gt;) &#123;</span><br><span class="line"></span><br><span class="line">    for i in 0..&lt;arr.count - 1 &#123;</span><br><span class="line">        if arr[i + 1] &lt; arr[i] &#123;</span><br><span class="line">            let temp = arr[i + 1]</span><br><span class="line">            for j in (1...(i + 1)).reversed() &#123;</span><br><span class="line">                if arr[j - 1] &gt; temp &#123;</span><br><span class="line">                    (arr[j - 1],arr[j]) = (arr[j],arr[j - 1])</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="5-冒泡排序"><a href="#5-冒泡排序" class="headerlink" title="5.冒泡排序"></a>5.冒泡排序</h3><p>⒈比较相邻的元素。如果第一个比第二个大，就交换他们两个。<br>⒉ 对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对。在这一点，最后的元素应该会是最大的数。<br>⒊ 针对所有的元素重复以上的步骤，除了最后一个。<br>⒋ 持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public func bubbleSort(arr: inout Array&lt;Int&gt;) &#123;</span><br><span class="line">    for i in 0..&lt;(arr.count - 1) &#123;</span><br><span class="line">        for j in 0..&lt;(arr.count - i - 1) &#123;</span><br><span class="line">            if arr[j] &gt; arr[j + 1] &#123;</span><br><span class="line">                (arr[j],arr[j + 1]) = (arr[j + 1],arr[j])</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="6-快速排序（冒泡排序的改进版）"><a href="#6-快速排序（冒泡排序的改进版）" class="headerlink" title="6.快速排序（冒泡排序的改进版）"></a>6.快速排序（冒泡排序的改进版）</h3><p>⒈设置两个变量i、j，排序开始的时候：i=0，j=n-1。<br>⒉ 以第一个数组元素作为关键数据，赋值给key，即key=A[0]。<br>⒊ 从j开始向前搜索，即由后开始向前搜索(j–)，找到第一个小于key的值A[j]，将A[j]和A[i]互换。<br>⒋ 从i开始向后搜索，即由前开始向后搜索(i++)，找到第一个大于key的A[i]，将A[i]和A[j]互换。<br>⒌重复第3、4步，直到i=j<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"> public func quickSort(arr: inout Array&lt;Int&gt;, leftIndex:  Int, rightIndex:  Int) &#123;</span><br><span class="line"></span><br><span class="line">    if leftIndex &lt; rightIndex &#123;</span><br><span class="line">        var left = leftIndex</span><br><span class="line">        var right = rightIndex</span><br><span class="line">        let midIndex = getMidIndex(arr: &amp;mArray, leftIndex: &amp;left, rightIndex: &amp;right)</span><br><span class="line">        quickSort(arr: &amp;mArray, leftIndex: leftIndex, rightIndex: midIndex - 1)</span><br><span class="line">        quickSort(arr: &amp;mArray, leftIndex: midIndex + 1, rightIndex: rightIndex)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private func getMidIndex(arr: inout Array&lt;Int&gt;, leftIndex: inout Int, rightIndex: inout Int) -&gt; (Int) &#123;</span><br><span class="line">    let temp = arr[leftIndex]</span><br><span class="line">    while leftIndex &lt; rightIndex &#123;</span><br><span class="line"></span><br><span class="line">        while leftIndex &lt; rightIndex &amp;&amp; temp &lt;= arr[rightIndex] &#123;</span><br><span class="line">            rightIndex -= 1</span><br><span class="line">        &#125;</span><br><span class="line">        if leftIndex &lt; rightIndex &#123;</span><br><span class="line">            arr[leftIndex] = arr[rightIndex]</span><br><span class="line">        &#125;</span><br><span class="line">        while leftIndex &lt; rightIndex &amp;&amp; arr[leftIndex] &lt;= temp &#123;</span><br><span class="line">            leftIndex += 1</span><br><span class="line">        &#125;</span><br><span class="line">        if leftIndex &lt; rightIndex &#123;</span><br><span class="line">            arr[rightIndex] = arr[leftIndex]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    arr[leftIndex] = temp</span><br><span class="line">    return leftIndex</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="7-归并排序（速度仅次于快速排序）"><a href="#7-归并排序（速度仅次于快速排序）" class="headerlink" title="7.归并排序（速度仅次于快速排序）"></a>7.归并排序（速度仅次于快速排序）</h3><p>⒈将序列每相邻两个数字进行归并操作（merge)，形成floor(n/2)个序列，排序后每个序列包含两个元素。<br>⒉ 将上述序列再次归并，形成floor(n/4)个序列，每个序列包含四个元素。<br>⒊ 重复步骤2，直到所有元素排序完毕。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"> public func mergeSort(arr: inout Array&lt;Int&gt;) &#123;</span><br><span class="line">    var tempArr: Array&lt;Array&lt;Int&gt;&gt; = []</span><br><span class="line">    for item in arr &#123;</span><br><span class="line">       var subArr: Array&lt;Int&gt; = []</span><br><span class="line">       subArr.append(item)</span><br><span class="line">       tempArr.append(subArr)</span><br><span class="line">    &#125;</span><br><span class="line">    while tempArr.count != 1 &#123;</span><br><span class="line">        var i = 0</span><br><span class="line">        while i &lt; tempArr.count - 1 &#123;</span><br><span class="line">            tempArr[i] = mergeTowArr(arr1: tempArr[i], arr2: tempArr[i+1])</span><br><span class="line">            tempArr.remove(at : i+1)</span><br><span class="line">            i += 1</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line">private func mergeTowArr(arr1: Array&lt;Int&gt;, arr2: Array&lt;Int&gt;) -&gt; Array&lt;Int&gt; &#123;</span><br><span class="line">    var mergeArr: Array&lt;Int&gt; = []</span><br><span class="line">    var firstIndex = 0</span><br><span class="line">    var secondIndex = 0</span><br><span class="line">    while firstIndex &lt; arr1.count &amp;&amp; secondIndex &lt; arr2.count &#123;</span><br><span class="line">        if arr1[firstIndex]  &lt; arr2[secondIndex] &#123;</span><br><span class="line">            merge.append(arr1[firstIndex])</span><br><span class="line">            firstIndex += 1</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            merge.append(arr2[secondIndex])</span><br><span class="line">            secondIndex += 1</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    while firstIndex &lt; arr1.count &#123;</span><br><span class="line">         merge.append(arr1[firstIndex])</span><br><span class="line">         firstIndex += 1</span><br><span class="line">    &#125;</span><br><span class="line">    while secondIndex &lt; arr2.count &#123;</span><br><span class="line">         merge.append(arr2[secondIndex])</span><br><span class="line">         secondIndex += 1</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return mergeArr</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="8-选择排序"><a href="#8-选择排序" class="headerlink" title="8.选择排序"></a>8.选择排序</h3><p>选择排序（Selection sort）是一种简单直观的排序算法。它的工作原理是每一次从待排序的数据元素中选出最小（或最大）的一个元素，存放在序列的起始位置，直到全部待排序的数据元素排完。 选择排序是不稳定的排序方法（比如序列[5， 5， 3]第一次就将第一个[5]与[3]交换，导致第一个5挪动到第二个5后面）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public func selectSort(arr: inout Array&lt;Int&gt;) &#123;</span><br><span class="line">    for i in 0..&lt;arr.count &#123;</span><br><span class="line">        var index = i</span><br><span class="line">        for j in (i + 1)..&lt;arr.count &#123;</span><br><span class="line">            if arr[index] &gt; arr[j] &#123;</span><br><span class="line">                index = j</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if index != i &#123;</span><br><span class="line">            (arr[i],arr[index]) = (arr[index],arr[i])</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="9-堆排序（选择排序的一种）"><a href="#9-堆排序（选择排序的一种）" class="headerlink" title="9.堆排序（选择排序的一种）"></a>9.堆排序（选择排序的一种）</h3><p>通过headMakeFrom将数组arr变为大顶堆，再把大顶堆的第一值和最后一个值交换，数组长度减1。通过heapAdjast将交换后的数组重新排序成大顶堆直到数组长度为0。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">public func heapSort(arr: inout Array&lt;Int&gt;) &#123;//时间复杂度O(n*logn)</span><br><span class="line">    var endIndex = arr.count - 1</span><br><span class="line">    headMakeFrom(arr: &amp;arr)</span><br><span class="line"></span><br><span class="line">    while endIndex &gt; 0 &#123;</span><br><span class="line">        (arr[0],arr[endIndex]) = (arr[endIndex],arr[0])</span><br><span class="line">        heapAdjast(arr: &amp;arr,starIndex: 1, arrLength: endIndex)</span><br><span class="line">        endIndex -= 1</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">private func heapMakeFrom(arr: inout Array&lt;Int&gt;) &#123;</span><br><span class="line">    var lastHead = arr.count/2</span><br><span class="line">    while lastHead &gt; 0 &#123;</span><br><span class="line">        heapAdjast(arr:  &amp;arr, starIndex: lastHead, arrLenght: arr.count)</span><br><span class="line">        lastHead -= 1</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private func heapAdjast(arr: Array&lt;Int&gt;, starIndex: Int, arrLength: Int) &#123;</span><br><span class="line">    var temp = arr[starIndex - 1]</span><br><span class="line">    var parentIndex = starIndex</span><br><span class="line">    var childIndex = 2 * parentIndex</span><br><span class="line">    while childIndex &lt;= arrLength &#123;</span><br><span class="line">        if childIndex &lt; arrLength &amp;&amp; arr[childIndex] &gt; arr[childIndex - 1] &#123;</span><br><span class="line">            childIndex += 1</span><br><span class="line">        &#125;</span><br><span class="line">        if arr[childIndex-1] &gt; temp &#123;</span><br><span class="line">            arr[parentIndex - 1] = arr[childIndex - 1]</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            break </span><br><span class="line">        &#125;</span><br><span class="line">        parentIndex = childIndex</span><br><span class="line">        childIndex = 2 * parentIndex </span><br><span class="line">    &#125;</span><br><span class="line">    arr[parentIndex - 1] = temp</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="10-生成指定尺寸的纯色图片"><a href="#10-生成指定尺寸的纯色图片" class="headerlink" title="10. 生成指定尺寸的纯色图片"></a>10. 生成指定尺寸的纯色图片</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">func imageWithColor(color: UIColor!, size: CGSize) -&gt; UIImage&#123;</span><br><span class="line">    var size = size</span><br><span class="line">    if CGSizeEqualToSize(size, CGSizeZero)&#123;</span><br><span class="line">        size = CGSizeMake(1, 1)</span><br><span class="line">    &#125;</span><br><span class="line">    let rect = CGRectMake(0, 0, size.width, size.height)</span><br><span class="line">    UIGraphicsBeginImageContext(rect.size)</span><br><span class="line">    let context = UIGraphicsGetCurrentContext()</span><br><span class="line">    CGContextSetFillColorWithColor(context, color.CGColor)</span><br><span class="line">    CGContextFillRect(context, rect)</span><br><span class="line"></span><br><span class="line">    let image = UIGraphicsGetImageFromCurrentImageContext()</span><br><span class="line">    UIGraphicsEndImageContext()</span><br><span class="line">    return image</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="11-修改图片尺寸"><a href="#11-修改图片尺寸" class="headerlink" title="11- 修改图片尺寸"></a>11- 修改图片尺寸</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">func imageScaleToSize(image: UIImage, size: CGSize) -&gt; UIImage&#123;</span><br><span class="line">    // 创建一个bitmap的context</span><br><span class="line">    // 并把它设置成为当前正在使用的context</span><br><span class="line">    // Determine whether the screen is retina</span><br><span class="line">    if UIScreen.mainScreen().scale == 2.0&#123;</span><br><span class="line">        UIGraphicsBeginImageContextWithOptions(size, false, 2.0)</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        UIGraphicsBeginImageContext(size)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 绘制改变大小的图片</span><br><span class="line">    image.drawInRect(CGRectMake(0, 0, size.width, size.height))</span><br><span class="line"></span><br><span class="line">    // 从当前context中创建一个改变大小后的图片</span><br><span class="line">    let scaledImage = UIGraphicsGetImageFromCurrentImageContext()</span><br><span class="line"></span><br><span class="line">    // 使当前的context出堆栈</span><br><span class="line">    UIGraphicsEndImageContext()</span><br><span class="line"></span><br><span class="line">    // 返回新的改变大小后的图片</span><br><span class="line">    return scaledImage</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="12-压缩图片大小"><a href="#12-压缩图片大小" class="headerlink" title="12. 压缩图片大小"></a>12. 压缩图片大小</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">func imageCompress(originalImage: UIImage) -&gt; UIImage&#123;</span><br><span class="line">    guard let imageData = UIImageJPEGRepresentation(originalImage, 0.5) else&#123;</span><br><span class="line">        return originalImage</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    let compressImage = UIImage(data: imageData)!</span><br><span class="line">    return compressImage</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://www.jianshu.com/u/6aea1100cc05/2018/01/17/FastlaneWithXcode9Issue/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1480,139 +1613,11 @@ default: {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.jianshu.com/u/6aea1100cc05/2018/01/15/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="抢手的哥">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="抢手的哥的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/15/hello-world/" itemprop="url">Hello World</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-15T18:00:58+08:00">
-                2018-01-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1662,7 +1667,7 @@ default: {
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
