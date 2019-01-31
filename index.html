@@ -314,8 +314,8 @@
 <h2 id="2-2处理数据"><a href="#2-2处理数据" class="headerlink" title="2.2处理数据"></a>2.2处理数据</h2><p>我们已经能有办法获取到数据了,但是我们想要在手机上处理数据，就必须得有一个容器来获取数据，再处理数据。这个时候就轮到主角JSBox登场了。</p>
 <h3 id="2-2-1-JSBox"><a href="#2-2-1-JSBox" class="headerlink" title="2.2.1 JSBox"></a>2.2.1 JSBox</h3><p>JSBox 是由知名的 PIN (iOS 剪贴板增强工具) 的作者@StackOverflowError推出的一款可让你在 iOS 上编写与运行 JavaScript 脚本的工具。<br>这个app是收费的，貌似还不便宜，没记错的话是50软妹币。不过本人刚好某次转发微博抽奖抽到一个兑换码😜😜😜😜<br><a href="https://sspai.com/post/42361" target="_blank" rel="noopener">点击这里了解更多关于JSBox</a><br>个人推荐使用VSCode来编辑脚本，毕竟在手机上码代码太难受了，而且JSBox还提供了VSCode插件，能够在线编辑调试，非常方便。</p>
 <p>利用JSBox封装好的$http，去调接口，然后再对返回的json，做下一步的处理（遍历，循环，判断，计算），计算出当前最近的一般公交，距离你有几站路。</p>
-<h3 id="2-2-1-为什么不直接用捷径"><a href="#2-2-1-为什么不直接用捷径" class="headerlink" title="2.2.1 为什么不直接用捷径"></a>2.2.1 为什么不直接用捷径</h3><p>有人也许会说，iOS的捷径app，也能实现。确实不可否认，本人只对捷径研究了一两个小时，里面也有高级的api，来调接口。但是不用捷径直接处理的原因如下：<br><img src="https://user-gold-cdn.xitu.io/2019/1/30/1689e368ab342086?w=677&amp;h=600&amp;f=png&amp;s=172206" alt="捷径截图.png"><br>如上图所示，用程序猿的眼光来看:<br><strong><em>捷径本质就是把某一个功能，不用代码，而是用图形化（GUI）的界面来实现。</em></strong><br>所以，对于一般大众用户，编程小白来说，用捷径去完成一些不复杂的工作流，还是可以的。比方说，相应一条指令，打开某个app，或者拨打某个电话等待。<br>但是，想对于发送post请求，json数据解析，业务需求处理，这种相对高级的操作，用图形化界面来弄，会变的非常的复杂。<br>总结一下就是：<br>1.GUI操作界面，不太适合复杂度高，定制化高的工作流,而且是在手机上操作 ；<br>2.还是因为GUI的原因，不方便调试（debug），工作效率就显得很低下；</p>
-<h2 id="2-3展示数据"><a href="#2-3展示数据" class="headerlink" title="2.3展示数据"></a>2.3展示数据</h2><p>UI展示，直接利用了JSBox提供的控件<a href="https://docs.xteko.com/#/component/label" target="_blank" rel="noopener">label</a> 和 <a href="https://docs.xteko.com/#/component/list" target="_blank" rel="noopener">list</a>。<br>将第2.2中处理好的数据展示出来，展示出1.还剩余？站路 2.还剩余那些站。直接照着文档一步一步敲，就可以。</p>
+<h3 id="2-2-1-为什么不直接用捷径"><a href="#2-2-1-为什么不直接用捷径" class="headerlink" title="2.2.1 为什么不直接用捷径"></a>2.2.1 为什么不直接用捷径</h3><p>有人也许会说，iOS的捷径app，也能实现。确实不可否认，本人只对捷径研究了一两个小时，里面也有高级的api，来调接口。但是不用捷径直接处理的原因如下：<br><img src="https://user-gold-cdn.xitu.io/2019/1/30/1689e368ab342086?w=677&amp;h=600&amp;f=png&amp;s=172206" alt="捷径截图.png"><br>如上图所示，用程序猿的眼光来看:<br><strong><em>捷径本质就是把某一个功能，不用代码，而是用图形化（GUI）的界面来实现。</em></strong><br>所以，对于一般大众用户，编程小白来说，用捷径去完成一些不复杂的工作流，还是可以的。比方说，相应一条指令，打开某个app，或者拨打某个电话等等。<br>但是，想对于发送post请求，json数据解析，业务需求处理，这种相对高级的操作，用图形化界面来弄，会变的非常的复杂。<br>总结一下就是：<br>1.GUI操作界面，不太适合复杂度高，定制化高的工作流,而且是在手机上操作 ；<br>2.还是因为GUI的原因，不方便调试（debug），工作效率就显得很低下；</p>
+<h2 id="2-3展示数据"><a href="#2-3展示数据" class="headerlink" title="2.3展示数据"></a>2.3展示数据</h2><p>UI展示，直接利用了JSBox提供的控件<a href="https://docs.xteko.com/#/component/label" target="_blank" rel="noopener">label</a> 和 <a href="https://docs.xteko.com/#/component/list" target="_blank" rel="noopener">list</a>。<br>将第2.2中处理好的数据展示出来，展示出:<br>1.还剩余多少站路<br>2.还剩余那些站。<br>直接照着文档一步一步敲，而且Masonry似的布局方式对iOS开发者很友好，就可以轻轻松松搭UI界面。</p>
 <h2 id="3-最终效果"><a href="#3-最终效果" class="headerlink" title="3.最终效果"></a>3.最终效果</h2><h3 id="3-1-在JSBox中使用"><a href="#3-1-在JSBox中使用" class="headerlink" title="3.1 在JSBox中使用"></a>3.1 在JSBox中使用</h3><p>直接运行脚本，来看效果:<br><img src="https://user-gold-cdn.xitu.io/2019/1/30/1689e368a8d2181a?w=345&amp;h=617&amp;f=gif&amp;s=1280814" alt="JSBox内效果.gif"><br>可以看出能达到查询公交的效果，最后来实现如何实现<strong><em>一键查询</em></strong></p>
 <h3 id="3-2-通过iOS锁屏widget（推荐）"><a href="#3-2-通过iOS锁屏widget（推荐）" class="headerlink" title="3.2 通过iOS锁屏widget（推荐）"></a>3.2 通过iOS锁屏widget（推荐）</h3><p>废话不说上图<br><img src="https://user-gold-cdn.xitu.io/2019/1/30/1689e368a8ee5dfd?w=338&amp;h=620&amp;f=gif&amp;s=2832020" alt="widget.gif"><br>锁屏widget里一键点一下即可，都不需要解锁，很方便。</p>
 <h3 id="3-3-通过Siri唤起（推荐）"><a href="#3-3-通过Siri唤起（推荐）" class="headerlink" title="3.3 通过Siri唤起（推荐）"></a>3.3 通过Siri唤起（推荐）</h3><p>通过Siri，也能实现一键查询。不过通过Siri实现的方式有两种。</p>
@@ -325,127 +325,6 @@
 <h2 id="4-扩展"><a href="#4-扩展" class="headerlink" title="4.扩展"></a>4.扩展</h2><p>整个脚本，我都是把线路参数，公交站参数等等直接写在脚本里的，直接做成二维码分享出去意义不大，毕竟每个人的查询需求是不同的。有需要的，可以下载脚本，根据公众号的网页抓包，得到你想要的线路和站台参数，修改完后再执行。<br><a href="https://github.com/CoderHRXu/BusPreview" target="_blank" rel="noopener">附上Demo，走过路过的朋友不妨可以star或者fork一下。</a></p>
 <p>万变不离其宗，对于非苏州的朋友，可以各自查找所在城市相关的微信微博网站等等，找到相应的查询接口，JSON数据结构修改一下，就可以了。</p>
 <h2 id="5-总结"><a href="#5-总结" class="headerlink" title="5.总结"></a>5.总结</h2><p>本人前后花了不到一天的时间，从0开始学习JSBox和捷径，直至做出最终效果。可以说上手难度还是很低的。整个过程也学习了很多，感受到了JSBox这个app很强大，值得深入研究。<br>完结，鼓掌散花！👏👏🌹🌹</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.jianshu.com/u/6aea1100cc05/2019/01/28/iOS_round_numberString/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="抢手的哥">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="抢手的哥的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/28/iOS_round_numberString/" itemprop="url">iOS小数四舍五入总结</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T15:05:50+08:00">
-                2019-01-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>iOS项目里，涉及到double类型是数据，经常会用到四舍五入这样的取值方式，网上查阅资料之后，经常会不起作用，最终把有效的方法，总结了一下。<br>OC:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> 四舍五入字符串</span><br><span class="line"></span><br><span class="line"> @param round 小数位 eg: 2</span><br><span class="line"> @param numberString 数字 eg 0.125</span><br><span class="line"> @return 四舍五入之后的 eg: 0.13</span><br><span class="line"> */</span><br><span class="line">- (double )roundNumberStringWithRound:(NSInteger)round numberString:(NSString *)numberString&#123;</span><br><span class="line">    </span><br><span class="line">    if (numberString == nil) &#123;</span><br><span class="line">        return 0;</span><br><span class="line">    &#125;</span><br><span class="line">    NSDecimalNumberHandler *roundingBehavior    = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundPlain scale:round raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:NO raiseOnDivideByZero:NO];</span><br><span class="line">    NSDecimalNumber *aDN                        = [[NSDecimalNumber alloc] initWithString:numberString];</span><br><span class="line">    NSDecimalNumber *resultDN                   = [aDN decimalNumberByRoundingAccordingToBehavior:roundingBehavior];</span><br><span class="line">    return resultDN.doubleValue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>Swift：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">/// 四舍五入2位小数小数</span><br><span class="line">///</span><br><span class="line">/// - round: 小数位（默认2位小数）</span><br><span class="line">/// - Parameter numberString: 格式化之前 eg 0.125</span><br><span class="line">/// - Returns: 格式化之后 eg: 0.13</span><br><span class="line">func roundNumberString(round:Int = 2, numberString : String) -&gt; Double &#123;</span><br><span class="line">    if numberString.isEmpty || round == 0 &#123;</span><br><span class="line">        return 0.0</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    let roudingBehavior     = NSDecimalNumberHandler(roundingMode: .plain, scale: Int16(round), raiseOnExactness: false, raiseOnOverflow: false, raiseOnUnderflow: false, raiseOnDivideByZero: false)</span><br><span class="line">    let aDn                 = NSDecimalNumber(string: numberString)</span><br><span class="line">    let resultDn            = aDn.rounding(accordingToBehavior: roudingBehavior)</span><br><span class="line">    return resultDn.doubleValue</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -572,6 +451,127 @@
 <p>Swift<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">/// 过滤器 将.2f格式化的字符串，去除末尾0</span><br><span class="line">///</span><br><span class="line">/// - Parameter numberString: .2f格式化后的字符串</span><br><span class="line">/// - Returns: 去除末尾0之后的</span><br><span class="line">func removeSuffix(numberString : String) -&gt; String &#123;</span><br><span class="line">    </span><br><span class="line">    if numberString.count &gt; 1 &#123;</span><br><span class="line">        let strs = numberString.components(separatedBy: &quot;.&quot;)</span><br><span class="line">        let last = strs.last!</span><br><span class="line">        if strs.count == 2 &#123;</span><br><span class="line">            if last == &quot;00&quot; &#123;</span><br><span class="line">                </span><br><span class="line">                let indexEndOfText      = numberString.index(numberString.endIndex, offsetBy:-3)</span><br><span class="line">                return String(numberString[..&lt;indexEndOfText])</span><br><span class="line">                </span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                </span><br><span class="line">                let indexStartOfText    = numberString.index(numberString.endIndex, offsetBy:-1)</span><br><span class="line">                let str                 = numberString[indexStartOfText...]</span><br><span class="line">                let indexEndOfText      = numberString.index(numberString.endIndex, offsetBy:-1)</span><br><span class="line">                if str == &quot;0&quot; &#123;</span><br><span class="line">                    return String(numberString[..&lt;indexEndOfText])</span><br><span class="line">                &#125;</span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        return numberString</span><br><span class="line">        </span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        return &quot;&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>思路：1.先将小数按照.2f格式化处理成“0.00”;<br>2.然后再根据小数点”.”，切割字符串比较,判断最后的是不是“0”，是的话，直接切除掉；</p>
 <p>同样思路的也适用于格式化.3f的情况，判断方法中再加入“000”的判断，然后判断切割后的字符串。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.jianshu.com/u/6aea1100cc05/2019/01/28/iOS_round_numberString/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="抢手的哥">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="抢手的哥的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/28/iOS_round_numberString/" itemprop="url">iOS小数四舍五入总结</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T15:05:50+08:00">
+                2019-01-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>iOS项目里，涉及到double类型是数据，经常会用到四舍五入这样的取值方式，网上查阅资料之后，经常会不起作用，最终把有效的方法，总结了一下。<br>OC:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> 四舍五入字符串</span><br><span class="line"></span><br><span class="line"> @param round 小数位 eg: 2</span><br><span class="line"> @param numberString 数字 eg 0.125</span><br><span class="line"> @return 四舍五入之后的 eg: 0.13</span><br><span class="line"> */</span><br><span class="line">- (double )roundNumberStringWithRound:(NSInteger)round numberString:(NSString *)numberString&#123;</span><br><span class="line">    </span><br><span class="line">    if (numberString == nil) &#123;</span><br><span class="line">        return 0;</span><br><span class="line">    &#125;</span><br><span class="line">    NSDecimalNumberHandler *roundingBehavior    = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundPlain scale:round raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:NO raiseOnDivideByZero:NO];</span><br><span class="line">    NSDecimalNumber *aDN                        = [[NSDecimalNumber alloc] initWithString:numberString];</span><br><span class="line">    NSDecimalNumber *resultDN                   = [aDN decimalNumberByRoundingAccordingToBehavior:roundingBehavior];</span><br><span class="line">    return resultDN.doubleValue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Swift：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">/// 四舍五入2位小数小数</span><br><span class="line">///</span><br><span class="line">/// - round: 小数位（默认2位小数）</span><br><span class="line">/// - Parameter numberString: 格式化之前 eg 0.125</span><br><span class="line">/// - Returns: 格式化之后 eg: 0.13</span><br><span class="line">func roundNumberString(round:Int = 2, numberString : String) -&gt; Double &#123;</span><br><span class="line">    if numberString.isEmpty || round == 0 &#123;</span><br><span class="line">        return 0.0</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    let roudingBehavior     = NSDecimalNumberHandler(roundingMode: .plain, scale: Int16(round), raiseOnExactness: false, raiseOnOverflow: false, raiseOnUnderflow: false, raiseOnDivideByZero: false)</span><br><span class="line">    let aDn                 = NSDecimalNumber(string: numberString)</span><br><span class="line">    let resultDn            = aDn.rounding(accordingToBehavior: roudingBehavior)</span><br><span class="line">    return resultDn.doubleValue</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
           
         

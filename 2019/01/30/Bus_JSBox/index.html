@@ -95,7 +95,7 @@
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/1/30/1689e368d12dc35d?w=338&h=620&f=gif&s=5752832">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/1/30/1689e368ce352ae1?w=679&h=598&f=png&s=207163">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/1/30/1689e368d1364058?w=347&h=619&f=gif&s=2104856">
-<meta property="og:updated_time" content="2019-01-30T10:53:21.973Z">
+<meta property="og:updated_time" content="2019-01-31T01:24:50.036Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS使用JSBox实现一键查询公交">
 <meta name="twitter:description" content="1.起源作者本人吊丝码农，坐标苏州，一把年纪了上下班还要挤公交，每次出门之前，都习惯性的查询一下目前公交距离自己还有多少站路，以确定走路的步伐快慢[捂脸哭]。 在苏州的朋友可能会知道，查询各路公交有个专门的微信公众号，所以每天出门时要查公交的时候，还得1234561.先打开微信；2.找到公众号；3.点击公众号第二个tab“公交查询”呼出菜单；4.再点开“公交实时查询”的菜单按钮，才能打开查询的网页">
@@ -320,8 +320,8 @@
 <h2 id="2-2处理数据"><a href="#2-2处理数据" class="headerlink" title="2.2处理数据"></a>2.2处理数据</h2><p>我们已经能有办法获取到数据了,但是我们想要在手机上处理数据，就必须得有一个容器来获取数据，再处理数据。这个时候就轮到主角JSBox登场了。</p>
 <h3 id="2-2-1-JSBox"><a href="#2-2-1-JSBox" class="headerlink" title="2.2.1 JSBox"></a>2.2.1 JSBox</h3><p>JSBox 是由知名的 PIN (iOS 剪贴板增强工具) 的作者@StackOverflowError推出的一款可让你在 iOS 上编写与运行 JavaScript 脚本的工具。<br>这个app是收费的，貌似还不便宜，没记错的话是50软妹币。不过本人刚好某次转发微博抽奖抽到一个兑换码😜😜😜😜<br><a href="https://sspai.com/post/42361" target="_blank" rel="noopener">点击这里了解更多关于JSBox</a><br>个人推荐使用VSCode来编辑脚本，毕竟在手机上码代码太难受了，而且JSBox还提供了VSCode插件，能够在线编辑调试，非常方便。</p>
 <p>利用JSBox封装好的$http，去调接口，然后再对返回的json，做下一步的处理（遍历，循环，判断，计算），计算出当前最近的一般公交，距离你有几站路。</p>
-<h3 id="2-2-1-为什么不直接用捷径"><a href="#2-2-1-为什么不直接用捷径" class="headerlink" title="2.2.1 为什么不直接用捷径"></a>2.2.1 为什么不直接用捷径</h3><p>有人也许会说，iOS的捷径app，也能实现。确实不可否认，本人只对捷径研究了一两个小时，里面也有高级的api，来调接口。但是不用捷径直接处理的原因如下：<br><img src="https://user-gold-cdn.xitu.io/2019/1/30/1689e368ab342086?w=677&amp;h=600&amp;f=png&amp;s=172206" alt="捷径截图.png"><br>如上图所示，用程序猿的眼光来看:<br><strong><em>捷径本质就是把某一个功能，不用代码，而是用图形化（GUI）的界面来实现。</em></strong><br>所以，对于一般大众用户，编程小白来说，用捷径去完成一些不复杂的工作流，还是可以的。比方说，相应一条指令，打开某个app，或者拨打某个电话等待。<br>但是，想对于发送post请求，json数据解析，业务需求处理，这种相对高级的操作，用图形化界面来弄，会变的非常的复杂。<br>总结一下就是：<br>1.GUI操作界面，不太适合复杂度高，定制化高的工作流,而且是在手机上操作 ；<br>2.还是因为GUI的原因，不方便调试（debug），工作效率就显得很低下；</p>
-<h2 id="2-3展示数据"><a href="#2-3展示数据" class="headerlink" title="2.3展示数据"></a>2.3展示数据</h2><p>UI展示，直接利用了JSBox提供的控件<a href="https://docs.xteko.com/#/component/label" target="_blank" rel="noopener">label</a> 和 <a href="https://docs.xteko.com/#/component/list" target="_blank" rel="noopener">list</a>。<br>将第2.2中处理好的数据展示出来，展示出1.还剩余？站路 2.还剩余那些站。直接照着文档一步一步敲，就可以。</p>
+<h3 id="2-2-1-为什么不直接用捷径"><a href="#2-2-1-为什么不直接用捷径" class="headerlink" title="2.2.1 为什么不直接用捷径"></a>2.2.1 为什么不直接用捷径</h3><p>有人也许会说，iOS的捷径app，也能实现。确实不可否认，本人只对捷径研究了一两个小时，里面也有高级的api，来调接口。但是不用捷径直接处理的原因如下：<br><img src="https://user-gold-cdn.xitu.io/2019/1/30/1689e368ab342086?w=677&amp;h=600&amp;f=png&amp;s=172206" alt="捷径截图.png"><br>如上图所示，用程序猿的眼光来看:<br><strong><em>捷径本质就是把某一个功能，不用代码，而是用图形化（GUI）的界面来实现。</em></strong><br>所以，对于一般大众用户，编程小白来说，用捷径去完成一些不复杂的工作流，还是可以的。比方说，相应一条指令，打开某个app，或者拨打某个电话等等。<br>但是，想对于发送post请求，json数据解析，业务需求处理，这种相对高级的操作，用图形化界面来弄，会变的非常的复杂。<br>总结一下就是：<br>1.GUI操作界面，不太适合复杂度高，定制化高的工作流,而且是在手机上操作 ；<br>2.还是因为GUI的原因，不方便调试（debug），工作效率就显得很低下；</p>
+<h2 id="2-3展示数据"><a href="#2-3展示数据" class="headerlink" title="2.3展示数据"></a>2.3展示数据</h2><p>UI展示，直接利用了JSBox提供的控件<a href="https://docs.xteko.com/#/component/label" target="_blank" rel="noopener">label</a> 和 <a href="https://docs.xteko.com/#/component/list" target="_blank" rel="noopener">list</a>。<br>将第2.2中处理好的数据展示出来，展示出:<br>1.还剩余多少站路<br>2.还剩余那些站。<br>直接照着文档一步一步敲，而且Masonry似的布局方式对iOS开发者很友好，就可以轻轻松松搭UI界面。</p>
 <h2 id="3-最终效果"><a href="#3-最终效果" class="headerlink" title="3.最终效果"></a>3.最终效果</h2><h3 id="3-1-在JSBox中使用"><a href="#3-1-在JSBox中使用" class="headerlink" title="3.1 在JSBox中使用"></a>3.1 在JSBox中使用</h3><p>直接运行脚本，来看效果:<br><img src="https://user-gold-cdn.xitu.io/2019/1/30/1689e368a8d2181a?w=345&amp;h=617&amp;f=gif&amp;s=1280814" alt="JSBox内效果.gif"><br>可以看出能达到查询公交的效果，最后来实现如何实现<strong><em>一键查询</em></strong></p>
 <h3 id="3-2-通过iOS锁屏widget（推荐）"><a href="#3-2-通过iOS锁屏widget（推荐）" class="headerlink" title="3.2 通过iOS锁屏widget（推荐）"></a>3.2 通过iOS锁屏widget（推荐）</h3><p>废话不说上图<br><img src="https://user-gold-cdn.xitu.io/2019/1/30/1689e368a8ee5dfd?w=338&amp;h=620&amp;f=gif&amp;s=2832020" alt="widget.gif"><br>锁屏widget里一键点一下即可，都不需要解锁，很方便。</p>
 <h3 id="3-3-通过Siri唤起（推荐）"><a href="#3-3-通过Siri唤起（推荐）" class="headerlink" title="3.3 通过Siri唤起（推荐）"></a>3.3 通过Siri唤起（推荐）</h3><p>通过Siri，也能实现一键查询。不过通过Siri实现的方式有两种。</p>
@@ -355,8 +355,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/01/28/iOS_round_numberString/" rel="next" title="iOS小数四舍五入总结">
-                <i class="fa fa-chevron-left"></i> iOS小数四舍五入总结
+              <a href="/2019/01/28/iOS_doubleString_removeSuffix_0/" rel="next" title="iOS小数点格式化：最多保留两位小数，小数点后末尾的0不要">
+                <i class="fa fa-chevron-left"></i> iOS小数点格式化：最多保留两位小数，小数点后末尾的0不要
               </a>
             
           </div>
