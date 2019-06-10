@@ -232,6 +232,381 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.jianshu.com/u/6aea1100cc05/2019/06/10/iOS_Coding_Guidelines/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="抢手的哥">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="抢手的哥的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/10/iOS_Coding_Guidelines/" itemprop="url">iOS代码规范</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-10T21:22:19+08:00">
+                2019-06-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="iOS-Coding-Guidelines（代码指南）"><a href="#iOS-Coding-Guidelines（代码指南）" class="headerlink" title="iOS Coding Guidelines（代码指南）"></a>iOS Coding Guidelines（代码指南）</h1><table>
+<thead>
+<tr>
+<th>版本号</th>
+<th>编写人</th>
+<th>日期</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2.0</td>
+<td>抢手的哥</td>
+<td>2019-06-05</td>
+</tr>
+</tbody>
+</table>
+<h1 id="一、命名基础"><a href="#一、命名基础" class="headerlink" title="一、命名基础"></a>一、命名基础</h1><h3 id="驼峰命名"><a href="#驼峰命名" class="headerlink" title="驼峰命名"></a>驼峰命名</h3><ul>
+<li>针对属性、变量、方法等均采用小写字母开头的驼峰命名准则。</li>
+<li>针对类、枚举、宏等均采用大写字母开头的驼峰命名准则。</li>
+</ul>
+<h3 id="清晰性"><a href="#清晰性" class="headerlink" title="清晰性"></a>清晰性</h3><ul>
+<li>最好是既清晰又简短，但不要为简短而丧失清晰性</li>
+<li>示例：<code>removeObject:</code></li>
+<li><p>反例：<code>remove</code></p>
+</li>
+<li><p>名称通常不缩写，即使名称很长，也要拼写完全</p>
+</li>
+<li>示例：<code>destinationSelection</code></li>
+<li>反例：<code>destSel</code></li>
+</ul>
+<h6 id="我们尽可能遵守-Apple-的命名约定，其推荐使用长的，描述性强的方法和变量名，使其阅读起来更加清晰易懂。不能随意使用缩写，导致他人阅读代码困难。"><a href="#我们尽可能遵守-Apple-的命名约定，其推荐使用长的，描述性强的方法和变量名，使其阅读起来更加清晰易懂。不能随意使用缩写，导致他人阅读代码困难。" class="headerlink" title="我们尽可能遵守 Apple 的命名约定，其推荐使用长的，描述性强的方法和变量名，使其阅读起来更加清晰易懂。不能随意使用缩写，导致他人阅读代码困难。"></a><em>我们尽可能遵守 Apple 的命名约定，其推荐使用长的，描述性强的方法和变量名，使其阅读起来更加清晰易懂。不能随意使用缩写，导致他人阅读代码困难。</em></h6><h3 id="一致性"><a href="#一致性" class="headerlink" title="一致性"></a>一致性</h3><ul>
+<li>尽可能使用与 Cocoa 编程接口命名保持一致的名称。如果你不太确定某个命名的一致性，请浏览一下头文件。</li>
+<li>在使用多态方法的类中，命名的一致性非常重要。在不同类中实现相同功能的方法应该具有相同的名称</li>
+<li>示例：<code>- (NSInteger)tag</code></li>
+<li>示例：<code>- (void)setStringValue:(NSString *)</code></li>
+</ul>
+<h3 id="前缀"><a href="#前缀" class="headerlink" title="前缀"></a>前缀</h3><p><strong>前缀是名称的重要组成部分，它们可以区分应用的功能范畴。前缀可以防止与第三方开发者之间的命名冲突</strong></p>
+<ul>
+<li>前缀有规定的格式。它由两到三个大写字符组成，不能使用下划线与子前缀</li>
+<li>命名 class， protocol， struct， 函数，常量时使用前缀；</li>
+<li>命名成员方法时不使用前缀，因为方法已经在它所在类的命名空间中；</li>
+<li>同理，命名结构体字段时也不使用前缀</li>
+</ul>
+<h1 id="二、方法命名【强制】"><a href="#二、方法命名【强制】" class="headerlink" title="二、方法命名【强制】"></a>二、方法命名【强制】</h1><h3 id="一般性规则"><a href="#一般性规则" class="headerlink" title="一般性规则"></a>一般性规则</h3><p><strong>为方法命名时，请考虑如下一些一般性规则:</strong></p>
+<ul>
+<li>小写第一个单词的首字符，大写随后单词的首字符，不使用前缀。有两种例外情况:</li>
+</ul>
+<ol>
+<li>方法名以广为人知的大写字母缩略词(如 TIFF or PDF)开头</li>
+<li>私有方法可以使用统一的前缀来分组和辨识</li>
+</ol>
+<ul>
+<li>表示对象行为的方法，名称以动词开头</li>
+<li>示例：<code>- (void)invokeWithTarget:(id)target:</code></li>
+<li><p>示例：<code>- (void)selectTabViewItem:(NSTableViewItem *)tableViewItem</code></p>
+</li>
+<li><p>如果方法返回方法接收者的某个属性，直接用属性名称命名。不要使用 get，除非是间接返回一个或多个值。</p>
+</li>
+<li>示例：<code>- (NSSize)cellSize</code></li>
+<li><p>反例：<code>- (NSSize)getCellSize</code></p>
+</li>
+<li><p>不要使用 and 来连接用属性作参数关键字</p>
+</li>
+<li>示例：<code>- (NSInteger)runModalForDirectory:(NSString *)path file:(NSString *)name</code></li>
+<li>反例：<code>- (NSInteger)runModalForDirectory:(NSString *)path andFile:(NSString *)name</code></li>
+</ul>
+<h3 id="方法参数"><a href="#方法参数" class="headerlink" title="方法参数"></a>方法参数</h3><p><strong>命名方法参数时要考虑如下规则:</strong></p>
+<ul>
+<li><p>如同方法名，参数名小写第一个单词的首字符，大写后继单词的首字符。</p>
+</li>
+<li><p>示例：<code>removeObject:(id)anObject</code></p>
+</li>
+<li>不要在参数名中使用 pointer 或 ptr，让参数的类型来说明它是指针</li>
+<li>避免使用 one， two，…，作为参数名</li>
+<li>避免为节省几个字符而缩写</li>
+</ul>
+<h1 id="三、实例变量与数据类型命名【强制】"><a href="#三、实例变量与数据类型命名【强制】" class="headerlink" title="三、实例变量与数据类型命名【强制】"></a>三、实例变量与数据类型命名【强制】</h1><p>描述性的单词（有意义）+ 变量类型</p>
+<h3 id="私有变量："><a href="#私有变量：" class="headerlink" title="私有变量："></a>私有变量：</h3><p>私有变量放在 .m 文件中声明 以 _ 开头，第一个单词首字母小写<br>例子：<code>NSString * _somePrivateVariable</code></p>
+<h3 id="属性变量："><a href="#属性变量：" class="headerlink" title="属性变量："></a>属性变量：</h3><p>正例：<code>@property (nonatomic, strong) UILabel *nameLabel；</code><br>注意nonatomic和strong之间有一个空格，<em>号之前有空格，之后没有<br>反例：`@property(strong,nonatomic)UILabel </em> lab;`</p>
+<p><strong>如果实例变量别设计为可被访问的，确保编写了访问方法并注意读写权限。</strong></p>
+<h3 id="枚举常量"><a href="#枚举常量" class="headerlink" title="枚举常量"></a>枚举常量</h3><ul>
+<li>使用枚举来定义一组相关的整数常量</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">typedef NS_ENUM(NSInteger, NSMatrixMode) &#123; </span><br><span class="line">NSRadioModeMatrix       = 0, </span><br><span class="line">NSHighlightModeMatrix   = 1,</span><br><span class="line">NSListModeMatrix        = 2, </span><br><span class="line">NSTrackModeMatrix       = 3</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="其他常量"><a href="#其他常量" class="headerlink" title="其他常量"></a>其他常量</h3><ul>
+<li>通常不使用 #define 来创建常量。如上面所述，整数常量请使用枚举。</li>
+<li>使用大写字母来定义预处理编译宏。如:<code>#ifdef DEBUG</code></li>
+<li>为 notification 名定义大驼峰字符串常量，从而能够利用编译器的拼写检查，减少书写错误。</li>
+</ul>
+<h1 id="四、图片资源命名"><a href="#四、图片资源命名" class="headerlink" title="四、图片资源命名"></a>四、图片资源命名</h1><p>模块名+功能名+控件名+状态<br><code>photoBrowser_btn_selected 
+photoBrowser_btn_unselected</code></p>
+<h1 id="五、可接受的缩略语"><a href="#五、可接受的缩略语" class="headerlink" title="五、可接受的缩略语"></a>五、可接受的缩略语</h1><p><strong>在设计编程接口时，通常名称不要缩写。下面列出的缩写要么是固定下来的要么是过去被广泛使用的，所以可以继续使用。关于缩写有一些额外的注意事项:</strong></p>
+<ul>
+<li>标准 C 库中长期使用的缩写形式是可以接受的。如:”alloc”， “getc”</li>
+<li>你可以在参数名中更自由地使用缩写。如: imageRep, col(column), obj, otherWin</li>
+</ul>
+<h3 id="常见的缩写"><a href="#常见的缩写" class="headerlink" title="常见的缩写"></a>常见的缩写</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">缩写</th>
+<th style="text-align:left">含义</th>
+<th style="text-align:left">缩写</th>
+<th style="text-align:left">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">alloc</td>
+<td style="text-align:left">Allocate</td>
+<td style="text-align:left">alt</td>
+<td style="text-align:left">Alternate</td>
+</tr>
+<tr>
+<td style="text-align:left">app</td>
+<td style="text-align:left">Application</td>
+<td style="text-align:left">calc</td>
+<td style="text-align:left">Calculate</td>
+</tr>
+<tr>
+<td style="text-align:left">dealloc</td>
+<td style="text-align:left">dealloc</td>
+<td style="text-align:left">func</td>
+<td style="text-align:left">Function</td>
+</tr>
+<tr>
+<td style="text-align:left">horiz</td>
+<td style="text-align:left">Horizontal</td>
+<td style="text-align:left">info</td>
+<td style="text-align:left">Information</td>
+</tr>
+<tr>
+<td style="text-align:left">init</td>
+<td style="text-align:left">Initialize</td>
+<td style="text-align:left">int</td>
+<td style="text-align:left">Integer</td>
+</tr>
+<tr>
+<td style="text-align:left">max</td>
+<td style="text-align:left">Maximum</td>
+<td style="text-align:left">min</td>
+<td style="text-align:left">Minimum</td>
+</tr>
+<tr>
+<td style="text-align:left">msg</td>
+<td style="text-align:left">Message</td>
+<td style="text-align:left">nib</td>
+<td style="text-align:left">Interface Builder archive</td>
+</tr>
+<tr>
+<td style="text-align:left">pboard</td>
+<td style="text-align:left">Pasteboard</td>
+<td style="text-align:left">rect</td>
+<td style="text-align:left">Rectangle</td>
+</tr>
+<tr>
+<td style="text-align:left">Rep</td>
+<td style="text-align:left">Representation</td>
+<td style="text-align:left">temp</td>
+<td style="text-align:left">Temporary</td>
+</tr>
+<tr>
+<td style="text-align:left">vert</td>
+<td style="text-align:left">Vertical</td>
+<td style="text-align:left"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="补充的缩写"><a href="#补充的缩写" class="headerlink" title="补充的缩写"></a>补充的缩写</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">缩写</th>
+<th style="text-align:left">含义</th>
+<th style="text-align:left">缩写</th>
+<th style="text-align:left">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">idx</td>
+<td style="text-align:left">Index</td>
+<td style="text-align:left">btn</td>
+<td style="text-align:left">Button</td>
+</tr>
+<tr>
+<td style="text-align:left">proj</td>
+<td style="text-align:left">Project</td>
+<td style="text-align:left">pro</td>
+<td style="text-align:left">Professional</td>
+</tr>
+<tr>
+<td style="text-align:left">pwd</td>
+<td style="text-align:left">Password</td>
+<td style="text-align:left">pic</td>
+<td style="text-align:left">Picture</td>
+</tr>
+<tr>
+<td style="text-align:left">str</td>
+<td style="text-align:left">String</td>
+<td style="text-align:left">img</td>
+<td style="text-align:left">Image</td>
+</tr>
+<tr>
+<td style="text-align:left">VC</td>
+<td style="text-align:left">ViewController</td>
+<td style="text-align:left"></td>
+</tr>
+</tbody>
+</table>
+<h1 id="五、编码格式"><a href="#五、编码格式" class="headerlink" title="五、编码格式"></a>五、编码格式</h1><h3 id="星号-位置"><a href="#星号-位置" class="headerlink" title="星号(*)位置"></a>星号(*)位置</h3><ul>
+<li><p>定义一个对象时，*靠近变量</p>
+</li>
+<li><p>示例：<code>NSString *userName;</code></p>
+</li>
+</ul>
+<h3 id="统一的ViewController模板（代码缩进、Method进行分组、大括号写法）"><a href="#统一的ViewController模板（代码缩进、Method进行分组、大括号写法）" class="headerlink" title="统一的ViewController模板（代码缩进、Method进行分组、大括号写法）"></a>统一的ViewController模板（代码缩进、Method进行分组、大括号写法）</h3><ul>
+<li>import引用分组划分</li>
+<li>使用property与局部变量，不使用用全局变量（不能显性区分作用域）</li>
+<li>空格与换行建议（参照iOS SDK API）</li>
+<li>方法功能区域性划分</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;GMBaseViewController.h&quot;</span><br><span class="line">/**</span><br><span class="line">HomePage</span><br><span class="line">*/</span><br><span class="line">@interface HomePageViewController : GMBaseViewController</span><br><span class="line">/** 项目Id */</span><br><span class="line">@property (nonatomic, copy) NSString *projectId;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;HomePageViewController.h&quot;</span><br><span class="line">#import &quot;HomePageTableViewCell&quot;     //View</span><br><span class="line">#import &quot;HomePageListRequest&quot;        //Model数据类</span><br><span class="line">#import &quot;ProjectViewController&quot;     //非本页面所用</span><br><span class="line"></span><br><span class="line">@interface GMHPViewController ()</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation GMHPViewController</span><br><span class="line">#pragma mark - LifeCycle</span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">[super viewDidLoad];</span><br><span class="line">[self setupView];</span><br><span class="line">[self loadData];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - Custom Methods</span><br><span class="line">- (void)setupView &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">#pragma mark - Event Response</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#pragma mark - Data &amp;&amp; Net</span><br><span class="line">- (void)loadData &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - UITableViewDataSource &amp;&amp; UITableViewDelegate</span><br><span class="line"></span><br><span class="line">#pragma mark - CustomDelegate</span><br><span class="line"></span><br><span class="line">#pragma mark - Getter &amp;&amp; Setter</span><br></pre></td></tr></table></figure>
+<h3 id="条件语句"><a href="#条件语句" class="headerlink" title="条件语句"></a>条件语句</h3><ul>
+<li>条件判断语句执行主体不管是 if 里面还是 else 里面都必须要使用大括号包住, 即使代码是一行的情况（Apple SSL/TLS gotofail）。for 循环同样。</li>
+<li>if-else中，else不另起一行，与if的反括号在同一行，如下段代码所示，注意else前后均有空格。</li>
+<li>switch-case中，建议所有case和default后的代码块均用{}包裹。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">if（success）&#123;</span><br><span class="line">...</span><br><span class="line">&#125; else &#123;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">for（int i = 0 ; i &lt; 10 ; i++）&#123;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="单一原则"><a href="#单一原则" class="headerlink" title="单一原则"></a>单一原则</h3><ul>
+<li>每个函数的职责都应该划分明确（如类一样）</li>
+</ul>
+<h4 id="模型解析（MJExtension）"><a href="#模型解析（MJExtension）" class="headerlink" title="模型解析（MJExtension）"></a>模型解析（MJExtension）</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">+ (NSDictionary *)mj_replacedKeyFromPropertyName &#123;</span><br><span class="line">return @&#123;@&quot;Id&quot; : @&quot;id&quot;&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (NSDictionary *)mj_objectClassInArray &#123;</span><br><span class="line">return @&#123;@“block” : @&quot;GMBlockModel&quot;&#125;;</span><br><span class="line">&#125;</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">### 其他</span><br><span class="line"></span><br><span class="line">* 子类重写父类方法一般需先调用父类方法</span><br></pre></td></tr></table></figure>
+<ul>
+<li>(void)viewDidLoad {<br>[super viewDidLoad];<br>…<br>}<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">* 单模块多页面可新建模块Header类，统一导入共用类，设定常量等。非全局不可定义在`PCH`中</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 六、代码注释</span><br><span class="line">**优秀的代码大部分是可以自描述的，我们完全可以用代码本身来表达它到底在干什么，而不需要注释的辅助。</span><br><span class="line">但并不是说一定不需要写注释，有以下三种情况需要编写注释：**</span><br><span class="line"></span><br><span class="line">* 公共接口（注释要告诉阅读代码的人，当前类能实现什么功能，譬如：基础类、工具类）</span><br><span class="line">* 涉及到比较深层专业知识及业务逻辑的代码（注释要体现出实现原理和思想）</span><br><span class="line">* 容易产生歧义的代码（但是严格来说，容易让人产生歧义的代码是不允许存在的）</span><br><span class="line"></span><br><span class="line">### import注释</span><br><span class="line">**如果有一个以上的import语句，就对这些语句进行分组，每个分组的注释是可选的。**</span><br><span class="line"></span><br><span class="line">### 属性注释</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>/<em>* 注释 </em>/<br>@property (nonatomic, strong) UIView *headerView;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">### 枚举注释</span><br></pre></td></tr></table></figure></p>
+<p>typedef NS_ENUM(NSInteger, RefreshDateType) {<br>/<strong> 新建 */<br>RefreshDateTypeTaskMain    = 1,<br>/</strong> 编辑 <em>/<br>RefreshDateTypeEdit,<br>/** 重派 </em>/<br>RefreshDateTypeAssign,<br>/<strong> 新建子任务 */<br>RefreshDateTypeSubTask,<br>/</strong> 任务派发（进度管理模块） <em>/<br>RefreshDateTypeTaskDis,<br>/** 任务变更（进度管理模块） </em>/<br>RefreshDateTypeTaskChanged,<br>};<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 方法声明注释</span><br><span class="line"></span><br><span class="line">**公开接口，重要的方法，分类，以及协议都应该伴随注释。方法的注释使用Xcode自带注释快捷键:`Commond+option+/`或者`///`，这两种注释方式可被`Xcode`中`Quick Help`识别**</span><br></pre></td></tr></table></figure></p>
+<p>/**<br>&lt;#Description#&gt;</p>
+<p>@param tableView &lt;#tableView description#&gt;<br>@param section &lt;#section description#&gt;<br>@return &lt;#return value description#&gt;<br>*/</p>
+<ul>
+<li>(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {<br>…<br>}</li>
+</ul>
+<p>///&lt;#Description#&gt;</p>
+<ul>
+<li>(void)getUserInfo {<br>…<br>}<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;font size=2 color=#4A7EC0&gt;参考文档：&lt;/font&gt;[Apple Coding Guidelines for Cocoa](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html#//apple_ref/doc/uid/10000146-SW1)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 七、其他事项</span><br><span class="line"></span><br><span class="line">## 1.【推荐】条件过多、过长时应该换行</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>if  ( condition1 &amp;&amp;<br>condition2 &amp;&amp;<br>condition3 ) {<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## 2.【强制】二元运算符与变量之间必须有空格</span><br></pre></td></tr></table></figure></p>
+<p>width = 5 + 5;<br>height = width * 2;<br>length = width + height;<br>for (int i = 0; i &lt; 10; i++)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">## 3.【强制】NSArray泛型</span><br><span class="line">如果NSArray中存储数据类型是统一的，必须如下使用</span><br></pre></td></tr></table></figure></p>
+<p>/<em>* modelArray  </em>/<br>@property (nonatomic, strong) NSArray <gcbmodel *=""> *modelArray;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 4.【强制】block循环引用问题&lt;特别关注&gt;</span><br></pre></td></tr></table></figure></gcbmodel></p>
+<p><strong>weak_self;<br>[selectPerVC setSingleResultBlock:^(ContactModel *resultModel) {
+</strong>strong_self;<br>}];<br>```</p>
+<h2 id="5【强制】枚举使用"><a href="#5【强制】枚举使用" class="headerlink" title="5【强制】枚举使用"></a>5【强制】枚举使用</h2><p>项目中两个以上的区分逻辑要使用枚举，使用枚举值赋值的时候不能使用枚举的值（1、2、3… 等）<br>正例：<code>self.dataType = RefreshDateTypeTaskMain；</code><br>反例：<code>self.dataType = 1；</code></p>
+<h2 id="6【强制】加载xib"><a href="#6【强制】加载xib" class="headerlink" title="6【强制】加载xib"></a>6【强制】加载xib</h2><p>xib名称用NSStringFromClass(),避免书写错误<br>正例：<code>[self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([DXRecommendTagVCell class]) bundle:nil] forCellReuseIdentifier:ID];</code><br>反例：<code>[self.tableView registerNib:[UINib nibWithNibName:@&quot;DXRecommendTagVCell&quot; bundle:nil] forCellReuseIdentifier:ID];</code></p>
+<h2 id="7【强制】三目运算符"><a href="#7【强制】三目运算符" class="headerlink" title="7【强制】三目运算符"></a>7【强制】三目运算符</h2><p>三目运算符使用时注意?和:空格<br>正例：<code>NSString *string = model.isSelected ? @&quot;已选中&quot; : @&quot;未选中&quot;;</code><br><strong>禁止连续使用三目运算符</strong><br>反例：<code>return indexPath.row == 0 ? 109 : indexPath.row == 1 ? 138 : indexPath.row == 10 ? 45 : indexPath.row == 11 ? [PublicPhotoBrowserView getCollecHeiImageCount:self.taskModel.imgsArray.count remainCount:9 - self.taskModel.filesArray.count width: ScreenW - 30 detail:NO]+[PublicPhotoBrowserView publicPhotoGetFilesHeight:self.taskModel.filesArray.count singleHeight:0] : 55</code></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://www.jianshu.com/u/6aea1100cc05/2019/01/30/Bus_JSBox/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1406,151 +1781,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.jianshu.com/u/6aea1100cc05/2018/01/22/Gitlab-RunnerErrorAnalysis/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="抢手的哥">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="抢手的哥的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/22/Gitlab-RunnerErrorAnalysis/" itemprop="url">gitlab-runner之build failed with exit status 1问题分析</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-22T15:56:43+08:00">
-                2018-01-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><p>工作需要，原先的一台专门负责打包的机器要被调走，所以另起炉灶，把需要打包的项目迁移到新机器，本篇文章讲述了迁移过程遇到的一些问题以及解决的方法。</p>
-<h2 id="1-gitlab-runner"><a href="#1-gitlab-runner" class="headerlink" title="1.gitlab-runner"></a>1.gitlab-runner</h2><p>首先还是简单说一下什么是gitlab-runner，官网是这么描述的：</p>
-<blockquote>
-<p>GitLab Runner is the open source project that is used to run your jobs and send the results back to GitLab. It is used in conjunction with <a href="https://about.gitlab.com/gitlab-ci" target="_blank" rel="noopener">GitLab CI</a>, the open-source continuous integration service included with GitLab that coordinates the jobs.</p>
-</blockquote>
-<p>也就是说gitlab-runner是配合gitlab-ci进行使用的。一般地，gitlab里面的每一个工程都会定义一个属于这个工程的软件集成脚本，用来自动化地完成一些软件集成工作。<br>当这个工程的仓库代码发生变动时，比如有人push了代码或者分支合并，gitlab就会将这个变动通知gitlab-ci。这时gitlab-ci会找出与这个工程相关联的runner，并通知这些runner把代码更新到本地并执行预定义好的执行脚本。</p>
-<h2 id="2-gitlab-runner安装和注册"><a href="#2-gitlab-runner安装和注册" class="headerlink" title="2.gitlab-runner安装和注册"></a>2.gitlab-runner安装和注册</h2><p><a href="https://docs.gitlab.com/runner/install/index.html" target="_blank" rel="noopener">安装</a><br><a href="https://docs.gitlab.com/runner/register/index.html" target="_blank" rel="noopener">注册</a><br>这块废话不多说，直接看官方文档，根据系统一次操作一下即可</p>
-<h2 id="3-问题描述"><a href="#3-问题描述" class="headerlink" title="3.问题描述"></a>3.问题描述</h2><p>新机器到手后，把机器上所有的软件环境统统更新了个遍，升级到macOS High Sierra，ruby 升级到2.4等等。然后开始安装gitlab-runner紧接着注册到gitlab-ci，一切的一切都看似很平静很正常。</p>
-<p>然后开始试跑脚本,然后莫名其妙的出错了，log如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Running with gitlab-runner 10.3.0 (5cf5e19a)</span><br><span class="line">  on xxx的MacBook pro (0dee7c95)</span><br><span class="line">Using Shell executor...</span><br><span class="line">Running onxxxdeMacBook-Pro.local...</span><br><span class="line">Cloning repository...</span><br><span class="line">Cloning into &apos;/Users/xxx/builds/0dee7c95/0/iOS-Team/xxx-test&apos;...</span><br><span class="line">Checking out 0766deb4 as develop...</span><br><span class="line">Skipping Git submodules setup</span><br><span class="line">ERROR: Job failed: exit status 1</span><br></pre></td></tr></table></figure></p>
-<p>clone之后立马出问题，一脸懵逼…这谁看得懂出的啥错？凉了凉了~</p>
-<h2 id="4-问题分析"><a href="#4-问题分析" class="headerlink" title="4.问题分析"></a>4.问题分析</h2><p>刚开始以为是clone出问题，打开build的目录文件，里面所有文件目录都是完整的，直接打开项目工程都能顺畅的跑起来。<br>尝试用这些log输出，Google了一下，能搜到好几个Stack Overflow的结果，但是很遗憾，都未能解决问题。</p>
-<p><strong>那么问题到底出在哪？</strong></p>
-<p>首先的换一个思考问题的角度：<strong>gitlab-ci上的log看不出，搜不出什么端倪，那么gitlab-runner呢？毕竟跑脚本是gitlab-runner的事情，它自己最清楚了。</strong> </p>
-<p>于是在打包机器终端里面输入 <figure class="highlight plain"><figcaption><span>--debug run``` 这样runner的每一步操作都能看的到。</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">Checking for jobs... nothing                        runner=0dee7c95</span><br><span class="line">Feeding runners to channel                          builds=0</span><br><span class="line">Checking for jobs... received                       job=402 repo_url=http://gitlab.xxxx.cn/iOS-Team/xxx-test.git runner=0dee7c95</span><br><span class="line">Failed to requeue the runner:                       builds=1 runner=0dee7c95</span><br><span class="line">Running with gitlab-runner 10.3.0 (5cf5e19a)</span><br><span class="line">  on xxx的MacBook pro (0dee7c95)  job=402 project=47 runner=0dee7c95</span><br><span class="line">Shell configuration: environment: []</span><br><span class="line">dockercommand:</span><br><span class="line">- sh</span><br><span class="line">- -c</span><br><span class="line">- &quot;if [ -x /usr/local/bin/bash ]; then\n\texec /usr/local/bin/bash --login\nelif [</span><br><span class="line">  -x /usr/bin/bash ]; then\n\texec /usr/bin/bash --login\nelif [ -x /bin/bash ]; then\n\texec</span><br><span class="line">  /bin/bash --login\nelif [ -x /usr/local/bin/sh ]; then\n\texec /usr/local/bin/sh</span><br><span class="line">  --login\nelif [ -x /usr/bin/sh ]; then\n\texec /usr/bin/sh --login\nelif [ -x /bin/sh</span><br><span class="line">  ]; then\n\texec /bin/sh --login\nelse\n\techo shell not found\n\texit 1\nfi\n\n&quot;</span><br><span class="line">command: bash</span><br><span class="line">arguments:</span><br><span class="line">- --login</span><br><span class="line">passfile: false</span><br><span class="line">extension: &quot;&quot;</span><br><span class="line">  job=402 project=47 runner=0dee7c95</span><br><span class="line">Using Shell executor...                             job=402 project=47 runner=0dee7c95</span><br><span class="line">Waiting for signals...                              job=402 project=47 runner=0dee7c95</span><br><span class="line">WARNING: Job failed: exit status 1                  job=402 project=47 runner=0dee7c95</span><br><span class="line">Submitting job to coordinator... ok                 job=402 runner=0dee7c95</span><br><span class="line">Feeding runners to channel                          builds=0</span><br><span class="line">Checking for jobs... nothing                        runner=0dee7c95</span><br></pre></td></tr></table></figure></p>
-<p>以上的log是为了复现问题，把相关配置改成问题解决之前，而操作出来的，可能和问题解决之前的log有些出入。根据这些log，再次Google，果然找到了相关信息：<br><a href="https://gitlab.com/gitlab-org/gitlab-runner/issues/114" target="_blank" rel="noopener">https://gitlab.com/gitlab-org/gitlab-runner/issues/114</a><br>真相大白，原来问题出在<strong>RVM</strong>上。</p>
-<p>RVM相信开发者都不陌生，它是一个便捷的多版本ruby环境的管理和切换工具。有一个注意点，MacOS本身是集成ruby环境的，不同版本的系统默认集成的ruby版本也不一样。所以日常开发中，我们会根据需要对ruby环境统一管理。这个时候就会用到rvm了。通过rvm可以升级管理ruby。通过 <figure class="highlight plain"><figcaption><span>ruby``` 命令可以查看目前使用的是什么ruby。比如 ```/Users/xxx/.rvm/rubies/ruby-2.4.1/bin/ruby``` 输出的路径包含了 ```.rvm``` 就说明目前使用的是rvm下的ruby。</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">到此为止确定了目前使用的是rvm的ruby，在深入定位一下，问题是出在rvm重新定义了 ```cd``` 命令</span><br></pre></td></tr></table></figure></p>
-<p>$ type cd<br>cd is a function<br>cd ()<br>{<br>    __zsh_like_cd cd “$@”<br>}<br>$ unset cd<br>$ type cd<br>cd is a shell builtin<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">所以，clone下来一直出错的原因是cd命令被重定义了，导致路径切换的不对，无法执行命令，进而报错。这就解释了为什么gitlab-runner上输出的log ```exec /bin/sh --login\nelse\n\techo shell not found\n\texit 1\nfi\n\n</span><br></pre></td></tr></table></figure></p>
-<h2 id="5-问题解决"><a href="#5-问题解决" class="headerlink" title="5.问题解决"></a>5.问题解决</h2><p>知道了原因name如何解决呢？刚刚的问题里面也给出了方案<br>在 <figure class="highlight plain"><figcaption><span>或 ```.bash_profile``` 加上 ```unset cd``` 。</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">操作如下：</span><br></pre></td></tr></table></figure></p>
-<p>1、打开terminal(终端)<br>2、cd ~ ( 进入当前用户的home目录)<br>3、open .bash_profile (打开.bash_profile文件，如果文件不存在就  创建文件：touch .bash_profile  编辑文件：open -e bash_profile)<br>4、直接更改弹出的.bash_profile文件内容<br>5、command + s 保存文件，然后关闭<br>6、在terminal(终端)中输入 source .bash_profile (使用刚才更新之后的内容)<br>```<br>或者直接finder里面找，用文本编辑器修改一下。</p>
-<p><strong>等等 <code>.bashrc</code> <code>.bash_profile</code>又是什么鬼？ unset呢？</strong><br>百度了一下这些得到如下信息：<br><a href="http://download.csdn.net/download/ygl_ygl/4354972" target="_blank" rel="noopener">profile\bashrc\bash_profile之间的区别和联系:</a></p>
-<blockquote>
-<p>/etc/profile        每个用户，首次登录时被执行；<br>/etc/bashrc       每个运行bash shell的用户都执行此文件，当bsh被打开时，该文件被读取；<br>~/.bash_profile 专用于本用户的shell信息，仅被执行一次；<br>~/.bashrc          文件包含本用户的bsh信息，登录及每次打开shell时被读取。</p>
-</blockquote>
-<p>unset指令：删除指定的shell变量或函数<br>【语    法】unset [-fv][变量或函数名称]<br>【功能介绍】该指令作用主要是删除指定的shell变量和函数。</p>
-<p>因为gitlab-runner注册的时候<a href="https://docs.gitlab.com/runner/executors/README.html" target="_blank" rel="noopener">runner executor</a>用的shell，所以shell脚本的语法是适用的。使用<code>unset cd</code>就意味着把rvm重新定义的cd方法删除，这样路径切换的时候就正常了。gitlab-runner都能正常跑起来了。</p>
-<h2 id="6-总结"><a href="#6-总结" class="headerlink" title="6.总结"></a>6.总结</h2><p>1.思考问题角度要全面，一套完整的业务流程里出现问题，可以根据不同角度，不同端想错误点靠近，逐个的排查；<br>2.多关注debug信息，活用debug输出的log搜索信息，尽量谷歌搜索，百度太垃圾；<br>3.shell脚本是个神奇的东西，工作之余可以多学习学习。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1605,7 +1835,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
