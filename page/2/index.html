@@ -232,6 +232,140 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.jianshu.com/u/6aea1100cc05/2018/01/24/SwiftURLEncodeing/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="抢手的哥">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="抢手的哥的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/24/SwiftURLEncodeing/" itemprop="url">Swift中URL处理中的注意点</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-24T16:31:05+08:00">
+                2018-01-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>日常的开发当中，网络请求是不可或缺的。而在网络访问请求中，经常会遇到有中文空格字符的情况，直接用这些字符串去访问是无法正常访问，需要我们做进一步的处理。</p>
+<h2 id="一般处理"><a href="#一般处理" class="headerlink" title="一般处理"></a>一般处理</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let urlString = &quot;http://10.0.3.86/中文/main.html#/help&quot;</span><br></pre></td></tr></table></figure>
+<p>比如以上的url，想使用webview进行访问或者是原生发起http请求，都需要进行转码处理。<br>有人会问，这有什么难的？拿起键盘就是干<br><img src="http://upload-images.jianshu.io/upload_images/1447375-7e42bf91528876c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="就是干.png"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">OC：</span><br><span class="line">NSString* encodedString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];</span><br><span class="line"></span><br><span class="line">Swift：</span><br><span class="line">let encodedString = urlString.addingPercentEscapes(using: .utf8)</span><br></pre></td></tr></table></figure></p>
+<p>一敲代码，emmmmm~~ Xcode发警告了，该方法已经过期，用下面的方法替代，于是紧接着:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">OC:</span><br><span class="line">NSString* encodedString = [urtString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];</span><br><span class="line"></span><br><span class="line">Swift:</span><br><span class="line">let encodedString = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)</span><br></pre></td></tr></table></figure>
+<p>OK,转码处理一下，再访问转码之后的url。<br><strong>what？还是不能正常访问？</strong><br>我们来看看转码之后的url是什么：<br><img src="http://upload-images.jianshu.io/upload_images/1447375-fee78cebefc1331c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br><strong>原来是因为最后的#被转码成了%23</strong><br>前端开发的小伙伴说这个#不能动，只能我们不转码。不转码那么夹杂中文字符怎么办呢？—— <strong>修改参数</strong>。<br><strong>所以我们的需求变化成：除了url里面的#不动，其他该转码的都转码</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NSMutableCharacterSet *set  = [[NSCharacterSet URLQueryAllowedCharacterSet] mutableCopy];</span><br><span class="line">[set addCharactersInString:@&quot;#&quot;];</span><br><span class="line">NSString *encodedString     = [urlSring stringByAddingPercentEncodingWithAllowedCharacters:set];</span><br></pre></td></tr></table></figure>
+<p>如上手动修改转码参数，OK 可以了。<br>Swift如法炮制<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let charSet = CharacterSet.urlQueryAllowed as! NSMutableCharacterSet</span><br><span class="line">charSet.addCharacters(in: &quot;#&quot;)</span><br><span class="line">let encodingString = urlStr.addingPercentEncoding(withAllowedCharacters: charSet as CharacterSet)</span><br></pre></td></tr></table></figure></p>
+<p>虽然语言不一样，但是思路一样。<strong>emmmm…你会惊人的发现，根本不管用！！！</strong><br><img src="http://upload-images.jianshu.io/upload_images/1447375-d729f1de206f6ab9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="wc.png"></p>
+<h2 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h2><p>问题是出在<br>let charSet = CharacterSet.urlQueryAllowed as! NSMutableCharacterSet<br>这一行，在swift语言中，Foundation框架中的很多class都重新用struct重写了，比如NSString和String，NSUrl和URL，如果要使用类似于OC一些特性，有时候需要as来强转成对应的NS开头的类。强转的过程中，CharacterSet应该转成NSCharacterSet,而不应该是NSMutableCharacterSet，也就是说<strong>子类指针指向了父类对象</strong>，父类里面没有子类的方法，所以执行charSet.addCharacters(in: “#”)的时候，无法正确添加。</p>
+<h2 id="正确的写法"><a href="#正确的写法" class="headerlink" title="正确的写法"></a>正确的写法</h2><p>顺着原因一路分析，应该这么写：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">方法一：</span><br><span class="line">let charSet = CharacterSet.urlQueryAllowed as NSCharacterSet</span><br><span class="line">let mutSet = charSet.mutableCopy() as! NSMutableCharacterSet</span><br><span class="line">mutSet.addCharacters(in: &quot;#&quot;)</span><br><span class="line">let encodingURL = urlStr.addingPercentEncoding(withAllowedCharacters: mutSet as CharacterSet)</span><br></pre></td></tr></table></figure></p>
+<p>当然还有其他写法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">方法二：</span><br><span class="line">let charSet = NSMutableCharacterSet()</span><br><span class="line">charSet.formUnion(with: CharacterSet.urlQueryAllowed)</span><br><span class="line">charSet.addCharacters(in: &quot;#&quot;)</span><br><span class="line">let encodingURL = urlStr.addingPercentEncoding(withAllowedCharacters: charSet as CharacterSet)</span><br></pre></td></tr></table></figure></p>
+<p>方法一和二本质是一样的，其实沿用的OC的思想，先构造一个可变对象，再加入自定义的字符。<strong>如果要像OC这么搞，那么苹果设计swift的意义何在？换句话说，swift用结构体写重写这个类一定考虑到这个问题，那就应该有相应的处理方法。</strong></p>
+<p>查阅官方文档吧，少年！<br><img src="http://upload-images.jianshu.io/upload_images/1447375-3c58407983a74f5a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>果不其然，找到一个方法，用来插入字符。<br>所以还有第三种写法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">方法三：</span><br><span class="line">var charSet = CharacterSet.urlQueryAllowed</span><br><span class="line">charSet.insert(charactersIn: &quot;#&quot;)</span><br><span class="line">let encodingURL = urlStr.addingPercentEncoding(withAllowedCharacters: charSet )</span><br></pre></td></tr></table></figure></p>
+<p>我们来看一下最终结果<br><img src="http://upload-images.jianshu.io/upload_images/1447375-8e4a9b88fe4a3f03.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="结果.png"><br>OK，符合需求！</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://www.jianshu.com/u/6aea1100cc05/2018/01/22/Gitlab-RunnerErrorAnalysis/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1458,178 +1592,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.jianshu.com/u/6aea1100cc05/2018/01/17/iPhoneXNetworkTypeIssue/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="抢手的哥">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="抢手的哥的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/17/iPhoneXNetworkTypeIssue/" itemprop="url">iPhone X获取设备网络类型错误分析</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-17T12:53:13+08:00">
-                2018-01-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p> 在公司项目开发中，需要在网络请求中包含当前设备的网络状态参数，发请求的时候手机网络的类型有2G,3G,4G,WIFI等等，获取参数的方法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">获取网络状态</span><br><span class="line">- (NSString *)getNetStatus &#123;</span><br><span class="line">    </span><br><span class="line">    NSArray *children = [[[[UIApplication sharedApplication] valueForKeyPath:@&quot;statusBar&quot;] valueForKeyPath:@&quot;foregroundView&quot;] subviews];</span><br><span class="line">    NSString *state = nil;</span><br><span class="line">    int netType = 0;</span><br><span class="line">    for (id child in children) &#123;</span><br><span class="line">        </span><br><span class="line">        if ([child isKindOfClass:NSClassFromString(@&quot;UIStatusBarDataNetworkItemView&quot;)]) &#123;</span><br><span class="line">            netType = [[child valueForKeyPath:@&quot;dataNetworkType&quot;] intValue];</span><br><span class="line">            </span><br><span class="line">            switch (netType) &#123;</span><br><span class="line">                    case 0:</span><br><span class="line">                    state = @&quot;无网络&quot;;</span><br><span class="line">                    break;</span><br><span class="line">                    case 1:</span><br><span class="line">                    state =  @&quot;2G&quot;;</span><br><span class="line">                    break;</span><br><span class="line">                    case 2:</span><br><span class="line">                    state =  @&quot;3G&quot;;</span><br><span class="line">                    break;</span><br><span class="line">                    case 3:</span><br><span class="line">                    state =   @&quot;4G&quot;;</span><br><span class="line">                    break;</span><br><span class="line">                    case 5:</span><br><span class="line">                    state =  @&quot;WIFI&quot;;</span><br><span class="line">                    break;</span><br><span class="line">                default:</span><br><span class="line">                    state =  @&quot;未知网络&quot;;</span><br><span class="line">                    break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return state;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>从代码可以看出，基本原理是读取手机的状态栏，然后遍历状态栏的子控件，查看看一下苹果私有属性<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## iPhone X错误&amp;原因分析</span><br><span class="line">当项目代码选择iPhone X模拟器运行的时候，会奔溃在上面的函数。</span><br><span class="line">由于iPhone X独特的全面屏+刘海的设计(我觉得很丑)，手机顶部的状态栏完全是全新的设计，如下面对比截图：</span><br><span class="line"></span><br><span class="line">![一般iPhone的状态栏.png](http://upload-images.jianshu.io/upload_images/1447375-9da96bd0c3d97433.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">![iPhone X的状态栏](http://upload-images.jianshu.io/upload_images/1447375-d2b0ceb80288b953.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br><span class="line"></span><br><span class="line">于是，想自己来hack一下这个iPhone X的状态栏</span><br></pre></td></tr></table></figure></p>
-<p>//obj 即为被遍历对象<br>unsigned int outCount = 0;<br>Ivar *ivars = class_copyIvarList([obj class], &amp;outCount);<br>for (int i = 0; i &lt; outCount; i++) {<br>     Ivar ivar = ivars[i];<br>     printf(“======== |%s\n”, ivar_getName(ivar));<br>}</p>
-<p>之后获取到以下Path，发现类似dataNetworkType<br>的_networkTypeView</p>
-<p>NSArray *items = [[[[UIApplication sharedApplication] valueForKeyPath:@”statusBar”] valueForKeyPath:@”statusBar”] items];id obj = [[items valueForKeyPath:@”_UIStatusBarCellularExpandedItem”] valueForKeyPath:@”_networkTypeView”];</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">![image.png](http://upload-images.jianshu.io/upload_images/1447375-bd3e0ecbcd9b86a2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br><span class="line"></span><br><span class="line">但纵览整个属性列表，没有发现可用的NetworkType，只能弃用。没办法，谁让苹果爸爸用这样的特(sha)立(bi)独(nao)行(can)的设计，所以要另辟蹊径。</span><br><span class="line"></span><br><span class="line">## 解决方法</span><br><span class="line"></span><br><span class="line">通过翻阅文档发现可以通过CTTelephonyNetworkInfo获取网络运营商相关信息，这不就是3G，4G技术名称嘛！！！</span><br></pre></td></tr></table></figure>
-<p>导入 #import <coretelephony cttelephonynetworkinfo.h=""><br>点进去查看：<br>CORETELEPHONY_EXTERN NSString <em> const CTRadioAccessTechnologyGPRS          <strong>OSX_AVAILABLE_STARTING(</strong>MAC_NA,__IPHONE_7_0);<br>CORETELEPHONY_EXTERN NSString </em> const CTRadioAccessTechnologyEdge          <strong>OSX_AVAILABLE_STARTING(</strong>MAC_NA,<strong>IPHONE_7_0);<br>CORETELEPHONY_EXTERN NSString * const CTRadioAccessTechnologyWCDMA         </strong>OSX_AVAILABLE_STARTING(<strong>MAC_NA,</strong>IPHONE_7_0);<br>CORETELEPHONY_EXTERN NSString <em> const CTRadioAccessTechnologyHSDPA         <strong>OSX_AVAILABLE_STARTING(</strong>MAC_NA,__IPHONE_7_0);<br>CORETELEPHONY_EXTERN NSString </em> const CTRadioAccessTechnologyHSUPA         <strong>OSX_AVAILABLE_STARTING(</strong>MAC_NA,<strong>IPHONE_7_0);<br>CORETELEPHONY_EXTERN NSString * const CTRadioAccessTechnologyCDMA1x        </strong>OSX_AVAILABLE_STARTING(<strong>MAC_NA,</strong>IPHONE_7_0);<br>CORETELEPHONY_EXTERN NSString <em> const CTRadioAccessTechnologyCDMAEVDORev0  <strong>OSX_AVAILABLE_STARTING(</strong>MAC_NA,__IPHONE_7_0);<br>CORETELEPHONY_EXTERN NSString </em> const CTRadioAccessTechnologyCDMAEVDORevA  <strong>OSX_AVAILABLE_STARTING(</strong>MAC_NA,<strong>IPHONE_7_0);<br>CORETELEPHONY_EXTERN NSString * const CTRadioAccessTechnologyCDMAEVDORevB  </strong>OSX_AVAILABLE_STARTING(<strong>MAC_NA,</strong>IPHONE_7_0);<br>CORETELEPHONY_EXTERN NSString <em> const CTRadioAccessTechnologyeHRPD         <strong>OSX_AVAILABLE_STARTING(</strong>MAC_NA,__IPHONE_7_0);<br>CORETELEPHONY_EXTERN NSString </em> const CTRadioAccessTechnologyLTE           <strong>OSX_AVAILABLE_STARTING(</strong>MAC_NA,__IPHONE_7_0);</coretelephony></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">之后再次发现苹果的一个开源类[Reachability](https://developer.apple.com/library/content/samplecode/Reachability/Introduction/Intro.html#//apple_ref/doc/uid/DTS40007324)中已对此做了相应封装，拿来即用。</span><br></pre></td></tr></table></figure>
-<p>typedef enum : NSInteger {<br>    NotReachable = 0,<br>    ReachableViaWiFi,<br>    kReachableVia2G,<br>    kReachableVia3G,<br>    kReachableVia4G<br>} NetworkStatus;</p>
-<p>PS:最新版Reachability已简化枚举<br>typedef enum : NSInteger {<br>    NotReachable = 0,<br>    ReachableViaWiFi,<br>    ReachableViaWWAN<br>} NetworkStatus;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">经过改写后的方法如下</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>(int)getNetStatus {</p>
-<p>  NSString *stateString = nil;<br>  int netStatusNumber = 0;<br>  switch ([[Reachability reachabilityForInternetConnection] currentReachabilityStatus]) {</p>
-<pre><code>case NotReachable: {
-
-    stateString = @&quot;无网络&quot;;
-    netStatusNumber = 0;
-}
-    break;
-case kReachableVia2G: {
-
-    stateString = @&quot;2G&quot;;
-    netStatusNumber = 2;
-}
-    break;
-case kReachableVia3G: {
-
-    stateString = @&quot;3G&quot;;
-    netStatusNumber = 3;
-}
-    break;
-case kReachableVia4G: {
-
-    stateString = @&quot;4G&quot;;
-    netStatusNumber = 4;
-}
-    break;
-case ReachableViaWiFi: {
-
-    stateString = @&quot;WIFI&quot;;
-    netStatusNumber = 1;
-}
-    break;
-default: {
-
-    stateString = @&quot;不可识别的网络&quot;;
-    netStatusNumber = -1;
-}
-    break;
-</code></pre><p>  }<br>  return netStatusNumber;<br>}<br>```<br>这样处理完之后，不管是不是iPhone X都可以获取到正确的设备网络类型了，相比之前通过状态栏来判断，利用苹果自己的类更加的准确。</p>
-<h1 id="尽管这款刘海iPhone-X在此刻尚未发售，能早点填一个坑就早点填。"><a href="#尽管这款刘海iPhone-X在此刻尚未发售，能早点填一个坑就早点填。" class="headerlink" title="尽管这款刘海iPhone X在此刻尚未发售，能早点填一个坑就早点填。"></a>尽管这款刘海iPhone X在此刻尚未发售，能早点填一个坑就早点填。</h1></li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1684,7 +1646,7 @@ default: {
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">23</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
