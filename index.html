@@ -232,6 +232,130 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.jianshu.com/u/6aea1100cc05/2019/11/18/Distance/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="抢手的哥">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="抢手的哥的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/11/18/Distance/" itemprop="url">iOS计算点到直线的距离以及与垂足的交点</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-18T14:15:41+08:00">
+                2019-11-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="1-问题描述"><a href="#1-问题描述" class="headerlink" title="1.问题描述"></a>1.问题描述</h2><blockquote>
+<p>假设有一点坐标P（x0,y0）,有一线段AB，A坐标（x1，y1），B坐标（x2，y2），求P点到AB线段或所在直线的距离d以及P点在直线上的垂足C（x，y）。</p>
+<h2 id="2-分析"><a href="#2-分析" class="headerlink" title="2.分析"></a>2.分析</h2><p>首先需要将A，B两点坐标转换为直线方程的一般式Ax+By+C = 0，在根据距离公式计算<br><img src="https://upload-images.jianshu.io/upload_images/1447375-ca8c2536138cb762.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="距离公式.png"><br>下面是推算过程<br><img src="https://upload-images.jianshu.io/upload_images/1447375-1318b93d0b69c326.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="推算过程.png"><br>参数计算：<br>A=y2-y1；<br>B=x1-x2；<br>C=x2<em>y1-x1</em>y2;<br>1.点到直线的距离公式：<br>d= ( Ax0 + By0 + C ) / sqrt ( A<em>A + B</em>B );<br>2.垂足C（x，y）计算公式：<br>x = (  B<em>B</em>x0  -  A<em>B</em>y0  -  A<em>C  ) / ( A</em>A + B<em>B );<br>y  =  ( -A</em>B<em>x0 + A</em>A<em>y0 – B</em>C  ) / ( A<em>A + B</em>B );</p>
+</blockquote>
+<h2 id="3-代码实现"><a href="#3-代码实现" class="headerlink" title="3.代码实现"></a>3.代码实现</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">func pedalPoint(p1: CGPoint, p2:CGPoint, x0: CGPoint) -&gt;(Double, CGPoint) &#123;</span><br><span class="line">        </span><br><span class="line">        let a = p2.y - p1.y</span><br><span class="line">        let b = p1.x - p2.x</span><br><span class="line">        let c = p2.x * p1.y - p1.x * p2.y</span><br><span class="line">        </span><br><span class="line">        let x = (b * b * x0.x - a * b * x0.y - a * c) / (a * a + b * b)</span><br><span class="line">        let y = (-a * b * x0.x + a * a * x0.y - b * c) / (a * a + b * b)</span><br><span class="line">        </span><br><span class="line">        let d = abs((a * x0.x + b * x0.y + c)) / sqrt(pow(a, 2) + pow(b, 2))</span><br><span class="line"></span><br><span class="line">        let pt = CGPoint(x: x, y: y)</span><br><span class="line">        return (Double(d), pt)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://www.jianshu.com/u/6aea1100cc05/2019/06/29/NetEaswIMReceiption/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -307,10 +431,10 @@
 <p>项目里接入了SDK，然后UI界面是使用的网易提供的一套UI框架，叫<code>NIMKit.h</code> 在此基础上进行开发。</p>
 <h2 id="2-IM已读回执"><a href="#2-IM已读回执" class="headerlink" title="2.IM已读回执"></a>2.IM已读回执</h2><p>IM已读回执，整个的过程简单说来就是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.聊天消息的发送方，发出的一条带开通回执功能的消息（可以是文字，图片等等，语音一般都自带回执）；</span><br><span class="line">2.聊天接收方查看了（前提是收到了该消息）了这条消息，要告诉发送方我我已经查看了，此时发一条该消息已读的指令给发送方；</span><br><span class="line">3.聊天发送方，收到接收方，发来的消息已读回执。这个时候，就要更新本地数据，在UI界面上把那条聊天信息，显示为已读；</span><br></pre></td></tr></table></figure></p>
 <p>群聊也是如此，在群聊中发出一条消息，通过回执功能可以看出谁已读或者未读。<br>如果你用过钉钉，就很好理解这个流程。</p>
-<p>##3.前期准备<br>既然是迭代开发，没玩过这个SDK肯定是要查看开发文档的。<br><a href="https://github.com/netease-im/NIM_iOS_UIKit/blob/master/Documents/nim_custom_ui.md" target="_blank" rel="noopener">NIMKit文档</a><br><a href="https://dev.yunxin.163.com/docs/product/IM%E5%8D%B3%E6%97%B6%E9%80%9A%E8%AE%AF/SDK%E5%BC%80%E5%8F%91%E9%9B%86%E6%88%90/iOS%E5%BC%80%E5%8F%91%E9%9B%86%E6%88%90/%E6%B6%88%E6%81%AF%E6%94%B6%E5%8F%91?#%E5%B7%B2%E8%AF%BB%E5%9B%9E%E6%89%A7" target="_blank" rel="noopener">单聊文档</a><br><a href="https://dev.yunxin.163.com/docs/product/IM%E5%8D%B3%E6%97%B6%E9%80%9A%E8%AE%AF/SDK%E5%BC%80%E5%8F%91%E9%9B%86%E6%88%90/iOS%E5%BC%80%E5%8F%91%E9%9B%86%E6%88%90/%E7%BE%A4%E7%BB%84%E5%8A%9F%E8%83%BD?#%E7%BE%A4%E7%BB%84%E5%B7%B2%E8%AF%BB%E5%9B%9E%E6%89%A7" target="_blank" rel="noopener">群聊文档</a></p>
+<h2 id="3-前期准备"><a href="#3-前期准备" class="headerlink" title="3.前期准备"></a>3.前期准备</h2><p>既然是迭代开发，没玩过这个SDK肯定是要查看开发文档的。<br><a href="https://github.com/netease-im/NIM_iOS_UIKit/blob/master/Documents/nim_custom_ui.md" target="_blank" rel="noopener">NIMKit文档</a><br><a href="https://dev.yunxin.163.com/docs/product/IM%E5%8D%B3%E6%97%B6%E9%80%9A%E8%AE%AF/SDK%E5%BC%80%E5%8F%91%E9%9B%86%E6%88%90/iOS%E5%BC%80%E5%8F%91%E9%9B%86%E6%88%90/%E6%B6%88%E6%81%AF%E6%94%B6%E5%8F%91?#%E5%B7%B2%E8%AF%BB%E5%9B%9E%E6%89%A7" target="_blank" rel="noopener">单聊文档</a><br><a href="https://dev.yunxin.163.com/docs/product/IM%E5%8D%B3%E6%97%B6%E9%80%9A%E8%AE%AF/SDK%E5%BC%80%E5%8F%91%E9%9B%86%E6%88%90/iOS%E5%BC%80%E5%8F%91%E9%9B%86%E6%88%90/%E7%BE%A4%E7%BB%84%E5%8A%9F%E8%83%BD?#%E7%BE%A4%E7%BB%84%E5%B7%B2%E8%AF%BB%E5%9B%9E%E6%89%A7" target="_blank" rel="noopener">群聊文档</a></p>
 <p><strong>敲黑板，划重点，要考！！</strong><br><strong>网易云信SDK，已读回执功能，需要单独开通服务，而且是付费服务</strong><br>也就是说，代码写的再好，不花钱开通也没吊用。<br><img src="https://upload-images.jianshu.io/upload_images/1447375-5d168f1a9ad04095.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="卧槽.png"></p>
 <p>讲到这里，其实最最首要的任务是：<strong>充钱，充钱，充钱！</strong></p>
-<p>##4.拿起键盘就是干<br><img src="https://upload-images.jianshu.io/upload_images/1447375-7e42bf91528876c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/613/format/webp" alt="就是干"></p>
+<h2 id="4-拿起键盘就是干"><a href="#4-拿起键盘就是干" class="headerlink" title="4.拿起键盘就是干"></a>4.拿起键盘就是干</h2><p><img src="https://upload-images.jianshu.io/upload_images/1447375-7e42bf91528876c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/613/format/webp" alt="就是干"></p>
 <h3 id="4-1-聊天Cell定制"><a href="#4-1-聊天Cell定制" class="headerlink" title="4.1 聊天Cell定制"></a>4.1 聊天Cell定制</h3><p>如下图，NIMKit里面已经封装好了一套聊天Cell。根据业务需要自行调整。<br><img src="https://upload-images.jianshu.io/upload_images/1447375-70ef1b7523d72146.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="cell结构"><br>比如，它的readLabel是放在最左侧，我们需求是放在底部位置。所以自行重定义布局，很简单代码就不贴了。</p>
 <p>当然NIMKitConfig里面你要自定义好readLabel的字体大小颜色，内容等等。<br>NIMMessageModel是每一条聊天消息的model实体，readlabel的隐藏显示是由shouldShowReadLabel这个属性来驱动。</p>
 <p>NIMSessionTableAdapter这个类用来负责聊天页面的tableview相关，因为需求是将已读放到了消息底部，那必然要对cell的高度进行调整。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath &#123;</span><br><span class="line">CGFloat cellHeight = 0;</span><br><span class="line">id modelInArray = [[self.interactor items] objectAtIndex:indexPath.row];</span><br><span class="line">if ([modelInArray isKindOfClass:[NIMMessageModel class]]) &#123;</span><br><span class="line">NIMMessageModel *model          = (NIMMessageModel *)modelInArray;</span><br><span class="line">CGSize size                     = [model contentSize:tableView.nim_width];</span><br><span class="line">UIEdgeInsets contentViewInsets  = model.contentViewInsets;</span><br><span class="line">UIEdgeInsets bubbleViewInsets   = model.bubbleViewInsets;</span><br><span class="line">CGFloat unreadLabelHeight       = [model.message.from isEqualToString:[NIMSDK sharedSDK].loginManager.currentAccount] ? 20 : 0;// 高度适配</span><br><span class="line">cellHeight                      = size.height + contentViewInsets.top + contentViewInsets.bottom + bubbleViewInsets.top + bubbleViewInsets.bottom + unreadLabelHeight;</span><br><span class="line">&#125;</span><br><span class="line">....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
@@ -326,7 +450,7 @@
 <p>原来不只是要将NIMSDKConfig的teamReceiptEnabled要改成YES，NIMMessage中的setting中的teamReceiptEnabled也要改成YES，这个文档里居然没写。要不是技术支持发给我谁知道有这玩意？？？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark - NIMChatManagerDelegate</span><br><span class="line">- (void)willSendMessage:(NIMMessage *)message &#123;</span><br><span class="line"></span><br><span class="line">id&lt;NIMSessionInteractor&gt; interactor = self.interactor;</span><br><span class="line">if (message.session.sessionType == NIMSessionTypeTeam) &#123;</span><br><span class="line">message.setting.teamReceiptEnabled = YES; // 设置里打开才行。</span><br><span class="line">&#125;</span><br><span class="line">....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>这样之后才能正确发送已读回执。</p>
 <p>发送已读回执之后，对方的那条消息，就能看到<br><code>model.message.teamReceiptInfo.unreadCount</code>就能再UI上显示多少人未读。</p>
-<p>###4.4 群聊查看消息已读未读列表<br>SDK里面已提供了查询消息已读id列表接口<br>查询详情接口<br>包括已读人数的 id 和 未读人数的 id 列表。需要注意查询详情对象不会跟着回执人数变化而变化，如果要获取最新的详情，必须再次调用此接口。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@protocol NIMChatManagerDelegate &lt;NSObject&gt;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">*  查询群组消息回执详情</span><br><span class="line">*</span><br><span class="line">*  @param NIMMessage    要查询的消息</span><br><span class="line">*  @discussion          详情包括已读人数的 id 列表和未读人数的 id 列表</span><br><span class="line">*                       查询详情对象不会跟着回执人数变化而变化，如果要获取最新的详情，必须再次调用此接口</span><br><span class="line">*</span><br><span class="line">*/</span><br><span class="line">- (void)queryMessageReceiptDetail:(NIMMessage *)message</span><br><span class="line">completion:(NIMQueryReceiptDetailBlock)completion;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-4-群聊查看消息已读未读列表"><a href="#4-4-群聊查看消息已读未读列表" class="headerlink" title="4.4 群聊查看消息已读未读列表"></a>4.4 群聊查看消息已读未读列表</h3><p>SDK里面已提供了查询消息已读id列表接口<br>查询详情接口<br>包括已读人数的 id 和 未读人数的 id 列表。需要注意查询详情对象不会跟着回执人数变化而变化，如果要获取最新的详情，必须再次调用此接口。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@protocol NIMChatManagerDelegate &lt;NSObject&gt;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">*  查询群组消息回执详情</span><br><span class="line">*</span><br><span class="line">*  @param NIMMessage    要查询的消息</span><br><span class="line">*  @discussion          详情包括已读人数的 id 列表和未读人数的 id 列表</span><br><span class="line">*                       查询详情对象不会跟着回执人数变化而变化，如果要获取最新的详情，必须再次调用此接口</span><br><span class="line">*</span><br><span class="line">*/</span><br><span class="line">- (void)queryMessageReceiptDetail:(NIMMessage *)message</span><br><span class="line">completion:(NIMQueryReceiptDetailBlock)completion;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure></p>
 <p>参数正确之后，会返回这条消息的已读id列表和未读id列表，列表里面保存的是userid。</p>
 <p>这里也遇到一个坑：<br><strong>在聊天界面，当前新发送的消息，能够查询到已读未读列表。但是打开页面之前的历史消息，无论如何都查不到。</strong><br>经过debug发现，当退出聊天窗口，所有的消息变成历史数据之后，才进入聊天窗口，所有的历史消息<code>message.setting.teamReceiptEnabled</code>统统变成了NO，解决方法也很简单，每次<code>queryMessageReceiptDetail</code>查询之前，再把这个属性设置成YES就能正确查询列表了。</p>
 <p><strong>注意点：网易云信最多支持100人群聊的已读消息回执</strong><br>超过100也就不支持了，如果不能满足需求，要么有本事自己写一套IM，要么就换一家SDK吧。</p>
@@ -896,6 +1020,127 @@ photoBrowser_btn_unselected</code></p>
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.jianshu.com/u/6aea1100cc05/2019/01/28/iOS_round_numberString/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="抢手的哥">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="抢手的哥的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/28/iOS_round_numberString/" itemprop="url">iOS小数四舍五入总结</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T15:05:50+08:00">
+                2019-01-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>iOS项目里，涉及到double类型是数据，经常会用到四舍五入这样的取值方式，网上查阅资料之后，经常会不起作用，最终把有效的方法，总结了一下。<br>OC:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> 四舍五入字符串</span><br><span class="line"></span><br><span class="line"> @param round 小数位 eg: 2</span><br><span class="line"> @param numberString 数字 eg 0.125</span><br><span class="line"> @return 四舍五入之后的 eg: 0.13</span><br><span class="line"> */</span><br><span class="line">- (double )roundNumberStringWithRound:(NSInteger)round numberString:(NSString *)numberString&#123;</span><br><span class="line">    </span><br><span class="line">    if (numberString == nil) &#123;</span><br><span class="line">        return 0;</span><br><span class="line">    &#125;</span><br><span class="line">    NSDecimalNumberHandler *roundingBehavior    = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundPlain scale:round raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:NO raiseOnDivideByZero:NO];</span><br><span class="line">    NSDecimalNumber *aDN                        = [[NSDecimalNumber alloc] initWithString:numberString];</span><br><span class="line">    NSDecimalNumber *resultDN                   = [aDN decimalNumberByRoundingAccordingToBehavior:roundingBehavior];</span><br><span class="line">    return resultDN.doubleValue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Swift：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">/// 四舍五入2位小数小数</span><br><span class="line">///</span><br><span class="line">/// - round: 小数位（默认2位小数）</span><br><span class="line">/// - Parameter numberString: 格式化之前 eg 0.125</span><br><span class="line">/// - Returns: 格式化之后 eg: 0.13</span><br><span class="line">func roundNumberString(round:Int = 2, numberString : String) -&gt; Double &#123;</span><br><span class="line">    if numberString.isEmpty || round == 0 &#123;</span><br><span class="line">        return 0.0</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    let roudingBehavior     = NSDecimalNumberHandler(roundingMode: .plain, scale: Int16(round), raiseOnExactness: false, raiseOnOverflow: false, raiseOnUnderflow: false, raiseOnDivideByZero: false)</span><br><span class="line">    let aDn                 = NSDecimalNumber(string: numberString)</span><br><span class="line">    let resultDn            = aDn.rounding(accordingToBehavior: roudingBehavior)</span><br><span class="line">    return resultDn.doubleValue</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://www.jianshu.com/u/6aea1100cc05/2019/01/28/iOS_doubleString_removeSuffix_0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -974,127 +1219,6 @@ photoBrowser_btn_unselected</code></p>
 <p>Swift<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">/// 过滤器 将.2f格式化的字符串，去除末尾0</span><br><span class="line">///</span><br><span class="line">/// - Parameter numberString: .2f格式化后的字符串</span><br><span class="line">/// - Returns: 去除末尾0之后的</span><br><span class="line">func removeSuffix(numberString : String) -&gt; String &#123;</span><br><span class="line">    </span><br><span class="line">    if numberString.count &gt; 1 &#123;</span><br><span class="line">        let strs = numberString.components(separatedBy: &quot;.&quot;)</span><br><span class="line">        let last = strs.last!</span><br><span class="line">        if strs.count == 2 &#123;</span><br><span class="line">            if last == &quot;00&quot; &#123;</span><br><span class="line">                </span><br><span class="line">                let indexEndOfText      = numberString.index(numberString.endIndex, offsetBy:-3)</span><br><span class="line">                return String(numberString[..&lt;indexEndOfText])</span><br><span class="line">                </span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                </span><br><span class="line">                let indexStartOfText    = numberString.index(numberString.endIndex, offsetBy:-1)</span><br><span class="line">                let str                 = numberString[indexStartOfText...]</span><br><span class="line">                let indexEndOfText      = numberString.index(numberString.endIndex, offsetBy:-1)</span><br><span class="line">                if str == &quot;0&quot; &#123;</span><br><span class="line">                    return String(numberString[..&lt;indexEndOfText])</span><br><span class="line">                &#125;</span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        return numberString</span><br><span class="line">        </span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        return &quot;&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>思路：1.先将小数按照.2f格式化处理成“0.00”;<br>2.然后再根据小数点”.”，切割字符串比较,判断最后的是不是“0”，是的话，直接切除掉；</p>
 <p>同样思路的也适用于格式化.3f的情况，判断方法中再加入“000”的判断，然后判断切割后的字符串。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.jianshu.com/u/6aea1100cc05/2019/01/28/iOS_round_numberString/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="抢手的哥">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="抢手的哥的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/28/iOS_round_numberString/" itemprop="url">iOS小数四舍五入总结</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T15:05:50+08:00">
-                2019-01-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>iOS项目里，涉及到double类型是数据，经常会用到四舍五入这样的取值方式，网上查阅资料之后，经常会不起作用，最终把有效的方法，总结了一下。<br>OC:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> 四舍五入字符串</span><br><span class="line"></span><br><span class="line"> @param round 小数位 eg: 2</span><br><span class="line"> @param numberString 数字 eg 0.125</span><br><span class="line"> @return 四舍五入之后的 eg: 0.13</span><br><span class="line"> */</span><br><span class="line">- (double )roundNumberStringWithRound:(NSInteger)round numberString:(NSString *)numberString&#123;</span><br><span class="line">    </span><br><span class="line">    if (numberString == nil) &#123;</span><br><span class="line">        return 0;</span><br><span class="line">    &#125;</span><br><span class="line">    NSDecimalNumberHandler *roundingBehavior    = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundPlain scale:round raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:NO raiseOnDivideByZero:NO];</span><br><span class="line">    NSDecimalNumber *aDN                        = [[NSDecimalNumber alloc] initWithString:numberString];</span><br><span class="line">    NSDecimalNumber *resultDN                   = [aDN decimalNumberByRoundingAccordingToBehavior:roundingBehavior];</span><br><span class="line">    return resultDN.doubleValue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>Swift：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">/// 四舍五入2位小数小数</span><br><span class="line">///</span><br><span class="line">/// - round: 小数位（默认2位小数）</span><br><span class="line">/// - Parameter numberString: 格式化之前 eg 0.125</span><br><span class="line">/// - Returns: 格式化之后 eg: 0.13</span><br><span class="line">func roundNumberString(round:Int = 2, numberString : String) -&gt; Double &#123;</span><br><span class="line">    if numberString.isEmpty || round == 0 &#123;</span><br><span class="line">        return 0.0</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    let roudingBehavior     = NSDecimalNumberHandler(roundingMode: .plain, scale: Int16(round), raiseOnExactness: false, raiseOnOverflow: false, raiseOnUnderflow: false, raiseOnDivideByZero: false)</span><br><span class="line">    let aDn                 = NSDecimalNumber(string: numberString)</span><br><span class="line">    let resultDn            = aDn.rounding(accordingToBehavior: roudingBehavior)</span><br><span class="line">    return resultDn.doubleValue</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -1663,138 +1787,6 @@ photoBrowser_btn_unselected</code></p>
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.jianshu.com/u/6aea1100cc05/2018/03/05/ContainInSwift/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="抢手的哥">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="抢手的哥的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/05/ContainInSwift/" itemprop="url">Swift中使用Contains的正确姿势</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-05T14:00:46+08:00">
-                2018-03-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="1-正确姿势"><a href="#1-正确姿势" class="headerlink" title="1.正确姿势"></a>1.正确姿势</h2><p>当我们在用Swift进行编码的时候，经常会用到contains(element:)方法来判断Array是否包含了某个元素。举个栗子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">enum Animal &#123;</span><br><span class="line">  case dog</span><br><span class="line">  case cat</span><br><span class="line">&#125;</span><br><span class="line">let animals: [Animal] = [.dog, .dog]</span><br><span class="line">let hasCat = animals.contains(.cat)       // fasle</span><br></pre></td></tr></table></figure></p>
-<p>看起来灰常的简单对不？然鹅，我们把Animal的枚举定义修改成带参数的枚举，比如这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">enum Animal &#123;</span><br><span class="line">  case dog(String)</span><br><span class="line">  case cat(String)</span><br><span class="line">&#125;</span><br><span class="line">let animals: [Animal] = [.dog(&quot;汪汪&quot;), .dog(&quot;阿黄&quot;)]</span><br><span class="line">let hasCat = animals.contains(.cat(&quot;喵喵&quot;))      // compile error</span><br></pre></td></tr></table></figure></p>
-<p>编译报错了，为毛？<br>原因是能使用contains(element:)的元素是需要遵循Equatable协议的，但是Animal是没有遵循的，所以会报错。</p>
-<p>那肿么办？幸好苹果还提供了另外一个方法来判断<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">public func contains(where predicate: (Element) throws -&gt; Bool)</span><br><span class="line">rethrows -&gt; Bool</span><br></pre></td></tr></table></figure></p>
-<p>这个方法提供了一个闭包参数—— predicate，当数组中的元素没有遵循Equatable协议时，我们可以用这个参数来定义检查元素的规则。</p>
-<p>所以之前代码中的错误代码改成这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">enum Animal &#123;</span><br><span class="line">    case dog(String)</span><br><span class="line">    case cat(String)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let animals : [Animal] = [.dog(&quot;汪汪&quot;), .dog(&quot;阿黄&quot;)]</span><br><span class="line">let hasCat = animals.contains &#123; (animal) -&gt; Bool in</span><br><span class="line">    </span><br><span class="line">    if case .cat = animal &#123;</span><br><span class="line">        return true</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return false</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// fasle</span><br></pre></td></tr></table></figure></p>
-<p>这么改hasCat就能正确计算出是false了。</p>
-<h2 id="2-进阶用法"><a href="#2-进阶用法" class="headerlink" title="2.进阶用法"></a>2.进阶用法</h2><p>另外，我们可以自定义predicate，来定义检查筛选的条件，比如：<br>检查数组中是否有元素大于100。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let expenses = [21.37, 55.21, 9.32, 10.18, 388.77, 11.41]</span><br><span class="line">let hasBigPurchase = expenses.contains &#123; $0 &gt; 100 &#125;</span><br><span class="line">// &apos;hasBigPurchase&apos; == true</span><br></pre></td></tr></table></figure></p>
-<p>再给个栗子：检查一个数组的元素，它可是否以除以7。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">let array = [2, 5, 6, 7, 19, 40]</span><br><span class="line"></span><br><span class="line">array.contains &#123; (element) -&gt; Bool in</span><br><span class="line">    element % 7 == 0</span><br><span class="line">&#125;</span><br><span class="line">或者</span><br><span class="line">array.contains &#123; $0 % 7 == 0 &#125;</span><br></pre></td></tr></table></figure></p>
-<p>这里的$0就是指数组的元素；</p>
-<blockquote>
-<p>原文链接：<br><a href="https://medium.com/@iostechset/contains-function-in-swift-5e0276638eb5" target="_blank" rel="noopener">Contains in Swift</a> – by 故胤道长（英文博客，需要科学上网工具）<br><a href="https://developer.apple.com/documentation/swift/array/2297359-contains" target="_blank" rel="noopener">官方文档</a></p>
-</blockquote>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1849,7 +1841,7 @@ photoBrowser_btn_unselected</code></p>
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
