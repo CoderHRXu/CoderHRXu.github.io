@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>更新cocoapods 遇到的坑 | 抢手的哥的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="现象：最近在项目，由于打包的时候报警，与其他同事电脑保持cocoapods版本号一致（想要更新到最新的1.3.1，目前1.2.0），于是在终端开始执行一下命令： 12sudo gem install cocoapodspod --version 过程看着都很正常，但是在敲一下命令看版本，发现还是原先1.2.0版本。瞬间傻了眼，不起作用~在终端里面继续敲 1which pod  查看一下当前pod的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="更新cocoapods 遇到的坑">
+<meta property="og:url" content="https://githubio.95783669.xyz/2026/11/09/updateCocoapodsIssue/index.html">
+<meta property="og:site_name" content="抢手的哥的技术博客">
+<meta property="og:description" content="现象：最近在项目，由于打包的时候报警，与其他同事电脑保持cocoapods版本号一致（想要更新到最新的1.3.1，目前1.2.0），于是在终端开始执行一下命令： 12sudo gem install cocoapodspod --version 过程看着都很正常，但是在敲一下命令看版本，发现还是原先1.2.0版本。瞬间傻了眼，不起作用~在终端里面继续敲 1which pod  查看一下当前pod的">
+<meta property="og:locale">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1447375-95764f2528cfd0ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1447375-fdf83dec54075b87.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1447375-3b4ffb6619f2c13a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1447375-9099cc7fe9e7507c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1447375-fa7c51850b1b41ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2026-11-09T00:57:04.154Z">
+<meta property="article:modified_time" content="2026-11-09T00:57:04.155Z">
+<meta property="article:author" content="抢手的哥">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1447375-95764f2528cfd0ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="抢手的哥的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">抢手的哥的技术博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://githubio.95783669.xyz"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-updateCocoapodsIssue" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2026/11/09/updateCocoapodsIssue/" class="article-date">
+  <time datetime="2026-11-09T00:57:04.154Z" itemprop="datePublished">2026-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      更新cocoapods 遇到的坑
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="现象："><a href="#现象：" class="headerlink" title="现象："></a>现象：</h3><p>最近在项目，由于打包的时候报警，与其他同事电脑保持cocoapods版本号一致（想要更新到最新的1.3.1，目前1.2.0），于是在终端开始执行一下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo gem install cocoapods</span><br><span class="line">pod --version</span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-95764f2528cfd0ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="更新.png"><br>过程看着都很正常，但是在敲一下命令看版本，发现还是原先1.2.0版本。瞬间傻了眼，不起作用~<br>在终端里面继续敲</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">which pod </span><br></pre></td></tr></table></figure>
+<p>查看一下当前pod的路径，竟然发现刚刚安装pod的路径和pod运行的路径不一样：<br><img src="http://upload-images.jianshu.io/upload_images/1447375-fdf83dec54075b87.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="路径1.png"><br><img src="http://upload-images.jianshu.io/upload_images/1447375-3b4ffb6619f2c13a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="路径2.png"><br>两个文件夹下面都有pod（上图是被我删掉pod之后的截图），所以理所当然的想把刚刚更新的pod复制一份到which pod指定的目录下，结果发现也是不起作用。<br>后续我一次又一次的指定pod的安装目录，安装，卸载pod都不管用，安装完版本号始终为1.2.0（┑(￣Д ￣)┍）。</p>
+<h3 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h3><p>无奈，只好另寻他法，既然我无法指定，那能否直接全部删除呢，全部重来？<br>后面尝试着在终端敲移除命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gem uninstall cocoapods</span><br></pre></td></tr></table></figure>
+<p>这个时候居然发现我电脑里面有好几个版本的cocoapods，看到第6个选项全部版本，果断选了6。<br><img src="http://upload-images.jianshu.io/upload_images/1447375-9099cc7fe9e7507c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="全部移除.png"><br>完毕之后这个时候我电脑的就没有任何cocoapods版本了（很棒棒）。<br>然后重新执行安装命令，终于可以了。pod安装的目录，和现执行的pod路径为同一个了。<br><img src="http://upload-images.jianshu.io/upload_images/1447375-fa7c51850b1b41ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="重新安装.png"></p>
+<h3 id="原因-总结："><a href="#原因-总结：" class="headerlink" title="原因&amp;总结："></a>原因&amp;总结：</h3><p>为何会出现不同的路径？cocoapods是用的ruby语言写的一个工具。MacOS当中本身就集成了Ruby，所以路径不一样的原因，是因为电脑里面有一个自带的Ruby路径，还有一个就是通过Rvm管理的Ruby。可以在在终端里面输入<code>which ruby</code>来查看使用的是什么ruby。  </p>
+<p>那么如何切换ruby呢？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rvm use system # 使用系统 ruby </span><br><span class="line">rvm use 2.3  # 使用 rvm ruby</span><br></pre></td></tr></table></figure>
+<p>在切换 ruby 版本之后，gem 也会跟着切换，我们就可以安装两个版本的 CocoaPods 了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://githubio.95783669.xyz/2026/11/09/updateCocoapodsIssue/" data-id="cuidjOu0R2WfbKeBANDKOpqtM" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2026/11/09/iPhoneXNetworkTypeIssue/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          iPhone X获取设备网络类型错误分析
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2026/11/09/MethodsOfSwift/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Swift常用方法总结----不定期更新</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/11/">November 2026</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/11/09/SwiftURLEncodeing/">Swift中URL处理中的注意点</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/UseShellModifyXcodeBuildNumber/">使用shell脚本自动修改Xcode工程编译版本号</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/Xcode10-NewBuilSystemIssue/">踩坑Xcode 10之New Build System</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/iOS_Coding_Guidelines/">iOS代码规范</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2026 抢手的哥<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

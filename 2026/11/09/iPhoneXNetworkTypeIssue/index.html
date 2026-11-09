@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>iPhone X获取设备网络类型错误分析 | 抢手的哥的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="背景 在公司项目开发中，需要在网络请求中包含当前设备的网络状态参数，发请求的时候手机网络的类型有2G,3G,4G,WIFI等等，获取参数的方法如下： 123456789101112131415161718192021222324252627282930313233343536获取网络状态- (NSString *)getNetStatus &#123;        NSArray *childr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iPhone X获取设备网络类型错误分析">
+<meta property="og:url" content="https://githubio.95783669.xyz/2026/11/09/iPhoneXNetworkTypeIssue/index.html">
+<meta property="og:site_name" content="抢手的哥的技术博客">
+<meta property="og:description" content="背景 在公司项目开发中，需要在网络请求中包含当前设备的网络状态参数，发请求的时候手机网络的类型有2G,3G,4G,WIFI等等，获取参数的方法如下： 123456789101112131415161718192021222324252627282930313233343536获取网络状态- (NSString *)getNetStatus &#123;        NSArray *childr">
+<meta property="og:locale">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1447375-9da96bd0c3d97433.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1447375-d2b0ceb80288b953.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1447375-bd3e0ecbcd9b86a2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2026-11-09T00:57:04.154Z">
+<meta property="article:modified_time" content="2026-11-09T00:57:04.154Z">
+<meta property="article:author" content="抢手的哥">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1447375-9da96bd0c3d97433.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="抢手的哥的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">抢手的哥的技术博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://githubio.95783669.xyz"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-iPhoneXNetworkTypeIssue" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2026/11/09/iPhoneXNetworkTypeIssue/" class="article-date">
+  <time datetime="2026-11-09T00:57:04.154Z" itemprop="datePublished">2026-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iPhone X获取设备网络类型错误分析
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p> 在公司项目开发中，需要在网络请求中包含当前设备的网络状态参数，发请求的时候手机网络的类型有2G,3G,4G,WIFI等等，获取参数的方法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">获取网络状态</span><br><span class="line">- (NSString *)getNetStatus &#123;</span><br><span class="line">    </span><br><span class="line">    NSArray *children = [[[[UIApplication sharedApplication] valueForKeyPath:@&quot;statusBar&quot;] valueForKeyPath:@&quot;foregroundView&quot;] subviews];</span><br><span class="line">    NSString *state = nil;</span><br><span class="line">    int netType = 0;</span><br><span class="line">    for (id child in children) &#123;</span><br><span class="line">        </span><br><span class="line">        if ([child isKindOfClass:NSClassFromString(@&quot;UIStatusBarDataNetworkItemView&quot;)]) &#123;</span><br><span class="line">            netType = [[child valueForKeyPath:@&quot;dataNetworkType&quot;] intValue];</span><br><span class="line">            </span><br><span class="line">            switch (netType) &#123;</span><br><span class="line">                    case 0:</span><br><span class="line">                    state = @&quot;无网络&quot;;</span><br><span class="line">                    break;</span><br><span class="line">                    case 1:</span><br><span class="line">                    state =  @&quot;2G&quot;;</span><br><span class="line">                    break;</span><br><span class="line">                    case 2:</span><br><span class="line">                    state =  @&quot;3G&quot;;</span><br><span class="line">                    break;</span><br><span class="line">                    case 3:</span><br><span class="line">                    state =   @&quot;4G&quot;;</span><br><span class="line">                    break;</span><br><span class="line">                    case 5:</span><br><span class="line">                    state =  @&quot;WIFI&quot;;</span><br><span class="line">                    break;</span><br><span class="line">                default:</span><br><span class="line">                    state =  @&quot;未知网络&quot;;</span><br><span class="line">                    break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return state;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>从代码可以看出，基本原理是读取手机的状态栏，然后遍历状态栏的子控件，查看看一下苹果私有属性<code>UIStatusBarDataNetworkItemView</code>，根据属性的值来判断当前手机处于的什么样的网络状态。</p>
+<h2 id="iPhone-X错误-原因分析"><a href="#iPhone-X错误-原因分析" class="headerlink" title="iPhone X错误&amp;原因分析"></a>iPhone X错误&amp;原因分析</h2><p>当项目代码选择iPhone X模拟器运行的时候，会奔溃在上面的函数。<br>由于iPhone X独特的全面屏+刘海的设计(我觉得很丑)，手机顶部的状态栏完全是全新的设计，如下面对比截图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-9da96bd0c3d97433.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="一般iPhone的状态栏.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-d2b0ceb80288b953.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="iPhone X的状态栏"></p>
+<p>于是，想自己来hack一下这个iPhone X的状态栏</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//obj 即为被遍历对象</span><br><span class="line">unsigned int outCount = 0;</span><br><span class="line">Ivar *ivars = class_copyIvarList([obj class], &amp;outCount); </span><br><span class="line">for (int i = 0; i &lt; outCount; i++) &#123;</span><br><span class="line">     Ivar ivar = ivars[i];</span><br><span class="line">     printf(&quot;======== |%s\n&quot;, ivar_getName(ivar));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">之后获取到以下Path，发现类似dataNetworkType</span><br><span class="line">的_networkTypeView</span><br><span class="line"></span><br><span class="line">NSArray *items = [[[[UIApplication sharedApplication] valueForKeyPath:@&quot;statusBar&quot;] valueForKeyPath:@&quot;statusBar&quot;] items];id obj = [[items valueForKeyPath:@&quot;_UIStatusBarCellularExpandedItem&quot;] valueForKeyPath:@&quot;_networkTypeView&quot;];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-bd3e0ecbcd9b86a2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>但纵览整个属性列表，没有发现可用的NetworkType，只能弃用。没办法，谁让苹果爸爸用这样的特(sha)立(bi)独(nao)行(can)的设计，所以要另辟蹊径。</p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>通过翻阅文档发现可以通过CTTelephonyNetworkInfo获取网络运营商相关信息，这不就是3G，4G技术名称嘛！！！</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">导入 #import &lt;CoreTelephony/CTTelephonyNetworkInfo.h&gt;</span><br><span class="line">点进去查看：</span><br><span class="line">CORETELEPHONY_EXTERN NSString * const CTRadioAccessTechnologyGPRS          __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_7_0);</span><br><span class="line">CORETELEPHONY_EXTERN NSString * const CTRadioAccessTechnologyEdge          __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_7_0);</span><br><span class="line">CORETELEPHONY_EXTERN NSString * const CTRadioAccessTechnologyWCDMA         __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_7_0);</span><br><span class="line">CORETELEPHONY_EXTERN NSString * const CTRadioAccessTechnologyHSDPA         __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_7_0);</span><br><span class="line">CORETELEPHONY_EXTERN NSString * const CTRadioAccessTechnologyHSUPA         __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_7_0);</span><br><span class="line">CORETELEPHONY_EXTERN NSString * const CTRadioAccessTechnologyCDMA1x        __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_7_0);</span><br><span class="line">CORETELEPHONY_EXTERN NSString * const CTRadioAccessTechnologyCDMAEVDORev0  __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_7_0);</span><br><span class="line">CORETELEPHONY_EXTERN NSString * const CTRadioAccessTechnologyCDMAEVDORevA  __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_7_0);</span><br><span class="line">CORETELEPHONY_EXTERN NSString * const CTRadioAccessTechnologyCDMAEVDORevB  __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_7_0);</span><br><span class="line">CORETELEPHONY_EXTERN NSString * const CTRadioAccessTechnologyeHRPD         __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_7_0);</span><br><span class="line">CORETELEPHONY_EXTERN NSString * const CTRadioAccessTechnologyLTE           __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_7_0);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>之后再次发现苹果的一个开源类<a href="https://developer.apple.com/library/content/samplecode/Reachability/Introduction/Intro.html#//apple_ref/doc/uid/DTS40007324">Reachability</a>中已对此做了相应封装，拿来即用。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">typedef enum : NSInteger &#123;</span><br><span class="line">    NotReachable = 0,</span><br><span class="line">    ReachableViaWiFi,</span><br><span class="line">    kReachableVia2G,</span><br><span class="line">    kReachableVia3G,</span><br><span class="line">    kReachableVia4G</span><br><span class="line">&#125; NetworkStatus;</span><br><span class="line"></span><br><span class="line">PS:最新版Reachability已简化枚举</span><br><span class="line">typedef enum : NSInteger &#123;</span><br><span class="line">	NotReachable = 0,</span><br><span class="line">	ReachableViaWiFi,</span><br><span class="line">	ReachableViaWWAN</span><br><span class="line">&#125; NetworkStatus;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>经过改写后的方法如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">+ (int)getNetStatus &#123;</span><br><span class="line">    </span><br><span class="line">    NSString *stateString = nil;</span><br><span class="line">    int netStatusNumber = 0;</span><br><span class="line">    switch ([[Reachability reachabilityForInternetConnection] currentReachabilityStatus]) &#123;</span><br><span class="line">            </span><br><span class="line">        case NotReachable: &#123;</span><br><span class="line">            </span><br><span class="line">            stateString = @&quot;无网络&quot;;</span><br><span class="line">            netStatusNumber = 0;</span><br><span class="line">        &#125;</span><br><span class="line">            break;</span><br><span class="line">        case kReachableVia2G: &#123;</span><br><span class="line">            </span><br><span class="line">            stateString = @&quot;2G&quot;;</span><br><span class="line">            netStatusNumber = 2;</span><br><span class="line">        &#125;</span><br><span class="line">            break;</span><br><span class="line">        case kReachableVia3G: &#123;</span><br><span class="line">         </span><br><span class="line">            stateString = @&quot;3G&quot;;</span><br><span class="line">            netStatusNumber = 3;</span><br><span class="line">        &#125;</span><br><span class="line">            break;</span><br><span class="line">        case kReachableVia4G: &#123;</span><br><span class="line">            </span><br><span class="line">            stateString = @&quot;4G&quot;;</span><br><span class="line">            netStatusNumber = 4;</span><br><span class="line">        &#125;</span><br><span class="line">            break;</span><br><span class="line">        case ReachableViaWiFi: &#123;</span><br><span class="line">            </span><br><span class="line">            stateString = @&quot;WIFI&quot;;</span><br><span class="line">            netStatusNumber = 1;</span><br><span class="line">        &#125;</span><br><span class="line">            break;</span><br><span class="line">        default: &#123;</span><br><span class="line">            </span><br><span class="line">            stateString = @&quot;不可识别的网络&quot;;</span><br><span class="line">            netStatusNumber = -1;</span><br><span class="line">        &#125;</span><br><span class="line">            break;</span><br><span class="line">    &#125;</span><br><span class="line">    return netStatusNumber;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样处理完之后，不管是不是iPhone X都可以获取到正确的设备网络类型了，相比之前通过状态栏来判断，利用苹果自己的类更加的准确。</p>
+<h1 id="尽管这款刘海iPhone-X在此刻尚未发售，能早点填一个坑就早点填。"><a href="#尽管这款刘海iPhone-X在此刻尚未发售，能早点填一个坑就早点填。" class="headerlink" title="尽管这款刘海iPhone X在此刻尚未发售，能早点填一个坑就早点填。"></a>尽管这款刘海iPhone X在此刻尚未发售，能早点填一个坑就早点填。</h1>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://githubio.95783669.xyz/2026/11/09/iPhoneXNetworkTypeIssue/" data-id="cuidbeNSaPbgtEsDRvLjBuNVB" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2026/11/09/iOS_round_numberString/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          iOS小数四舍五入总结
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2026/11/09/updateCocoapodsIssue/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">更新cocoapods 遇到的坑</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/11/">November 2026</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/11/09/SwiftURLEncodeing/">Swift中URL处理中的注意点</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/UseShellModifyXcodeBuildNumber/">使用shell脚本自动修改Xcode工程编译版本号</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/Xcode10-NewBuilSystemIssue/">踩坑Xcode 10之New Build System</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/iOS_Coding_Guidelines/">iOS代码规范</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2026 抢手的哥<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

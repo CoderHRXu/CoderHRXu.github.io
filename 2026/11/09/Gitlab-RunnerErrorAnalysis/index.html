@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>gitlab-runner之build failed with exit status 1问题分析 | 抢手的哥的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前言：工作需要，原先的一台专门负责打包的机器要被调走，所以另起炉灶，把需要打包的项目迁移到新机器，本篇文章讲述了迁移过程遇到的一些问题以及解决的方法。 1.gitlab-runner首先还是简单说一下什么是gitlab-runner，官网是这么描述的：  GitLab Runner is the open source project that is used to run your jobs a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="gitlab-runner之build failed with exit status 1问题分析">
+<meta property="og:url" content="https://githubio.95783669.xyz/2026/11/09/Gitlab-RunnerErrorAnalysis/index.html">
+<meta property="og:site_name" content="抢手的哥的技术博客">
+<meta property="og:description" content="前言：工作需要，原先的一台专门负责打包的机器要被调走，所以另起炉灶，把需要打包的项目迁移到新机器，本篇文章讲述了迁移过程遇到的一些问题以及解决的方法。 1.gitlab-runner首先还是简单说一下什么是gitlab-runner，官网是这么描述的：  GitLab Runner is the open source project that is used to run your jobs a">
+<meta property="og:locale">
+<meta property="article:published_time" content="2026-11-09T00:57:04.152Z">
+<meta property="article:modified_time" content="2026-11-09T00:57:04.152Z">
+<meta property="article:author" content="抢手的哥">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="抢手的哥的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">抢手的哥的技术博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://githubio.95783669.xyz"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Gitlab-RunnerErrorAnalysis" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2026/11/09/Gitlab-RunnerErrorAnalysis/" class="article-date">
+  <time datetime="2026-11-09T00:57:04.152Z" itemprop="datePublished">2026-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      gitlab-runner之build failed with exit status 1问题分析
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><p>工作需要，原先的一台专门负责打包的机器要被调走，所以另起炉灶，把需要打包的项目迁移到新机器，本篇文章讲述了迁移过程遇到的一些问题以及解决的方法。</p>
+<h2 id="1-gitlab-runner"><a href="#1-gitlab-runner" class="headerlink" title="1.gitlab-runner"></a>1.gitlab-runner</h2><p>首先还是简单说一下什么是gitlab-runner，官网是这么描述的：</p>
+<blockquote>
+<p>GitLab Runner is the open source project that is used to run your jobs and send the results back to GitLab. It is used in conjunction with <a href="https://about.gitlab.com/gitlab-ci">GitLab CI</a>, the open-source continuous integration service included with GitLab that coordinates the jobs.</p>
+</blockquote>
+<p>也就是说gitlab-runner是配合gitlab-ci进行使用的。一般地，gitlab里面的每一个工程都会定义一个属于这个工程的软件集成脚本，用来自动化地完成一些软件集成工作。<br>当这个工程的仓库代码发生变动时，比如有人push了代码或者分支合并，gitlab就会将这个变动通知gitlab-ci。这时gitlab-ci会找出与这个工程相关联的runner，并通知这些runner把代码更新到本地并执行预定义好的执行脚本。</p>
+<h2 id="2-gitlab-runner安装和注册"><a href="#2-gitlab-runner安装和注册" class="headerlink" title="2.gitlab-runner安装和注册"></a>2.gitlab-runner安装和注册</h2><p><a href="https://docs.gitlab.com/runner/install/index.html">安装</a><br><a href="https://docs.gitlab.com/runner/register/index.html">注册</a><br>这块废话不多说，直接看官方文档，根据系统一次操作一下即可</p>
+<h2 id="3-问题描述"><a href="#3-问题描述" class="headerlink" title="3.问题描述"></a>3.问题描述</h2><p>新机器到手后，把机器上所有的软件环境统统更新了个遍，升级到macOS High Sierra，ruby 升级到2.4等等。然后开始安装gitlab-runner紧接着注册到gitlab-ci，一切的一切都看似很平静很正常。</p>
+<p>然后开始试跑脚本,然后莫名其妙的出错了，log如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Running with gitlab-runner 10.3.0 (5cf5e19a)</span><br><span class="line">  on xxx的MacBook pro (0dee7c95)</span><br><span class="line">Using Shell executor...</span><br><span class="line">Running onxxxdeMacBook-Pro.local...</span><br><span class="line">Cloning repository...</span><br><span class="line">Cloning into &#x27;/Users/xxx/builds/0dee7c95/0/iOS-Team/xxx-test&#x27;...</span><br><span class="line">Checking out 0766deb4 as develop...</span><br><span class="line">Skipping Git submodules setup</span><br><span class="line">ERROR: Job failed: exit status 1</span><br></pre></td></tr></table></figure>
+<p>clone之后立马出问题，一脸懵逼…这谁看得懂出的啥错？凉了凉了~</p>
+<h2 id="4-问题分析"><a href="#4-问题分析" class="headerlink" title="4.问题分析"></a>4.问题分析</h2><p>刚开始以为是clone出问题，打开build的目录文件，里面所有文件目录都是完整的，直接打开项目工程都能顺畅的跑起来。<br>尝试用这些log输出，Google了一下，能搜到好几个Stack Overflow的结果，但是很遗憾，都未能解决问题。</p>
+<p><strong>那么问题到底出在哪？</strong></p>
+<p>首先的换一个思考问题的角度：<strong>gitlab-ci上的log看不出，搜不出什么端倪，那么gitlab-runner呢？毕竟跑脚本是gitlab-runner的事情，它自己最清楚了。</strong> </p>
+<p>于是在打包机器终端里面输入 <code>gitlab-runner --debug run</code> 这样runner的每一步操作都能看的到。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">Checking for jobs... nothing                        runner=0dee7c95</span><br><span class="line">Feeding runners to channel                          builds=0</span><br><span class="line">Checking for jobs... received                       job=402 repo_url=http://gitlab.xxxx.cn/iOS-Team/xxx-test.git runner=0dee7c95</span><br><span class="line">Failed to requeue the runner:                       builds=1 runner=0dee7c95</span><br><span class="line">Running with gitlab-runner 10.3.0 (5cf5e19a)</span><br><span class="line">  on xxx的MacBook pro (0dee7c95)  job=402 project=47 runner=0dee7c95</span><br><span class="line">Shell configuration: environment: []</span><br><span class="line">dockercommand:</span><br><span class="line">- sh</span><br><span class="line">- -c</span><br><span class="line">- &quot;if [ -x /usr/local/bin/bash ]; then\n\texec /usr/local/bin/bash --login\nelif [</span><br><span class="line">  -x /usr/bin/bash ]; then\n\texec /usr/bin/bash --login\nelif [ -x /bin/bash ]; then\n\texec</span><br><span class="line">  /bin/bash --login\nelif [ -x /usr/local/bin/sh ]; then\n\texec /usr/local/bin/sh</span><br><span class="line">  --login\nelif [ -x /usr/bin/sh ]; then\n\texec /usr/bin/sh --login\nelif [ -x /bin/sh</span><br><span class="line">  ]; then\n\texec /bin/sh --login\nelse\n\techo shell not found\n\texit 1\nfi\n\n&quot;</span><br><span class="line">command: bash</span><br><span class="line">arguments:</span><br><span class="line">- --login</span><br><span class="line">passfile: false</span><br><span class="line">extension: &quot;&quot;</span><br><span class="line">  job=402 project=47 runner=0dee7c95</span><br><span class="line">Using Shell executor...                             job=402 project=47 runner=0dee7c95</span><br><span class="line">Waiting for signals...                              job=402 project=47 runner=0dee7c95</span><br><span class="line">WARNING: Job failed: exit status 1                  job=402 project=47 runner=0dee7c95</span><br><span class="line">Submitting job to coordinator... ok                 job=402 runner=0dee7c95</span><br><span class="line">Feeding runners to channel                          builds=0</span><br><span class="line">Checking for jobs... nothing                        runner=0dee7c95</span><br></pre></td></tr></table></figure>
+<p>以上的log是为了复现问题，把相关配置改成问题解决之前，而操作出来的，可能和问题解决之前的log有些出入。根据这些log，再次Google，果然找到了相关信息：<br><a href="https://gitlab.com/gitlab-org/gitlab-runner/issues/114">https://gitlab.com/gitlab-org/gitlab-runner/issues/114</a><br>真相大白，原来问题出在<strong>RVM</strong>上。</p>
+<p>RVM相信开发者都不陌生，它是一个便捷的多版本ruby环境的管理和切换工具。有一个注意点，MacOS本身是集成ruby环境的，不同版本的系统默认集成的ruby版本也不一样。所以日常开发中，我们会根据需要对ruby环境统一管理。这个时候就会用到rvm了。通过rvm可以升级管理ruby。通过 <code>which ruby</code> 命令可以查看目前使用的是什么ruby。比如 <code>/Users/xxx/.rvm/rubies/ruby-2.4.1/bin/ruby</code> 输出的路径包含了 <code>.rvm</code> 就说明目前使用的是rvm下的ruby。</p>
+<p>到此为止确定了目前使用的是rvm的ruby，在深入定位一下，问题是出在rvm重新定义了 <code>cd</code> 命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ type cd</span><br><span class="line">cd is a function</span><br><span class="line">cd () </span><br><span class="line">&#123; </span><br><span class="line">    __zsh_like_cd cd &quot;$@&quot;</span><br><span class="line">&#125;</span><br><span class="line">$ unset cd</span><br><span class="line">$ type cd</span><br><span class="line">cd is a shell builtin</span><br></pre></td></tr></table></figure>
+<p>所以，clone下来一直出错的原因是cd命令被重定义了，导致路径切换的不对，无法执行命令，进而报错。这就解释了为什么gitlab-runner上输出的log <code>exec /bin/sh --login\nelse\n\techo shell not found\n\texit 1\nfi\n\n</code></p>
+<h2 id="5-问题解决"><a href="#5-问题解决" class="headerlink" title="5.问题解决"></a>5.问题解决</h2><p>知道了原因name如何解决呢？刚刚的问题里面也给出了方案<br>在 <code>.bashrc</code> 或 <code>.bash_profile</code> 加上 <code>unset cd</code> 。<br>操作如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1、打开terminal(终端)</span><br><span class="line">2、cd ~ ( 进入当前用户的home目录)</span><br><span class="line">3、open .bash_profile (打开.bash_profile文件，如果文件不存在就  创建文件：touch .bash_profile  编辑文件：open -e bash_profile)</span><br><span class="line">4、直接更改弹出的.bash_profile文件内容</span><br><span class="line">5、command + s 保存文件，然后关闭</span><br><span class="line">6、在terminal(终端)中输入 source .bash_profile (使用刚才更新之后的内容)</span><br></pre></td></tr></table></figure>
+<p>或者直接finder里面找，用文本编辑器修改一下。</p>
+<p><strong>等等 <code>.bashrc</code> <code>.bash_profile</code>又是什么鬼？ unset呢？</strong><br>百度了一下这些得到如下信息：<br><a href="http://download.csdn.net/download/ygl_ygl/4354972">profile\bashrc\bash_profile之间的区别和联系:</a></p>
+<blockquote>
+<p>&#x2F;etc&#x2F;profile        每个用户，首次登录时被执行；<br>&#x2F;etc&#x2F;bashrc       每个运行bash shell的用户都执行此文件，当bsh被打开时，该文件被读取；<br>~&#x2F;.bash_profile 专用于本用户的shell信息，仅被执行一次；<br>~&#x2F;.bashrc          文件包含本用户的bsh信息，登录及每次打开shell时被读取。</p>
+</blockquote>
+<p>unset指令：删除指定的shell变量或函数<br>【语    法】unset [-fv][变量或函数名称]<br>【功能介绍】该指令作用主要是删除指定的shell变量和函数。</p>
+<p>因为gitlab-runner注册的时候<a href="https://docs.gitlab.com/runner/executors/README.html">runner executor</a>用的shell，所以shell脚本的语法是适用的。使用<code>unset cd</code>就意味着把rvm重新定义的cd方法删除，这样路径切换的时候就正常了。gitlab-runner都能正常跑起来了。</p>
+<h2 id="6-总结"><a href="#6-总结" class="headerlink" title="6.总结"></a>6.总结</h2><p>1.思考问题角度要全面，一套完整的业务流程里出现问题，可以根据不同角度，不同端想错误点靠近，逐个的排查；<br>2.多关注debug信息，活用debug输出的log搜索信息，尽量谷歌搜索，百度太垃圾；<br>3.shell脚本是个神奇的东西，工作之余可以多学习学习。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://githubio.95783669.xyz/2026/11/09/Gitlab-RunnerErrorAnalysis/" data-id="cuid8iwfMH7TbNcEDiaBMa_R3" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2026/11/09/Swift4QRCodeTool/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Swift4如何扫描二维码了解一下
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2026/11/09/IncreasBuildNumberWithFastlane/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Fastlane自动打包工具build号自增处理配置方法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/11/">November 2026</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/11/09/SwiftURLEncodeing/">Swift中URL处理中的注意点</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/UseShellModifyXcodeBuildNumber/">使用shell脚本自动修改Xcode工程编译版本号</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/Xcode10-NewBuilSystemIssue/">踩坑Xcode 10之New Build System</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/iOS_Coding_Guidelines/">iOS代码规范</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2026 抢手的哥<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

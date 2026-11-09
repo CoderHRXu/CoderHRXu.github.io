@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>iOS计算点到直线的距离以及与垂足的交点 | 抢手的哥的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1.问题描述 假设有一点坐标P（x0,y0）,有一线段AB，A坐标（x1，y1），B坐标（x2，y2），求P点到AB线段或所在直线的距离d以及P点在直线上的垂足C（x，y）。  2.分析首先需要将A，B两点坐标转换为直线方程的一般式Ax+By+C &#x3D; 0，在根据距离公式计算下面是推算过程参数计算：A&#x3D;y2-y1；B&#x3D;x1-x2；C&#x3D;x2y1-x1y2;1.点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS计算点到直线的距离以及与垂足的交点">
+<meta property="og:url" content="https://githubio.95783669.xyz/2026/11/09/Distance/index.html">
+<meta property="og:site_name" content="抢手的哥的技术博客">
+<meta property="og:description" content="1.问题描述 假设有一点坐标P（x0,y0）,有一线段AB，A坐标（x1，y1），B坐标（x2，y2），求P点到AB线段或所在直线的距离d以及P点在直线上的垂足C（x，y）。  2.分析首先需要将A，B两点坐标转换为直线方程的一般式Ax+By+C &#x3D; 0，在根据距离公式计算下面是推算过程参数计算：A&#x3D;y2-y1；B&#x3D;x1-x2；C&#x3D;x2y1-x1y2;1.点">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1447375-ca8c2536138cb762.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1447375-1318b93d0b69c326.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2026-11-09T00:57:04.151Z">
+<meta property="article:modified_time" content="2026-11-09T00:57:04.151Z">
+<meta property="article:author" content="抢手的哥">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/1447375-ca8c2536138cb762.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="抢手的哥的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">抢手的哥的技术博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://githubio.95783669.xyz"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Distance" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2026/11/09/Distance/" class="article-date">
+  <time datetime="2026-11-09T00:57:04.151Z" itemprop="datePublished">2026-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS计算点到直线的距离以及与垂足的交点
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-问题描述"><a href="#1-问题描述" class="headerlink" title="1.问题描述"></a>1.问题描述</h2><blockquote>
+<p>假设有一点坐标P（x0,y0）,有一线段AB，A坐标（x1，y1），B坐标（x2，y2），求P点到AB线段或所在直线的距离d以及P点在直线上的垂足C（x，y）。</p>
+</blockquote>
+<h2 id="2-分析"><a href="#2-分析" class="headerlink" title="2.分析"></a>2.分析</h2><p>首先需要将A，B两点坐标转换为直线方程的一般式Ax+By+C &#x3D; 0，在根据距离公式计算<br><img src="https://upload-images.jianshu.io/upload_images/1447375-ca8c2536138cb762.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="距离公式.png"><br>下面是推算过程<br><img src="https://upload-images.jianshu.io/upload_images/1447375-1318b93d0b69c326.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="推算过程.png"><br>参数计算：<br>A&#x3D;y2-y1；<br>B&#x3D;x1-x2；<br>C&#x3D;x2<em>y1-x1</em>y2;<br>1.点到直线的距离公式：<br>d&#x3D; ( Ax0 + By0 + C ) &#x2F; sqrt ( A<em>A + B</em>B );<br>2.垂足C（x，y）计算公式：<br>x &#x3D; (  B<em>B</em>x0  -  A<em>B</em>y0  -  A<em>C  ) &#x2F; ( A</em>A + B<em>B );<br>y  &#x3D;  ( -A</em>B<em>x0 + A</em>A<em>y0 – B</em>C  ) &#x2F; ( A<em>A + B</em>B );</p>
+<h2 id="3-代码实现"><a href="#3-代码实现" class="headerlink" title="3.代码实现"></a>3.代码实现</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">func pedalPoint(p1: CGPoint, p2:CGPoint, x0: CGPoint) -&gt;(Double, CGPoint) &#123;</span><br><span class="line">        </span><br><span class="line">        let a = p2.y - p1.y</span><br><span class="line">        let b = p1.x - p2.x</span><br><span class="line">        let c = p2.x * p1.y - p1.x * p2.y</span><br><span class="line">        </span><br><span class="line">        let x = (b * b * x0.x - a * b * x0.y - a * c) / (a * a + b * b)</span><br><span class="line">        let y = (-a * b * x0.x + a * a * x0.y - b * c) / (a * a + b * b)</span><br><span class="line">        </span><br><span class="line">        let d = abs((a * x0.x + b * x0.y + c)) / sqrt(pow(a, 2) + pow(b, 2))</span><br><span class="line"></span><br><span class="line">        let pt = CGPoint(x: x, y: y)</span><br><span class="line">        return (Double(d), pt)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://githubio.95783669.xyz/2026/11/09/Distance/" data-id="cuidL8zmBGlDL_E0maq5yd3DK" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2026/11/09/ContainInSwift/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Swift中使用Contains的正确姿势
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2026/11/09/FastlaneWithXcode9Issue/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">当Fastlane遇到Xcode9打包出来不一定是ipa而是坑</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/11/">November 2026</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/11/09/SwiftURLEncodeing/">Swift中URL处理中的注意点</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/UseShellModifyXcodeBuildNumber/">使用shell脚本自动修改Xcode工程编译版本号</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/Xcode10-NewBuilSystemIssue/">踩坑Xcode 10之New Build System</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/iOS_Coding_Guidelines/">iOS代码规范</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2026 抢手的哥<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

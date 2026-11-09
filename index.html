@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>抢手的哥的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="欢迎来到抢手的哥的技术博客">
+<meta property="og:type" content="website">
+<meta property="og:title" content="抢手的哥的技术博客">
+<meta property="og:url" content="https://githubio.95783669.xyz/index.html">
+<meta property="og:site_name" content="抢手的哥的技术博客">
+<meta property="og:description" content="欢迎来到抢手的哥的技术博客">
+<meta property="og:locale">
+<meta property="article:author" content="抢手的哥">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="抢手的哥的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">抢手的哥的技术博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://githubio.95783669.xyz"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-SwiftURLEncodeing" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2026/11/09/SwiftURLEncodeing/" class="article-date">
+  <time datetime="2026-11-09T00:57:04.154Z" itemprop="datePublished">2026-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2026/11/09/SwiftURLEncodeing/">Swift中URL处理中的注意点</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>日常的开发当中，网络请求是不可或缺的。而在网络访问请求中，经常会遇到有中文空格字符的情况，直接用这些字符串去访问是无法正常访问，需要我们做进一步的处理。</p>
+<h2 id="一般处理"><a href="#一般处理" class="headerlink" title="一般处理"></a>一般处理</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let urlString = &quot;http://10.0.3.86/中文/main.html#/help&quot;</span><br></pre></td></tr></table></figure>
+<p>比如以上的url，想使用webview进行访问或者是原生发起http请求，都需要进行转码处理。<br>有人会问，这有什么难的？拿起键盘就是干<br><img src="http://upload-images.jianshu.io/upload_images/1447375-7e42bf91528876c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="就是干.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">OC：</span><br><span class="line">NSString* encodedString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];</span><br><span class="line"></span><br><span class="line">Swift：</span><br><span class="line">let encodedString = urlString.addingPercentEscapes(using: .utf8)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>一敲代码，emmmmm~~ Xcode发警告了，该方法已经过期，用下面的方法替代，于是紧接着:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">OC:</span><br><span class="line">NSString* encodedString = [urtString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];</span><br><span class="line"></span><br><span class="line">Swift:</span><br><span class="line">let encodedString = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)</span><br></pre></td></tr></table></figure>
+<p>OK,转码处理一下，再访问转码之后的url。<br><strong>what？还是不能正常访问？</strong><br>我们来看看转码之后的url是什么：<br><img src="http://upload-images.jianshu.io/upload_images/1447375-fee78cebefc1331c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br><strong>原来是因为最后的#被转码成了%23</strong><br>前端开发的小伙伴说这个#不能动，只能我们不转码。不转码那么夹杂中文字符怎么办呢？—— <strong>修改参数</strong>。<br><strong>所以我们的需求变化成：除了url里面的#不动，其他该转码的都转码</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NSMutableCharacterSet *set  = [[NSCharacterSet URLQueryAllowedCharacterSet] mutableCopy];</span><br><span class="line">[set addCharactersInString:@&quot;#&quot;];</span><br><span class="line">NSString *encodedString     = [urlSring stringByAddingPercentEncodingWithAllowedCharacters:set];</span><br></pre></td></tr></table></figure>
+<p>如上手动修改转码参数，OK 可以了。<br>Swift如法炮制</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let charSet = CharacterSet.urlQueryAllowed as! NSMutableCharacterSet</span><br><span class="line">charSet.addCharacters(in: &quot;#&quot;)</span><br><span class="line">let encodingString = urlStr.addingPercentEncoding(withAllowedCharacters: charSet as CharacterSet)</span><br></pre></td></tr></table></figure>
+<p>虽然语言不一样，但是思路一样。<strong>emmmm…你会惊人的发现，根本不管用！！！</strong><br><img src="http://upload-images.jianshu.io/upload_images/1447375-d729f1de206f6ab9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="wc.png"></p>
+<h2 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h2><p>问题是出在<br>let charSet &#x3D; CharacterSet.urlQueryAllowed as! NSMutableCharacterSet<br>这一行，在swift语言中，Foundation框架中的很多class都重新用struct重写了，比如NSString和String，NSUrl和URL，如果要使用类似于OC一些特性，有时候需要as来强转成对应的NS开头的类。强转的过程中，CharacterSet应该转成NSCharacterSet,而不应该是NSMutableCharacterSet，也就是说<strong>子类指针指向了父类对象</strong>，父类里面没有子类的方法，所以执行charSet.addCharacters(in: “#”)的时候，无法正确添加。</p>
+<h2 id="正确的写法"><a href="#正确的写法" class="headerlink" title="正确的写法"></a>正确的写法</h2><p>顺着原因一路分析，应该这么写：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">方法一：</span><br><span class="line">let charSet = CharacterSet.urlQueryAllowed as NSCharacterSet</span><br><span class="line">let mutSet = charSet.mutableCopy() as! NSMutableCharacterSet</span><br><span class="line">mutSet.addCharacters(in: &quot;#&quot;)</span><br><span class="line">let encodingURL = urlStr.addingPercentEncoding(withAllowedCharacters: mutSet as CharacterSet)</span><br></pre></td></tr></table></figure>
+<p>当然还有其他写法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">方法二：</span><br><span class="line">let charSet = NSMutableCharacterSet()</span><br><span class="line">charSet.formUnion(with: CharacterSet.urlQueryAllowed)</span><br><span class="line">charSet.addCharacters(in: &quot;#&quot;)</span><br><span class="line">let encodingURL = urlStr.addingPercentEncoding(withAllowedCharacters: charSet as CharacterSet)</span><br></pre></td></tr></table></figure>
+<p>方法一和二本质是一样的，其实沿用的OC的思想，先构造一个可变对象，再加入自定义的字符。<strong>如果要像OC这么搞，那么苹果设计swift的意义何在？换句话说，swift用结构体写重写这个类一定考虑到这个问题，那就应该有相应的处理方法。</strong></p>
+<p>查阅官方文档吧，少年！<br><img src="http://upload-images.jianshu.io/upload_images/1447375-3c58407983a74f5a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>果不其然，找到一个方法，用来插入字符。<br>所以还有第三种写法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">方法三：</span><br><span class="line">var charSet = CharacterSet.urlQueryAllowed</span><br><span class="line">charSet.insert(charactersIn: &quot;#&quot;)</span><br><span class="line">let encodingURL = urlStr.addingPercentEncoding(withAllowedCharacters: charSet )</span><br></pre></td></tr></table></figure>
+<p>我们来看一下最终结果<br><img src="http://upload-images.jianshu.io/upload_images/1447375-8e4a9b88fe4a3f03.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="结果.png"><br>OK，符合需求！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://githubio.95783669.xyz/2026/11/09/SwiftURLEncodeing/" data-id="cuid3ueOlPZsCpV2pn2H1JUVT" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-UseShellModifyXcodeBuildNumber" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2026/11/09/UseShellModifyXcodeBuildNumber/" class="article-date">
+  <time datetime="2026-11-09T00:57:04.154Z" itemprop="datePublished">2026-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2026/11/09/UseShellModifyXcodeBuildNumber/">使用shell脚本自动修改Xcode工程编译版本号</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>公司的项目开发中，肯定是需要打包的，目前已经建立起了一套<a href="https://about.gitlab.com/">gitlab</a>+<a href="https://fastlane.tools/">fastlane</a>的持续集成方案。但是在项目开发周期的测试阶段以及上线之前，项目打包的频次会升高不少。所以在一个团队开发中，尤其是测试人员如何区分哪次的打包，是一个很常见的问题。</p>
+<p>要区分不同的包也很简单，通过build号来区分。Xcode工程的build号可以随便填的，但是如果每次打包都要手动填写肯定也是一个麻烦的事情，所以我们的解决思路肯定是<strong>让工程自动变更build号</strong>。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>·方法1<br>让fastlane每次打包前，把build号处理。具体详情请戳本人之前的一篇文章<br><a href="http://www.jianshu.com/p/7b3f9cacc2ba">Fastlane自动打包工具build号自增处理配置方法</a></p>
+<p>·方法2<br>通过给Xcode添加shell脚本实现build号处理，具体方法如下：<br>1.在工程target中，选择Build Phases点击左上角加号，新建script脚本<br><img src="http://upload-images.jianshu.io/upload_images/1447375-1eb4e82f3885ec87.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>2.在代码区加入以下脚本，让build号为编译的时间。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># Update build number with buldTime</span><br><span class="line">buildNumber=$(date +%Y%m%d%H%M%S)</span><br><span class="line">echo &quot;Updating build number to $buildNumber&quot;</span><br><span class="line">/usr/libexec/PlistBuddy -c &quot;Set :CFBundleVersion $buildNumber&quot; &quot;$&#123;TARGET_BUILD_DIR&#125;/$&#123;INFOPLIST_PATH&#125;&quot;</span><br><span class="line">/usr/libexec/PlistBuddy -c &quot;Set :CFBundleVersion $buildNumber&quot; &quot;$&#123;BUILT_PRODUCTS_DIR&#125;/$&#123;WRAPPER_NAME&#125;.dSYM/Contents/Info.plist&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>3.把<code>Run script only when installing</code>勾选上，不然debug会报错。<br><img src="http://upload-images.jianshu.io/upload_images/1447375-a96c351bb65039f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>加入这段脚本之后，就可以实现build号自动处理，是不是<strong>So Easy</strong>?</p>
+<h2 id="方法对比"><a href="#方法对比" class="headerlink" title="方法对比"></a>方法对比</h2><p>两种方法都能实现对工程build号的修改，究其本质是修改了项目的info.plist。不同之处在于方法1是用fastlane打包工具中的<a href="https://docs.fastlane.tools/actions/increment_build_number/#increment_build_number">increment_build_number</a>方法来修改，而方法2是直接在Xcode工程里面加入了一段shell脚本，所以不需要借助任何工具，很简单快捷。</p>
+<p>个人推荐方法2来实现build自动处理，因为不需要第三方的依赖。文中如有不足之处还望批评指正~</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://githubio.95783669.xyz/2026/11/09/UseShellModifyXcodeBuildNumber/" data-id="cuidrZD4ysXdz1jy_JtVJdhBy" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Xcode10-NewBuilSystemIssue" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2026/11/09/Xcode10-NewBuilSystemIssue/" class="article-date">
+  <time datetime="2026-11-09T00:57:04.154Z" itemprop="datePublished">2026-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2026/11/09/Xcode10-NewBuilSystemIssue/">踩坑Xcode 10之New Build System</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Xcode10 Version 10.0 (10A255)发布，笔者第一时间升级。很显然使用的过程中出现了不少问题，相信大家都有所耳闻，最典型的就是<a href="http://www.cnblogs.com/chao8888/p/9674314.html">libstdc++.6.0.9问题</a>，网上已经有不少方法了，这里就不多说了。</p>
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><p>除了这个问题之外，笔者还遇到了build system的问题。在Xcode菜单栏选择File– Workspace Setting就会出现如下的界面</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1447375-50b354ddfb81afbb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="build system.png"></p>
+<p>可以看出Xcode10是默认选中的最新的New Build System(Default)，在这个编译系统的环境下，我打包的CI脚本一直会报错</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/bin/sh -c /Users/apple/Library/Developer/Xcode/DerivedData/XXX-bcebrkpahigmkngytwmzustybhev/Build/Intermediates.noindex/ArchiveIntermediates/XXX-SIT/IntermediateBuildFilesPath/XXX.build/Release-SIT-iphoneos/XXX.build/Script-187F7F6921537B0600C427DD.sh</span><br><span class="line">[14:59:47]: ▸ Updating build number to 20180920145946</span><br><span class="line">[14:59:47]: ▸ Set: Entry, &quot;:CFBundleVersion&quot;, Does Not Exist</span><br><span class="line">[14:59:47]: ▸ File Doesn&#x27;t Exist, Will Create: /Users/apple/Library/Developer/Xcode/DerivedData/XXX-bcebrkpahigmkngytwmzustybhev/Build/Intermediates.noindex/ArchiveIntermediates/XXX-SIT/BuildProductsPath/Release-SIT-iphoneos/XXX.app.dSYM/Contents/Info.plist</span><br><span class="line">[14:59:47]: ▸ Command PhaseScriptExecution failed with a nonzero exit code</span><br></pre></td></tr></table></figure>
+
+<p>问题是出在了更改项目工程buildnumber的shell脚本里：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># Update build number with buldTime</span><br><span class="line">buildNumber=$(date +%Y%m%d%H%M%S)</span><br><span class="line">echo &quot;Updating build number to $buildNumber&quot;</span><br><span class="line">/usr/libexec/PlistBuddy -c &quot;Set :CFBundleVersion $buildNumber&quot; &quot;$&#123;TARGET_BUILD_DIR&#125;/$&#123;INFOPLIST_PATH&#125;&quot;</span><br><span class="line">/usr/libexec/PlistBuddy -c &quot;Set :CFBundleVersion $buildNumber&quot; &quot;$&#123;BUILT_PRODUCTS_DIR&#125;/$&#123;WRAPPER_NAME&#125;.dSYM/Contents/Info.plist&quot;</span><br></pre></td></tr></table></figure>
+
+<p>这段脚本会在最后会把xxx.app.dSYM中的info.plist中的CFBundleVersion值修改成当前时间，而报错说，这个info.plist不存在，创建的时候出问题报错。</p>
+<p><strong>这会不会是苹果的bug??</strong></p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>把build system切换到<br>Legacy Build System，换言之就是切换成老的编译系统，就OK了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://githubio.95783669.xyz/2026/11/09/Xcode10-NewBuilSystemIssue/" data-id="cuid1POh2vMnVy0u8w5Ny_pLv" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2026/11/09/hello-world/" class="article-date">
+  <time datetime="2026-11-09T00:57:04.154Z" itemprop="datePublished">2026-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2026/11/09/hello-world/">Hello World</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/deployment.html">Deployment</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://githubio.95783669.xyz/2026/11/09/hello-world/" data-id="cuidY3AheJoNAT6sV1CIdy70T" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-iOS_Coding_Guidelines" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2026/11/09/iOS_Coding_Guidelines/" class="article-date">
+  <time datetime="2026-11-09T00:57:04.154Z" itemprop="datePublished">2026-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2026/11/09/iOS_Coding_Guidelines/">iOS代码规范</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="iOS-Coding-Guidelines（代码指南）"><a href="#iOS-Coding-Guidelines（代码指南）" class="headerlink" title="iOS Coding Guidelines（代码指南）"></a>iOS Coding Guidelines（代码指南）</h1><table>
+<thead>
+<tr>
+<th>版本号</th>
+<th>编写人</th>
+<th>日期</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2.0</td>
+<td>抢手的哥</td>
+<td>2019-06-05</td>
+</tr>
+</tbody></table>
+<h1 id="一、命名基础"><a href="#一、命名基础" class="headerlink" title="一、命名基础"></a>一、命名基础</h1><h3 id="驼峰命名"><a href="#驼峰命名" class="headerlink" title="驼峰命名"></a>驼峰命名</h3><ul>
+<li>针对属性、变量、方法等均采用小写字母开头的驼峰命名准则。</li>
+<li>针对类、枚举、宏等均采用大写字母开头的驼峰命名准则。</li>
+</ul>
+<h3 id="清晰性"><a href="#清晰性" class="headerlink" title="清晰性"></a>清晰性</h3><ul>
+<li><p>最好是既清晰又简短，但不要为简短而丧失清晰性</p>
+</li>
+<li><p>示例：<code>removeObject:</code></p>
+</li>
+<li><p>反例：<code>remove</code></p>
+</li>
+<li><p>名称通常不缩写，即使名称很长，也要拼写完全</p>
+</li>
+<li><p>示例：<code>destinationSelection </code></p>
+</li>
+<li><p>反例：<code>destSel </code></p>
+</li>
+</ul>
+<h6 id="我们尽可能遵守-Apple-的命名约定，其推荐使用长的，描述性强的方法和变量名，使其阅读起来更加清晰易懂。不能随意使用缩写，导致他人阅读代码困难。"><a href="#我们尽可能遵守-Apple-的命名约定，其推荐使用长的，描述性强的方法和变量名，使其阅读起来更加清晰易懂。不能随意使用缩写，导致他人阅读代码困难。" class="headerlink" title="我们尽可能遵守 Apple 的命名约定，其推荐使用长的，描述性强的方法和变量名，使其阅读起来更加清晰易懂。不能随意使用缩写，导致他人阅读代码困难。"></a><em>我们尽可能遵守 Apple 的命名约定，其推荐使用长的，描述性强的方法和变量名，使其阅读起来更加清晰易懂。不能随意使用缩写，导致他人阅读代码困难。</em></h6><h3 id="一致性"><a href="#一致性" class="headerlink" title="一致性"></a>一致性</h3><ul>
+<li>尽可能使用与 Cocoa 编程接口命名保持一致的名称。如果你不太确定某个命名的一致性，请浏览一下头文件。</li>
+<li>在使用多态方法的类中，命名的一致性非常重要。在不同类中实现相同功能的方法应该具有相同的名称</li>
+<li>示例：<code>- (NSInteger)tag</code></li>
+<li>示例：<code>- (void)setStringValue:(NSString *)</code></li>
+</ul>
+<h3 id="前缀"><a href="#前缀" class="headerlink" title="前缀"></a>前缀</h3><p><strong>前缀是名称的重要组成部分，它们可以区分应用的功能范畴。前缀可以防止与第三方开发者之间的命名冲突</strong></p>
+<ul>
+<li>前缀有规定的格式。它由两到三个大写字符组成，不能使用下划线与子前缀</li>
+<li>命名 class， protocol， struct， 函数，常量时使用前缀；</li>
+<li>命名成员方法时不使用前缀，因为方法已经在它所在类的命名空间中；</li>
+<li>同理，命名结构体字段时也不使用前缀</li>
+</ul>
+<h1 id="二、方法命名【强制】"><a href="#二、方法命名【强制】" class="headerlink" title="二、方法命名【强制】"></a>二、方法命名【强制】</h1><h3 id="一般性规则"><a href="#一般性规则" class="headerlink" title="一般性规则"></a>一般性规则</h3><p><strong>为方法命名时，请考虑如下一些一般性规则:</strong></p>
+<ul>
+<li>小写第一个单词的首字符，大写随后单词的首字符，不使用前缀。有两种例外情况:</li>
+</ul>
+<ol>
+<li>方法名以广为人知的大写字母缩略词(如 TIFF or PDF)开头</li>
+<li>私有方法可以使用统一的前缀来分组和辨识</li>
+</ol>
+<ul>
+<li><p>表示对象行为的方法，名称以动词开头</p>
+</li>
+<li><p>示例：<code>- (void)invokeWithTarget:(id)target:</code></p>
+</li>
+<li><p>示例：<code>- (void)selectTabViewItem:(NSTableViewItem *)tableViewItem</code></p>
+</li>
+<li><p>如果方法返回方法接收者的某个属性，直接用属性名称命名。不要使用 get，除非是间接返回一个或多个值。</p>
+</li>
+<li><p>示例：<code>- (NSSize)cellSize</code></p>
+</li>
+<li><p>反例：<code>- (NSSize)getCellSize</code></p>
+</li>
+<li><p>不要使用 and 来连接用属性作参数关键字</p>
+</li>
+<li><p>示例：<code>- (NSInteger)runModalForDirectory:(NSString *)path file:(NSString *)name</code></p>
+</li>
+<li><p>反例：<code>- (NSInteger)runModalForDirectory:(NSString *)path andFile:(NSString *)name</code></p>
+</li>
+</ul>
+<h3 id="方法参数"><a href="#方法参数" class="headerlink" title="方法参数"></a>方法参数</h3><p><strong>命名方法参数时要考虑如下规则:</strong></p>
+<ul>
+<li><p>如同方法名，参数名小写第一个单词的首字符，大写后继单词的首字符。</p>
+</li>
+<li><p>示例：<code>removeObject:(id)anObject</code></p>
+</li>
+<li><p>不要在参数名中使用 pointer 或 ptr，让参数的类型来说明它是指针</p>
+</li>
+<li><p>避免使用 one， two，…，作为参数名</p>
+</li>
+<li><p>避免为节省几个字符而缩写</p>
+</li>
+</ul>
+<h1 id="三、实例变量与数据类型命名【强制】"><a href="#三、实例变量与数据类型命名【强制】" class="headerlink" title="三、实例变量与数据类型命名【强制】"></a>三、实例变量与数据类型命名【强制】</h1><p>描述性的单词（有意义）+ 变量类型</p>
+<h3 id="私有变量："><a href="#私有变量：" class="headerlink" title="私有变量："></a>私有变量：</h3><p>私有变量放在 .m 文件中声明 以 _ 开头，第一个单词首字母小写<br>例子：<code>NSString * _somePrivateVariable</code></p>
+<h3 id="属性变量："><a href="#属性变量：" class="headerlink" title="属性变量："></a>属性变量：</h3><p>正例：<code>@property (nonatomic, strong) UILabel *nameLabel；</code><br>注意nonatomic和strong之间有一个空格，*号之前有空格，之后没有<br>反例：<code>@property(strong,nonatomic)UILabel * lab;</code></p>
+<p><strong>如果实例变量别设计为可被访问的，确保编写了访问方法并注意读写权限。</strong></p>
+<h3 id="枚举常量"><a href="#枚举常量" class="headerlink" title="枚举常量"></a>枚举常量</h3><ul>
+<li>使用枚举来定义一组相关的整数常量</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">typedef NS_ENUM(NSInteger, NSMatrixMode) &#123; </span><br><span class="line">NSRadioModeMatrix       = 0, </span><br><span class="line">NSHighlightModeMatrix   = 1,</span><br><span class="line">NSListModeMatrix        = 2, </span><br><span class="line">NSTrackModeMatrix       = 3</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="其他常量"><a href="#其他常量" class="headerlink" title="其他常量"></a>其他常量</h3><ul>
+<li>通常不使用 #define 来创建常量。如上面所述，整数常量请使用枚举。</li>
+<li>使用大写字母来定义预处理编译宏。如:<code>#ifdef DEBUG</code></li>
+<li>为 notification 名定义大驼峰字符串常量，从而能够利用编译器的拼写检查，减少书写错误。</li>
+</ul>
+<h1 id="四、图片资源命名"><a href="#四、图片资源命名" class="headerlink" title="四、图片资源命名"></a>四、图片资源命名</h1><p>模块名+功能名+控件名+状态<br><code>photoBrowser_btn_selected  photoBrowser_btn_unselected </code></p>
+<h1 id="五、可接受的缩略语"><a href="#五、可接受的缩略语" class="headerlink" title="五、可接受的缩略语"></a>五、可接受的缩略语</h1><p><strong>在设计编程接口时，通常名称不要缩写。下面列出的缩写要么是固定下来的要么是过去被广泛使用的，所以可以继续使用。关于缩写有一些额外的注意事项:</strong></p>
+<ul>
+<li>标准 C 库中长期使用的缩写形式是可以接受的。如:”alloc”， “getc”</li>
+<li>你可以在参数名中更自由地使用缩写。如: imageRep, col(column), obj, otherWin</li>
+</ul>
+<h3 id="常见的缩写"><a href="#常见的缩写" class="headerlink" title="常见的缩写"></a>常见的缩写</h3><table>
+<thead>
+<tr>
+<th align="left">缩写</th>
+<th align="left">含义</th>
+<th align="left">缩写</th>
+<th align="left">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">alloc</td>
+<td align="left">Allocate</td>
+<td align="left">alt</td>
+<td align="left">Alternate</td>
+</tr>
+<tr>
+<td align="left">app</td>
+<td align="left">Application</td>
+<td align="left">calc</td>
+<td align="left">Calculate</td>
+</tr>
+<tr>
+<td align="left">dealloc</td>
+<td align="left">dealloc</td>
+<td align="left">func</td>
+<td align="left">Function</td>
+</tr>
+<tr>
+<td align="left">horiz</td>
+<td align="left">Horizontal</td>
+<td align="left">info</td>
+<td align="left">Information</td>
+</tr>
+<tr>
+<td align="left">init</td>
+<td align="left">Initialize</td>
+<td align="left">int</td>
+<td align="left">Integer</td>
+</tr>
+<tr>
+<td align="left">max</td>
+<td align="left">Maximum</td>
+<td align="left">min</td>
+<td align="left">Minimum</td>
+</tr>
+<tr>
+<td align="left">msg</td>
+<td align="left">Message</td>
+<td align="left">nib</td>
+<td align="left">Interface Builder archive</td>
+</tr>
+<tr>
+<td align="left">pboard</td>
+<td align="left">Pasteboard</td>
+<td align="left">rect</td>
+<td align="left">Rectangle</td>
+</tr>
+<tr>
+<td align="left">Rep</td>
+<td align="left">Representation</td>
+<td align="left">temp</td>
+<td align="left">Temporary</td>
+</tr>
+<tr>
+<td align="left">vert</td>
+<td align="left">Vertical</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<h3 id="补充的缩写"><a href="#补充的缩写" class="headerlink" title="补充的缩写"></a>补充的缩写</h3><table>
+<thead>
+<tr>
+<th align="left">缩写</th>
+<th align="left">含义</th>
+<th align="left">缩写</th>
+<th align="left">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">idx</td>
+<td align="left">Index</td>
+<td align="left">btn</td>
+<td align="left">Button</td>
+</tr>
+<tr>
+<td align="left">proj</td>
+<td align="left">Project</td>
+<td align="left">pro</td>
+<td align="left">Professional</td>
+</tr>
+<tr>
+<td align="left">pwd</td>
+<td align="left">Password</td>
+<td align="left">pic</td>
+<td align="left">Picture</td>
+</tr>
+<tr>
+<td align="left">str</td>
+<td align="left">String</td>
+<td align="left">img</td>
+<td align="left">Image</td>
+</tr>
+<tr>
+<td align="left">VC</td>
+<td align="left">ViewController</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<h1 id="五、编码格式"><a href="#五、编码格式" class="headerlink" title="五、编码格式"></a>五、编码格式</h1><h3 id="星号-位置"><a href="#星号-位置" class="headerlink" title="星号(*)位置"></a>星号(*)位置</h3><ul>
+<li><p>定义一个对象时，*靠近变量</p>
+</li>
+<li><p>示例：<code>NSString *userName;</code></p>
+</li>
+</ul>
+<h3 id="统一的ViewController模板（代码缩进、Method进行分组、大括号写法）"><a href="#统一的ViewController模板（代码缩进、Method进行分组、大括号写法）" class="headerlink" title="统一的ViewController模板（代码缩进、Method进行分组、大括号写法）"></a>统一的ViewController模板（代码缩进、Method进行分组、大括号写法）</h3><ul>
+<li>import引用分组划分</li>
+<li>使用property与局部变量，不使用用全局变量（不能显性区分作用域）</li>
+<li>空格与换行建议（参照iOS SDK API）</li>
+<li>方法功能区域性划分</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;GMBaseViewController.h&quot;</span><br><span class="line">/**</span><br><span class="line">HomePage</span><br><span class="line">*/</span><br><span class="line">@interface HomePageViewController : GMBaseViewController</span><br><span class="line">/** 项目Id */</span><br><span class="line">@property (nonatomic, copy) NSString *projectId;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;HomePageViewController.h&quot;</span><br><span class="line">#import &quot;HomePageTableViewCell&quot;     //View</span><br><span class="line">#import &quot;HomePageListRequest&quot;        //Model数据类</span><br><span class="line">#import &quot;ProjectViewController&quot;     //非本页面所用</span><br><span class="line"></span><br><span class="line">@interface GMHPViewController ()</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation GMHPViewController</span><br><span class="line">#pragma mark - LifeCycle</span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">[super viewDidLoad];</span><br><span class="line">[self setupView];</span><br><span class="line">[self loadData];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - Custom Methods</span><br><span class="line">- (void)setupView &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">#pragma mark - Event Response</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#pragma mark - Data &amp;&amp; Net</span><br><span class="line">- (void)loadData &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - UITableViewDataSource &amp;&amp; UITableViewDelegate</span><br><span class="line"></span><br><span class="line">#pragma mark - CustomDelegate</span><br><span class="line"></span><br><span class="line">#pragma mark - Getter &amp;&amp; Setter</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="条件语句"><a href="#条件语句" class="headerlink" title="条件语句"></a>条件语句</h3><ul>
+<li>条件判断语句执行主体不管是 if 里面还是 else 里面都必须要使用大括号包住, 即使代码是一行的情况（Apple SSL&#x2F;TLS gotofail）。for 循环同样。</li>
+<li>if-else中，else不另起一行，与if的反括号在同一行，如下段代码所示，注意else前后均有空格。</li>
+<li>switch-case中，建议所有case和default后的代码块均用{}包裹。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">if（success）&#123;</span><br><span class="line">...</span><br><span class="line">&#125; else &#123;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">for（int i = 0 ; i &lt; 10 ; i++）&#123;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="单一原则"><a href="#单一原则" class="headerlink" title="单一原则"></a>单一原则</h3><ul>
+<li>每个函数的职责都应该划分明确（如类一样）</li>
+</ul>
+<h4 id="模型解析（MJExtension）"><a href="#模型解析（MJExtension）" class="headerlink" title="模型解析（MJExtension）"></a>模型解析（MJExtension）</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+ (NSDictionary *)mj_replacedKeyFromPropertyName &#123;</span><br><span class="line">return @&#123;@&quot;Id&quot; : @&quot;id&quot;&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (NSDictionary *)mj_objectClassInArray &#123;</span><br><span class="line">return @&#123;@“block” : @&quot;GMBlockModel&quot;&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li>子类重写父类方法一般需先调用父类方法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">[super viewDidLoad];</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>单模块多页面可新建模块Header类，统一导入共用类，设定常量等。非全局不可定义在<code>PCH</code>中</li>
+</ul>
+<h1 id="六、代码注释"><a href="#六、代码注释" class="headerlink" title="六、代码注释"></a>六、代码注释</h1><p><strong>优秀的代码大部分是可以自描述的，我们完全可以用代码本身来表达它到底在干什么，而不需要注释的辅助。<br>但并不是说一定不需要写注释，有以下三种情况需要编写注释：</strong></p>
+<ul>
+<li>公共接口（注释要告诉阅读代码的人，当前类能实现什么功能，譬如：基础类、工具类）</li>
+<li>涉及到比较深层专业知识及业务逻辑的代码（注释要体现出实现原理和思想）</li>
+<li>容易产生歧义的代码（但是严格来说，容易让人产生歧义的代码是不允许存在的）</li>
+</ul>
+<h3 id="import注释"><a href="#import注释" class="headerlink" title="import注释"></a>import注释</h3><p><strong>如果有一个以上的import语句，就对这些语句进行分组，每个分组的注释是可选的。</strong></p>
+<h3 id="属性注释"><a href="#属性注释" class="headerlink" title="属性注释"></a>属性注释</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/** 注释 */</span><br><span class="line">@property (nonatomic, strong) UIView *headerView;</span><br></pre></td></tr></table></figure>
+<h3 id="枚举注释"><a href="#枚举注释" class="headerlink" title="枚举注释"></a>枚举注释</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">typedef NS_ENUM(NSInteger, RefreshDateType) &#123;</span><br><span class="line">/** 新建 */</span><br><span class="line">RefreshDateTypeTaskMain    = 1,</span><br><span class="line">/** 编辑 */</span><br><span class="line">RefreshDateTypeEdit,</span><br><span class="line">/** 重派 */</span><br><span class="line">RefreshDateTypeAssign,</span><br><span class="line">/** 新建子任务 */</span><br><span class="line">RefreshDateTypeSubTask,</span><br><span class="line">/** 任务派发（进度管理模块） */</span><br><span class="line">RefreshDateTypeTaskDis,</span><br><span class="line">/** 任务变更（进度管理模块） */</span><br><span class="line">RefreshDateTypeTaskChanged,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="方法声明注释"><a href="#方法声明注释" class="headerlink" title="方法声明注释"></a>方法声明注释</h3><p><strong>公开接口，重要的方法，分类，以及协议都应该伴随注释。方法的注释使用Xcode自带注释快捷键:<code>Commond+option+/</code>或者<code>///</code>，这两种注释方式可被<code>Xcode</code>中<code>Quick Help</code>识别</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">&lt;#Description#&gt;</span><br><span class="line"></span><br><span class="line">@param tableView &lt;#tableView description#&gt;</span><br><span class="line">@param section &lt;#section description#&gt;</span><br><span class="line">@return &lt;#return value description#&gt;</span><br><span class="line">*/</span><br><span class="line">- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section &#123;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">///&lt;#Description#&gt;</span><br><span class="line">- (void)getUserInfo &#123;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><font size=2 color=#4A7EC0>参考文档：</font><a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html#//apple_ref/doc/uid/10000146-SW1">Apple Coding Guidelines for Cocoa</a></p>
+<h1 id="七、其他事项"><a href="#七、其他事项" class="headerlink" title="七、其他事项"></a>七、其他事项</h1><h2 id="1-【推荐】条件过多、过长时应该换行"><a href="#1-【推荐】条件过多、过长时应该换行" class="headerlink" title="1.【推荐】条件过多、过长时应该换行"></a>1.【推荐】条件过多、过长时应该换行</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if  ( condition1 &amp;&amp;</span><br><span class="line">condition2 &amp;&amp;</span><br><span class="line">condition3 ) &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2-【强制】二元运算符与变量之间必须有空格"><a href="#2-【强制】二元运算符与变量之间必须有空格" class="headerlink" title="2.【强制】二元运算符与变量之间必须有空格"></a>2.【强制】二元运算符与变量之间必须有空格</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">width = 5 + 5; </span><br><span class="line">height = width * 2;</span><br><span class="line">length = width + height;</span><br><span class="line">for (int i = 0; i &lt; 10; i++)</span><br></pre></td></tr></table></figure>
+<h2 id="3-【强制】NSArray泛型"><a href="#3-【强制】NSArray泛型" class="headerlink" title="3.【强制】NSArray泛型"></a>3.【强制】NSArray泛型</h2><p>如果NSArray中存储数据类型是统一的，必须如下使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/** modelArray  */</span><br><span class="line">@property (nonatomic, strong) NSArray &lt;GCBModel *&gt; *modelArray;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-【强制】block循环引用问题"><a href="#4-【强制】block循环引用问题" class="headerlink" title="4.【强制】block循环引用问题&lt;特别关注&gt;"></a>4.【强制】block循环引用问题&lt;特别关注&gt;</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">__weak_self;</span><br><span class="line">[selectPerVC setSingleResultBlock:^(ContactModel *resultModel) &#123;</span><br><span class="line">__strong_self;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+<h2 id="5【强制】枚举使用"><a href="#5【强制】枚举使用" class="headerlink" title="5【强制】枚举使用"></a>5【强制】枚举使用</h2><p>项目中两个以上的区分逻辑要使用枚举，使用枚举值赋值的时候不能使用枚举的值（1、2、3… 等）<br>正例：<code>self.dataType = RefreshDateTypeTaskMain；</code><br>反例：<code>self.dataType = 1；</code></p>
+<h2 id="6【强制】加载xib"><a href="#6【强制】加载xib" class="headerlink" title="6【强制】加载xib"></a>6【强制】加载xib</h2><p>xib名称用NSStringFromClass(),避免书写错误<br>正例：<code>[self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([DXRecommendTagVCell class]) bundle:nil] forCellReuseIdentifier:ID];</code><br>反例：<code>[self.tableView registerNib:[UINib nibWithNibName:@&quot;DXRecommendTagVCell&quot; bundle:nil] forCellReuseIdentifier:ID];</code></p>
+<h2 id="7【强制】三目运算符"><a href="#7【强制】三目运算符" class="headerlink" title="7【强制】三目运算符"></a>7【强制】三目运算符</h2><p>三目运算符使用时注意?和:空格<br>正例：<code>NSString *string = model.isSelected ? @&quot;已选中&quot; : @&quot;未选中&quot;;</code><br><strong>禁止连续使用三目运算符</strong><br>反例：<code>return indexPath.row == 0 ? 109 : indexPath.row == 1 ? 138 : indexPath.row == 10 ? 45 : indexPath.row == 11 ? [PublicPhotoBrowserView getCollecHeiImageCount:self.taskModel.imgsArray.count remainCount:9 - self.taskModel.filesArray.count width: ScreenW - 30 detail:NO]+[PublicPhotoBrowserView publicPhotoGetFilesHeight:self.taskModel.filesArray.count singleHeight:0] : 55 </code></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://githubio.95783669.xyz/2026/11/09/iOS_Coding_Guidelines/" data-id="cuidEP9zDgGlbsWVZINq1x10M" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-iOS_doubleString_removeSuffix_0" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2026/11/09/iOS_doubleString_removeSuffix_0/" class="article-date">
+  <time datetime="2026-11-09T00:57:04.154Z" itemprop="datePublished">2026-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2026/11/09/iOS_doubleString_removeSuffix_0/">iOS小数点格式化：最多保留两位小数，小数点后末尾的0不要</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>如题的需求，再详细解释一下就是：<br>1.如果有两位小数不为0则保留两位小数,eg: “0.23”<br>2.如果有一位小数不为0则保留一位小数，否则显示整数, eg: “0.2” “0”<br>也就是说，不能出现”0.20”,”0.00”这种情况。</p>
+<p>平时在项目开发中，格式化小数乘字符串是时候，经常会保留2位小数处理，不足则用0补全，也就是在格式化方法中用 %.2f 作占位符，来占位小数。这样得出来的字符串肯定是类似”X.XX”的字符串，且如果不足两位小数，都会用0来补全。</p>
+<p>然鹅现在的需求变了，要求保留两位小数，且能不显示0就不显示。</p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>OC：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> 过滤器/ 将.2f格式化的字符串，去除末尾0</span><br><span class="line"></span><br><span class="line"> @param numberStr .2f格式化后的字符串</span><br><span class="line"> @return 去除末尾0之后的</span><br><span class="line"> */</span><br><span class="line">- (NSString *)removeSuffix:(NSString *)numberStr&#123;</span><br><span class="line">    if (numberStr.length &gt; 1) &#123;</span><br><span class="line">        </span><br><span class="line">        if ([numberStr componentsSeparatedByString:@&quot;.&quot;].count == 2) &#123;</span><br><span class="line">            NSString *last = [numberStr componentsSeparatedByString:@&quot;.&quot;].lastObject;</span><br><span class="line">            if ([last isEqualToString:@&quot;00&quot;]) &#123;</span><br><span class="line">                numberStr = [numberStr substringToIndex:numberStr.length - (last.length + 1)];</span><br><span class="line">                return numberStr;</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                if ([[last substringFromIndex:last.length -1] isEqualToString:@&quot;0&quot;]) &#123;</span><br><span class="line">                    numberStr = [numberStr substringToIndex:numberStr.length - 1];</span><br><span class="line">                    return numberStr;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return numberStr;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        return nil;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Swift</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">/// 过滤器 将.2f格式化的字符串，去除末尾0</span><br><span class="line">///</span><br><span class="line">/// - Parameter numberString: .2f格式化后的字符串</span><br><span class="line">/// - Returns: 去除末尾0之后的</span><br><span class="line">func removeSuffix(numberString : String) -&gt; String &#123;</span><br><span class="line">    </span><br><span class="line">    if numberString.count &gt; 1 &#123;</span><br><span class="line">        let strs = numberString.components(separatedBy: &quot;.&quot;)</span><br><span class="line">        let last = strs.last!</span><br><span class="line">        if strs.count == 2 &#123;</span><br><span class="line">            if last == &quot;00&quot; &#123;</span><br><span class="line">                </span><br><span class="line">                let indexEndOfText      = numberString.index(numberString.endIndex, offsetBy:-3)</span><br><span class="line">                return String(numberString[..&lt;indexEndOfText])</span><br><span class="line">                </span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                </span><br><span class="line">                let indexStartOfText    = numberString.index(numberString.endIndex, offsetBy:-1)</span><br><span class="line">                let str                 = numberString[indexStartOfText...]</span><br><span class="line">                let indexEndOfText      = numberString.index(numberString.endIndex, offsetBy:-1)</span><br><span class="line">                if str == &quot;0&quot; &#123;</span><br><span class="line">                    return String(numberString[..&lt;indexEndOfText])</span><br><span class="line">                &#125;</span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        return numberString</span><br><span class="line">        </span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        return &quot;&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>思路：1.先将小数按照.2f格式化处理成“0.00”;<br>2.然后再根据小数点”.”，切割字符串比较,判断最后的是不是“0”，是的话，直接切除掉；</p>
+<p>同样思路的也适用于格式化.3f的情况，判断方法中再加入“000”的判断，然后判断切割后的字符串。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://githubio.95783669.xyz/2026/11/09/iOS_doubleString_removeSuffix_0/" data-id="cuidN0h1DpZkJMTzC4zgGS_21" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-iOS_round_numberString" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2026/11/09/iOS_round_numberString/" class="article-date">
+  <time datetime="2026-11-09T00:57:04.154Z" itemprop="datePublished">2026-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2026/11/09/iOS_round_numberString/">iOS小数四舍五入总结</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>iOS项目里，涉及到double类型是数据，经常会用到四舍五入这样的取值方式，网上查阅资料之后，经常会不起作用，最终把有效的方法，总结了一下。<br>OC:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> 四舍五入字符串</span><br><span class="line"></span><br><span class="line"> @param round 小数位 eg: 2</span><br><span class="line"> @param numberString 数字 eg 0.125</span><br><span class="line"> @return 四舍五入之后的 eg: 0.13</span><br><span class="line"> */</span><br><span class="line">- (double )roundNumberStringWithRound:(NSInteger)round numberString:(NSString *)numberString&#123;</span><br><span class="line">    </span><br><span class="line">    if (numberString == nil) &#123;</span><br><span class="line">        return 0;</span><br><span class="line">    &#125;</span><br><span class="line">    NSDecimalNumberHandler *roundingBehavior    = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundPlain scale:round raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:NO raiseOnDivideByZero:NO];</span><br><span class="line">    NSDecimalNumber *aDN                        = [[NSDecimalNumber alloc] initWithString:numberString];</span><br><span class="line">    NSDecimalNumber *resultDN                   = [aDN decimalNumberByRoundingAccordingToBehavior:roundingBehavior];</span><br><span class="line">    return resultDN.doubleValue;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Swift：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">/// 四舍五入2位小数小数</span><br><span class="line">///</span><br><span class="line">/// - round: 小数位（默认2位小数）</span><br><span class="line">/// - Parameter numberString: 格式化之前 eg 0.125</span><br><span class="line">/// - Returns: 格式化之后 eg: 0.13</span><br><span class="line">func roundNumberString(round:Int = 2, numberString : String) -&gt; Double &#123;</span><br><span class="line">    if numberString.isEmpty || round == 0 &#123;</span><br><span class="line">        return 0.0</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    let roudingBehavior     = NSDecimalNumberHandler(roundingMode: .plain, scale: Int16(round), raiseOnExactness: false, raiseOnOverflow: false, raiseOnUnderflow: false, raiseOnDivideByZero: false)</span><br><span class="line">    let aDn                 = NSDecimalNumber(string: numberString)</span><br><span class="line">    let resultDn            = aDn.rounding(accordingToBehavior: roudingBehavior)</span><br><span class="line">    return resultDn.doubleValue</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://githubio.95783669.xyz/2026/11/09/iOS_round_numberString/" data-id="cuidNCebYRUH6kuifbMp6-sKU" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-iPhoneXNetworkTypeIssue" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2026/11/09/iPhoneXNetworkTypeIssue/" class="article-date">
+  <time datetime="2026-11-09T00:57:04.154Z" itemprop="datePublished">2026-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2026/11/09/iPhoneXNetworkTypeIssue/">iPhone X获取设备网络类型错误分析</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p> 在公司项目开发中，需要在网络请求中包含当前设备的网络状态参数，发请求的时候手机网络的类型有2G,3G,4G,WIFI等等，获取参数的方法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">获取网络状态</span><br><span class="line">- (NSString *)getNetStatus &#123;</span><br><span class="line">    </span><br><span class="line">    NSArray *children = [[[[UIApplication sharedApplication] valueForKeyPath:@&quot;statusBar&quot;] valueForKeyPath:@&quot;foregroundView&quot;] subviews];</span><br><span class="line">    NSString *state = nil;</span><br><span class="line">    int netType = 0;</span><br><span class="line">    for (id child in children) &#123;</span><br><span class="line">        </span><br><span class="line">        if ([child isKindOfClass:NSClassFromString(@&quot;UIStatusBarDataNetworkItemView&quot;)]) &#123;</span><br><span class="line">            netType = [[child valueForKeyPath:@&quot;dataNetworkType&quot;] intValue];</span><br><span class="line">            </span><br><span class="line">            switch (netType) &#123;</span><br><span class="line">                    case 0:</span><br><span class="line">                    state = @&quot;无网络&quot;;</span><br><span class="line">                    break;</span><br><span class="line">                    case 1:</span><br><span class="line">                    state =  @&quot;2G&quot;;</span><br><span class="line">                    break;</span><br><span class="line">                    case 2:</span><br><span class="line">                    state =  @&quot;3G&quot;;</span><br><span class="line">                    break;</span><br><span class="line">                    case 3:</span><br><span class="line">                    state =   @&quot;4G&quot;;</span><br><span class="line">                    break;</span><br><span class="line">                    case 5:</span><br><span class="line">                    state =  @&quot;WIFI&quot;;</span><br><span class="line">                    break;</span><br><span class="line">                default:</span><br><span class="line">                    state =  @&quot;未知网络&quot;;</span><br><span class="line">                    break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return state;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>从代码可以看出，基本原理是读取手机的状态栏，然后遍历状态栏的子控件，查看看一下苹果私有属性<code>UIStatusBarDataNetworkItemView</code>，根据属性的值来判断当前手机处于的什么样的网络状态。</p>
+<h2 id="iPhone-X错误-原因分析"><a href="#iPhone-X错误-原因分析" class="headerlink" title="iPhone X错误&amp;原因分析"></a>iPhone X错误&amp;原因分析</h2><p>当项目代码选择iPhone X模拟器运行的时候，会奔溃在上面的函数。<br>由于iPhone X独特的全面屏+刘海的设计(我觉得很丑)，手机顶部的状态栏完全是全新的设计，如下面对比截图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-9da96bd0c3d97433.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="一般iPhone的状态栏.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-d2b0ceb80288b953.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="iPhone X的状态栏"></p>
+<p>于是，想自己来hack一下这个iPhone X的状态栏</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//obj 即为被遍历对象</span><br><span class="line">unsigned int outCount = 0;</span><br><span class="line">Ivar *ivars = class_copyIvarList([obj class], &amp;outCount); </span><br><span class="line">for (int i = 0; i &lt; outCount; i++) &#123;</span><br><span class="line">     Ivar ivar = ivars[i];</span><br><span class="line">     printf(&quot;======== |%s\n&quot;, ivar_getName(ivar));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">之后获取到以下Path，发现类似dataNetworkType</span><br><span class="line">的_networkTypeView</span><br><span class="line"></span><br><span class="line">NSArray *items = [[[[UIApplication sharedApplication] valueForKeyPath:@&quot;statusBar&quot;] valueForKeyPath:@&quot;statusBar&quot;] items];id obj = [[items valueForKeyPath:@&quot;_UIStatusBarCellularExpandedItem&quot;] valueForKeyPath:@&quot;_networkTypeView&quot;];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-bd3e0ecbcd9b86a2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>但纵览整个属性列表，没有发现可用的NetworkType，只能弃用。没办法，谁让苹果爸爸用这样的特(sha)立(bi)独(nao)行(can)的设计，所以要另辟蹊径。</p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>通过翻阅文档发现可以通过CTTelephonyNetworkInfo获取网络运营商相关信息，这不就是3G，4G技术名称嘛！！！</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">导入 #import &lt;CoreTelephony/CTTelephonyNetworkInfo.h&gt;</span><br><span class="line">点进去查看：</span><br><span class="line">CORETELEPHONY_EXTERN NSString * const CTRadioAccessTechnologyGPRS          __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_7_0);</span><br><span class="line">CORETELEPHONY_EXTERN NSString * const CTRadioAccessTechnologyEdge          __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_7_0);</span><br><span class="line">CORETELEPHONY_EXTERN NSString * const CTRadioAccessTechnologyWCDMA         __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_7_0);</span><br><span class="line">CORETELEPHONY_EXTERN NSString * const CTRadioAccessTechnologyHSDPA         __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_7_0);</span><br><span class="line">CORETELEPHONY_EXTERN NSString * const CTRadioAccessTechnologyHSUPA         __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_7_0);</span><br><span class="line">CORETELEPHONY_EXTERN NSString * const CTRadioAccessTechnologyCDMA1x        __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_7_0);</span><br><span class="line">CORETELEPHONY_EXTERN NSString * const CTRadioAccessTechnologyCDMAEVDORev0  __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_7_0);</span><br><span class="line">CORETELEPHONY_EXTERN NSString * const CTRadioAccessTechnologyCDMAEVDORevA  __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_7_0);</span><br><span class="line">CORETELEPHONY_EXTERN NSString * const CTRadioAccessTechnologyCDMAEVDORevB  __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_7_0);</span><br><span class="line">CORETELEPHONY_EXTERN NSString * const CTRadioAccessTechnologyeHRPD         __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_7_0);</span><br><span class="line">CORETELEPHONY_EXTERN NSString * const CTRadioAccessTechnologyLTE           __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_7_0);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>之后再次发现苹果的一个开源类<a href="https://developer.apple.com/library/content/samplecode/Reachability/Introduction/Intro.html#//apple_ref/doc/uid/DTS40007324">Reachability</a>中已对此做了相应封装，拿来即用。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">typedef enum : NSInteger &#123;</span><br><span class="line">    NotReachable = 0,</span><br><span class="line">    ReachableViaWiFi,</span><br><span class="line">    kReachableVia2G,</span><br><span class="line">    kReachableVia3G,</span><br><span class="line">    kReachableVia4G</span><br><span class="line">&#125; NetworkStatus;</span><br><span class="line"></span><br><span class="line">PS:最新版Reachability已简化枚举</span><br><span class="line">typedef enum : NSInteger &#123;</span><br><span class="line">	NotReachable = 0,</span><br><span class="line">	ReachableViaWiFi,</span><br><span class="line">	ReachableViaWWAN</span><br><span class="line">&#125; NetworkStatus;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>经过改写后的方法如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">+ (int)getNetStatus &#123;</span><br><span class="line">    </span><br><span class="line">    NSString *stateString = nil;</span><br><span class="line">    int netStatusNumber = 0;</span><br><span class="line">    switch ([[Reachability reachabilityForInternetConnection] currentReachabilityStatus]) &#123;</span><br><span class="line">            </span><br><span class="line">        case NotReachable: &#123;</span><br><span class="line">            </span><br><span class="line">            stateString = @&quot;无网络&quot;;</span><br><span class="line">            netStatusNumber = 0;</span><br><span class="line">        &#125;</span><br><span class="line">            break;</span><br><span class="line">        case kReachableVia2G: &#123;</span><br><span class="line">            </span><br><span class="line">            stateString = @&quot;2G&quot;;</span><br><span class="line">            netStatusNumber = 2;</span><br><span class="line">        &#125;</span><br><span class="line">            break;</span><br><span class="line">        case kReachableVia3G: &#123;</span><br><span class="line">         </span><br><span class="line">            stateString = @&quot;3G&quot;;</span><br><span class="line">            netStatusNumber = 3;</span><br><span class="line">        &#125;</span><br><span class="line">            break;</span><br><span class="line">        case kReachableVia4G: &#123;</span><br><span class="line">            </span><br><span class="line">            stateString = @&quot;4G&quot;;</span><br><span class="line">            netStatusNumber = 4;</span><br><span class="line">        &#125;</span><br><span class="line">            break;</span><br><span class="line">        case ReachableViaWiFi: &#123;</span><br><span class="line">            </span><br><span class="line">            stateString = @&quot;WIFI&quot;;</span><br><span class="line">            netStatusNumber = 1;</span><br><span class="line">        &#125;</span><br><span class="line">            break;</span><br><span class="line">        default: &#123;</span><br><span class="line">            </span><br><span class="line">            stateString = @&quot;不可识别的网络&quot;;</span><br><span class="line">            netStatusNumber = -1;</span><br><span class="line">        &#125;</span><br><span class="line">            break;</span><br><span class="line">    &#125;</span><br><span class="line">    return netStatusNumber;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样处理完之后，不管是不是iPhone X都可以获取到正确的设备网络类型了，相比之前通过状态栏来判断，利用苹果自己的类更加的准确。</p>
+<h1 id="尽管这款刘海iPhone-X在此刻尚未发售，能早点填一个坑就早点填。"><a href="#尽管这款刘海iPhone-X在此刻尚未发售，能早点填一个坑就早点填。" class="headerlink" title="尽管这款刘海iPhone X在此刻尚未发售，能早点填一个坑就早点填。"></a>尽管这款刘海iPhone X在此刻尚未发售，能早点填一个坑就早点填。</h1>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://githubio.95783669.xyz/2026/11/09/iPhoneXNetworkTypeIssue/" data-id="cuidbeNSaPbgtEsDRvLjBuNVB" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-updateCocoapodsIssue" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2026/11/09/updateCocoapodsIssue/" class="article-date">
+  <time datetime="2026-11-09T00:57:04.154Z" itemprop="datePublished">2026-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2026/11/09/updateCocoapodsIssue/">更新cocoapods 遇到的坑</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="现象："><a href="#现象：" class="headerlink" title="现象："></a>现象：</h3><p>最近在项目，由于打包的时候报警，与其他同事电脑保持cocoapods版本号一致（想要更新到最新的1.3.1，目前1.2.0），于是在终端开始执行一下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo gem install cocoapods</span><br><span class="line">pod --version</span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-95764f2528cfd0ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="更新.png"><br>过程看着都很正常，但是在敲一下命令看版本，发现还是原先1.2.0版本。瞬间傻了眼，不起作用~<br>在终端里面继续敲</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">which pod </span><br></pre></td></tr></table></figure>
+<p>查看一下当前pod的路径，竟然发现刚刚安装pod的路径和pod运行的路径不一样：<br><img src="http://upload-images.jianshu.io/upload_images/1447375-fdf83dec54075b87.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="路径1.png"><br><img src="http://upload-images.jianshu.io/upload_images/1447375-3b4ffb6619f2c13a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="路径2.png"><br>两个文件夹下面都有pod（上图是被我删掉pod之后的截图），所以理所当然的想把刚刚更新的pod复制一份到which pod指定的目录下，结果发现也是不起作用。<br>后续我一次又一次的指定pod的安装目录，安装，卸载pod都不管用，安装完版本号始终为1.2.0（┑(￣Д ￣)┍）。</p>
+<h3 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h3><p>无奈，只好另寻他法，既然我无法指定，那能否直接全部删除呢，全部重来？<br>后面尝试着在终端敲移除命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gem uninstall cocoapods</span><br></pre></td></tr></table></figure>
+<p>这个时候居然发现我电脑里面有好几个版本的cocoapods，看到第6个选项全部版本，果断选了6。<br><img src="http://upload-images.jianshu.io/upload_images/1447375-9099cc7fe9e7507c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="全部移除.png"><br>完毕之后这个时候我电脑的就没有任何cocoapods版本了（很棒棒）。<br>然后重新执行安装命令，终于可以了。pod安装的目录，和现执行的pod路径为同一个了。<br><img src="http://upload-images.jianshu.io/upload_images/1447375-fa7c51850b1b41ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="重新安装.png"></p>
+<h3 id="原因-总结："><a href="#原因-总结：" class="headerlink" title="原因&amp;总结："></a>原因&amp;总结：</h3><p>为何会出现不同的路径？cocoapods是用的ruby语言写的一个工具。MacOS当中本身就集成了Ruby，所以路径不一样的原因，是因为电脑里面有一个自带的Ruby路径，还有一个就是通过Rvm管理的Ruby。可以在在终端里面输入<code>which ruby</code>来查看使用的是什么ruby。  </p>
+<p>那么如何切换ruby呢？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rvm use system # 使用系统 ruby </span><br><span class="line">rvm use 2.3  # 使用 rvm ruby</span><br></pre></td></tr></table></figure>
+<p>在切换 ruby 版本之后，gem 也会跟着切换，我们就可以安装两个版本的 CocoaPods 了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://githubio.95783669.xyz/2026/11/09/updateCocoapodsIssue/" data-id="cuidjOu0R2WfbKeBANDKOpqtM" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-MethodsOfSwift" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2026/11/09/MethodsOfSwift/" class="article-date">
+  <time datetime="2026-11-09T00:57:04.153Z" itemprop="datePublished">2026-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2026/11/09/MethodsOfSwift/">Swift常用方法总结----不定期更新</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-本地读取json文件"><a href="#1-本地读取json文件" class="headerlink" title="1.本地读取json文件"></a>1.本地读取json文件</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func readJsonFileByFileName(fileName : String) -&gt; Any? &#123;</span><br><span class="line">       </span><br><span class="line">       let path    = Bundle.main.path(forResource: &quot;\(fileName).json&quot;, ofType: nil)</span><br><span class="line">       let data    = NSData(contentsOfFile: path!)</span><br><span class="line">       let jsonStr = try? JSONSerialization.jsonObject(with: data! as Data, options:.allowFragments)</span><br><span class="line">       return jsonStr</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-实现手机号银行卡号输入加空格"><a href="#2-实现手机号银行卡号输入加空格" class="headerlink" title="2.实现手机号银行卡号输入加空格"></a>2.实现手机号银行卡号输入加空格</h3><p>eg：188 8888 8888</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -&gt; Bool &#123;</span><br><span class="line">        </span><br><span class="line">        let oldStr = textField.text</span><br><span class="line">        var newStr = (oldStr as NSString?)?.replacingCharacters(in: range, with: string)</span><br><span class="line">        if textField.placeholder == &quot;请输入银行预留手机号&quot; &#123;</span><br><span class="line">            </span><br><span class="line">            newStr = newStr?.replacingOccurrences(of: &quot; &quot;, with: &quot;&quot;)</span><br><span class="line">            </span><br><span class="line">            let expression = &quot;^([1]&#123;1&#125;([34578]&#123;1&#125;([0-9]&#123;0,9&#125;+)?)?)?$&quot;</span><br><span class="line">            let regex = try?NSRegularExpression.init(pattern: expression, options: .caseInsensitive)</span><br><span class="line">            let numOfMatches = regex?.matches(in: newStr!, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, (newStr?.characters.count)!))</span><br><span class="line">            </span><br><span class="line">            if numOfMatches?.count == 0 &#123;</span><br><span class="line">                </span><br><span class="line">                return false</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            _ = self.formatPhoneNumText(textField: textField, range: range, string: string)</span><br><span class="line">            </span><br><span class="line">            return false</span><br><span class="line">        &#125;</span><br><span class="line">        else if textField.placeholder == &quot;请输入银行卡号&quot;&#123;</span><br><span class="line">        </span><br><span class="line">            </span><br><span class="line">            // 只能输入数字</span><br><span class="line">            let characterSet = NSCharacterSet.init(charactersIn: &quot;0123456789&quot;)</span><br><span class="line">            </span><br><span class="line">            let tempString = string.replacingOccurrences(of: &quot; &quot;, with: &quot;&quot;)</span><br><span class="line">            if (tempString.rangeOfCharacter(from: characterSet.inverted) != nil) &#123;</span><br><span class="line">                </span><br><span class="line">                return false</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            var text = ((oldStr as NSString?)?.replacingCharacters(in: range, with: string))!</span><br><span class="line">            text = text.replacingOccurrences(of: &quot; &quot;, with: &quot;&quot;)</span><br><span class="line">            </span><br><span class="line">            var newString = &quot;&quot;</span><br><span class="line">            </span><br><span class="line">            while (text.characters.count) &gt; 0 &#123;</span><br><span class="line">                </span><br><span class="line">                let subString = (text as NSString).substring(to: min(text.characters.count, 4))</span><br><span class="line">                newString = newString.appending(subString)</span><br><span class="line">                if subString.characters.count == 4 &#123;</span><br><span class="line">                    </span><br><span class="line">                    newString = newString.appending(&quot; &quot;)</span><br><span class="line">                &#125;</span><br><span class="line">                text = (text as NSString).substring(from: min(text.characters.count, 4))</span><br><span class="line">            &#125;</span><br><span class="line">            newString = newString.trimmingCharacters(in: characterSet.inverted)</span><br><span class="line">            </span><br><span class="line">            if newString.characters.count &gt;= 24 &#123;</span><br><span class="line">                </span><br><span class="line">                return false</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            if range.location != textField.text?.characters.count &#123;</span><br><span class="line">                </span><br><span class="line">                textField.text = newString</span><br><span class="line">                </span><br><span class="line">                return false</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            textField.text = newString</span><br><span class="line">            </span><br><span class="line">         </span><br><span class="line">            return false</span><br><span class="line">            </span><br><span class="line">            </span><br><span class="line">            </span><br><span class="line">        &#125;else &#123;</span><br><span class="line">            // 只能输入数字</span><br><span class="line">            let characterSet = NSCharacterSet.init(charactersIn: &quot;0123456789&quot;)</span><br><span class="line">            </span><br><span class="line">            let tempString = string.replacingOccurrences(of: &quot; &quot;, with: &quot;&quot;)</span><br><span class="line">            if (tempString.rangeOfCharacter(from: characterSet.inverted) != nil) &#123;</span><br><span class="line">                </span><br><span class="line">                return false</span><br><span class="line">            &#125;</span><br><span class="line">            if (newStr?.characters.count)! &gt; 20 &#123;</span><br><span class="line">                </span><br><span class="line">                return false</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        return true</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">private func formatPhoneNumText (textField:UITextField, range:NSRange, string:String) -&gt; Bool &#123;</span><br><span class="line">        </span><br><span class="line">        var text = textField.text!</span><br><span class="line">        </span><br><span class="line">        // 只能输入数字</span><br><span class="line">        let characterSet = NSCharacterSet.init(charactersIn: &quot;0123456789&quot;)</span><br><span class="line">        </span><br><span class="line">        let tempString = string.replacingOccurrences(of: &quot; &quot;, with: &quot;&quot;)</span><br><span class="line">        if (tempString.rangeOfCharacter(from: characterSet.inverted) != nil) &#123;</span><br><span class="line">            </span><br><span class="line">            return false</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        text = ((text as NSString?)?.replacingCharacters(in: range, with: string))!</span><br><span class="line">        text = text.replacingOccurrences(of: &quot; &quot;, with: &quot;&quot;)</span><br><span class="line">        </span><br><span class="line">        text.insert(&quot; &quot;, at: (text.startIndex))</span><br><span class="line">        var newString = &quot;&quot;</span><br><span class="line">        </span><br><span class="line">        while (text.characters.count) &gt; 0 &#123;</span><br><span class="line">            </span><br><span class="line">            let subString = (text as NSString).substring(to: min(text.characters.count, 4))</span><br><span class="line">            newString = newString.appending(subString)</span><br><span class="line">            if subString.characters.count == 4 &#123;</span><br><span class="line">                </span><br><span class="line">                newString = newString.appending(&quot; &quot;)</span><br><span class="line">            &#125;</span><br><span class="line">            text = (text as NSString).substring(from: min(text.characters.count, 4))</span><br><span class="line">        &#125;</span><br><span class="line">        newString = newString.trimmingCharacters(in: characterSet.inverted)</span><br><span class="line">        </span><br><span class="line">        if newString.characters.count &gt;= 14 &#123;</span><br><span class="line">            </span><br><span class="line">            return false</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        if range.location != textField.text?.characters.count &#123;</span><br><span class="line">            </span><br><span class="line">            textField.text = newString</span><br><span class="line">            </span><br><span class="line">            if textField == self.phoneTextField &#123;</span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            return false</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        textField.text = newString</span><br><span class="line">        </span><br><span class="line">        if textField == self.phoneTextField &#123;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">        return false</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="3-给UITextField的placeholder设置字体大小"><a href="#3-给UITextField的placeholder设置字体大小" class="headerlink" title="3.给UITextField的placeholder设置字体大小"></a>3.给UITextField的placeholder设置字体大小</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">使用：textField.verticalLeftPlaceholder(phFontSize: 15)</span><br><span class="line"></span><br><span class="line">源码：</span><br><span class="line">extension UITextField &#123;</span><br><span class="line">    </span><br><span class="line">    func verticalLeftPlaceholder(phFontSize size: CGFloat = 15, text: String = &quot;&quot;)  &#123;</span><br><span class="line">        </span><br><span class="line">        var placeholderStr = text</span><br><span class="line">        </span><br><span class="line">        if text.isEmpty &#123;</span><br><span class="line">            </span><br><span class="line">            placeholderStr = self.placeholder ?? &quot;&quot;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        let pStyle = NSMutableParagraphStyle()</span><br><span class="line">        pStyle.minimumLineHeight    = (self.font?.lineHeight)! - ((self.font?.lineHeight)! - UIFont.systemFont(ofSize: size).lineHeight)/2.0</span><br><span class="line">        let aString = NSAttributedString(string: placeholderStr, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: size), NSParagraphStyleAttributeName: pStyle])</span><br><span class="line">        </span><br><span class="line">        self.attributedPlaceholder    = aString</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-插入排序"><a href="#4-插入排序" class="headerlink" title="4.插入排序"></a>4.插入排序</h3><p>⒈ 从第一个元素开始，该元素可以认为已经被排序<br>⒉ 取出下一个元素，在已经排序的元素序列中从后向前扫描<br>⒊ 如果该元素（已排序）大于新元素，将该元素移到下一位置<br>⒋ 重复步骤3，直到找到已排序的元素小于或者等于新元素的位置<br>⒌ 将新元素插入到下一位置中<br>⒍ 重复步骤2~5</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public func insertionSort(arr: inout Array&lt;Int&gt;) &#123;</span><br><span class="line"></span><br><span class="line">    for i in 0..&lt;arr.count - 1 &#123;</span><br><span class="line">        if arr[i + 1] &lt; arr[i] &#123;</span><br><span class="line">            let temp = arr[i + 1]</span><br><span class="line">            for j in (1...(i + 1)).reversed() &#123;</span><br><span class="line">                if arr[j - 1] &gt; temp &#123;</span><br><span class="line">                    (arr[j - 1],arr[j]) = (arr[j],arr[j - 1])</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-冒泡排序"><a href="#5-冒泡排序" class="headerlink" title="5.冒泡排序"></a>5.冒泡排序</h3><p>⒈比较相邻的元素。如果第一个比第二个大，就交换他们两个。<br>⒉ 对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对。在这一点，最后的元素应该会是最大的数。<br>⒊ 针对所有的元素重复以上的步骤，除了最后一个。<br>⒋ 持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public func bubbleSort(arr: inout Array&lt;Int&gt;) &#123;</span><br><span class="line">    for i in 0..&lt;(arr.count - 1) &#123;</span><br><span class="line">        for j in 0..&lt;(arr.count - i - 1) &#123;</span><br><span class="line">            if arr[j] &gt; arr[j + 1] &#123;</span><br><span class="line">                (arr[j],arr[j + 1]) = (arr[j + 1],arr[j])</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-快速排序（冒泡排序的改进版）"><a href="#6-快速排序（冒泡排序的改进版）" class="headerlink" title="6.快速排序（冒泡排序的改进版）"></a>6.快速排序（冒泡排序的改进版）</h3><p>⒈设置两个变量i、j，排序开始的时候：i&#x3D;0，j&#x3D;n-1。<br>⒉ 以第一个数组元素作为关键数据，赋值给key，即key&#x3D;A[0]。<br>⒊ 从j开始向前搜索，即由后开始向前搜索(j–)，找到第一个小于key的值A[j]，将A[j]和A[i]互换。<br>⒋ 从i开始向后搜索，即由前开始向后搜索(i++)，找到第一个大于key的A[i]，将A[i]和A[j]互换。<br>⒌重复第3、4步，直到i&#x3D;j</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"> public func quickSort(arr: inout Array&lt;Int&gt;, leftIndex:  Int, rightIndex:  Int) &#123;</span><br><span class="line"></span><br><span class="line">    if leftIndex &lt; rightIndex &#123;</span><br><span class="line">        var left = leftIndex</span><br><span class="line">        var right = rightIndex</span><br><span class="line">        let midIndex = getMidIndex(arr: &amp;mArray, leftIndex: &amp;left, rightIndex: &amp;right)</span><br><span class="line">        quickSort(arr: &amp;mArray, leftIndex: leftIndex, rightIndex: midIndex - 1)</span><br><span class="line">        quickSort(arr: &amp;mArray, leftIndex: midIndex + 1, rightIndex: rightIndex)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private func getMidIndex(arr: inout Array&lt;Int&gt;, leftIndex: inout Int, rightIndex: inout Int) -&gt; (Int) &#123;</span><br><span class="line">    let temp = arr[leftIndex]</span><br><span class="line">    while leftIndex &lt; rightIndex &#123;</span><br><span class="line"></span><br><span class="line">        while leftIndex &lt; rightIndex &amp;&amp; temp &lt;= arr[rightIndex] &#123;</span><br><span class="line">            rightIndex -= 1</span><br><span class="line">        &#125;</span><br><span class="line">        if leftIndex &lt; rightIndex &#123;</span><br><span class="line">            arr[leftIndex] = arr[rightIndex]</span><br><span class="line">        &#125;</span><br><span class="line">        while leftIndex &lt; rightIndex &amp;&amp; arr[leftIndex] &lt;= temp &#123;</span><br><span class="line">            leftIndex += 1</span><br><span class="line">        &#125;</span><br><span class="line">        if leftIndex &lt; rightIndex &#123;</span><br><span class="line">            arr[rightIndex] = arr[leftIndex]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    arr[leftIndex] = temp</span><br><span class="line">    return leftIndex</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="7-归并排序（速度仅次于快速排序）"><a href="#7-归并排序（速度仅次于快速排序）" class="headerlink" title="7.归并排序（速度仅次于快速排序）"></a>7.归并排序（速度仅次于快速排序）</h3><p>⒈将序列每相邻两个数字进行归并操作（merge)，形成floor(n&#x2F;2)个序列，排序后每个序列包含两个元素。<br>⒉ 将上述序列再次归并，形成floor(n&#x2F;4)个序列，每个序列包含四个元素。<br>⒊ 重复步骤2，直到所有元素排序完毕。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"> public func mergeSort(arr: inout Array&lt;Int&gt;) &#123;</span><br><span class="line">    var tempArr: Array&lt;Array&lt;Int&gt;&gt; = []</span><br><span class="line">    for item in arr &#123;</span><br><span class="line">       var subArr: Array&lt;Int&gt; = []</span><br><span class="line">       subArr.append(item)</span><br><span class="line">       tempArr.append(subArr)</span><br><span class="line">    &#125;</span><br><span class="line">    while tempArr.count != 1 &#123;</span><br><span class="line">        var i = 0</span><br><span class="line">        while i &lt; tempArr.count - 1 &#123;</span><br><span class="line">            tempArr[i] = mergeTowArr(arr1: tempArr[i], arr2: tempArr[i+1])</span><br><span class="line">            tempArr.remove(at : i+1)</span><br><span class="line">            i += 1</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line">private func mergeTowArr(arr1: Array&lt;Int&gt;, arr2: Array&lt;Int&gt;) -&gt; Array&lt;Int&gt; &#123;</span><br><span class="line">    var mergeArr: Array&lt;Int&gt; = []</span><br><span class="line">    var firstIndex = 0</span><br><span class="line">    var secondIndex = 0</span><br><span class="line">    while firstIndex &lt; arr1.count &amp;&amp; secondIndex &lt; arr2.count &#123;</span><br><span class="line">        if arr1[firstIndex]  &lt; arr2[secondIndex] &#123;</span><br><span class="line">            merge.append(arr1[firstIndex])</span><br><span class="line">            firstIndex += 1</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            merge.append(arr2[secondIndex])</span><br><span class="line">            secondIndex += 1</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    while firstIndex &lt; arr1.count &#123;</span><br><span class="line">         merge.append(arr1[firstIndex])</span><br><span class="line">         firstIndex += 1</span><br><span class="line">    &#125;</span><br><span class="line">    while secondIndex &lt; arr2.count &#123;</span><br><span class="line">         merge.append(arr2[secondIndex])</span><br><span class="line">         secondIndex += 1</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return mergeArr</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-选择排序"><a href="#8-选择排序" class="headerlink" title="8.选择排序"></a>8.选择排序</h3><p>选择排序（Selection sort）是一种简单直观的排序算法。它的工作原理是每一次从待排序的数据元素中选出最小（或最大）的一个元素，存放在序列的起始位置，直到全部待排序的数据元素排完。 选择排序是不稳定的排序方法（比如序列[5， 5， 3]第一次就将第一个[5]与[3]交换，导致第一个5挪动到第二个5后面）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public func selectSort(arr: inout Array&lt;Int&gt;) &#123;</span><br><span class="line">    for i in 0..&lt;arr.count &#123;</span><br><span class="line">        var index = i</span><br><span class="line">        for j in (i + 1)..&lt;arr.count &#123;</span><br><span class="line">            if arr[index] &gt; arr[j] &#123;</span><br><span class="line">                index = j</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if index != i &#123;</span><br><span class="line">            (arr[i],arr[index]) = (arr[index],arr[i])</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="9-堆排序（选择排序的一种）"><a href="#9-堆排序（选择排序的一种）" class="headerlink" title="9.堆排序（选择排序的一种）"></a>9.堆排序（选择排序的一种）</h3><p>通过headMakeFrom将数组arr变为大顶堆，再把大顶堆的第一值和最后一个值交换，数组长度减1。通过heapAdjast将交换后的数组重新排序成大顶堆直到数组长度为0。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">public func heapSort(arr: inout Array&lt;Int&gt;) &#123;//时间复杂度O(n*logn)</span><br><span class="line">    var endIndex = arr.count - 1</span><br><span class="line">    headMakeFrom(arr: &amp;arr)</span><br><span class="line"></span><br><span class="line">    while endIndex &gt; 0 &#123;</span><br><span class="line">        (arr[0],arr[endIndex]) = (arr[endIndex],arr[0])</span><br><span class="line">        heapAdjast(arr: &amp;arr,starIndex: 1, arrLength: endIndex)</span><br><span class="line">        endIndex -= 1</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">private func heapMakeFrom(arr: inout Array&lt;Int&gt;) &#123;</span><br><span class="line">    var lastHead = arr.count/2</span><br><span class="line">    while lastHead &gt; 0 &#123;</span><br><span class="line">        heapAdjast(arr:  &amp;arr, starIndex: lastHead, arrLenght: arr.count)</span><br><span class="line">        lastHead -= 1</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private func heapAdjast(arr: Array&lt;Int&gt;, starIndex: Int, arrLength: Int) &#123;</span><br><span class="line">    var temp = arr[starIndex - 1]</span><br><span class="line">    var parentIndex = starIndex</span><br><span class="line">    var childIndex = 2 * parentIndex</span><br><span class="line">    while childIndex &lt;= arrLength &#123;</span><br><span class="line">        if childIndex &lt; arrLength &amp;&amp; arr[childIndex] &gt; arr[childIndex - 1] &#123;</span><br><span class="line">            childIndex += 1</span><br><span class="line">        &#125;</span><br><span class="line">        if arr[childIndex-1] &gt; temp &#123;</span><br><span class="line">            arr[parentIndex - 1] = arr[childIndex - 1]</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            break </span><br><span class="line">        &#125;</span><br><span class="line">        parentIndex = childIndex</span><br><span class="line">        childIndex = 2 * parentIndex </span><br><span class="line">    &#125;</span><br><span class="line">    arr[parentIndex - 1] = temp</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="10-生成指定尺寸的纯色图片"><a href="#10-生成指定尺寸的纯色图片" class="headerlink" title="10. 生成指定尺寸的纯色图片"></a>10. 生成指定尺寸的纯色图片</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">func imageWithColor(color: UIColor!, size: CGSize) -&gt; UIImage&#123;</span><br><span class="line">    var size = size</span><br><span class="line">    if CGSizeEqualToSize(size, CGSizeZero)&#123;</span><br><span class="line">        size = CGSizeMake(1, 1)</span><br><span class="line">    &#125;</span><br><span class="line">    let rect = CGRectMake(0, 0, size.width, size.height)</span><br><span class="line">    UIGraphicsBeginImageContext(rect.size)</span><br><span class="line">    let context = UIGraphicsGetCurrentContext()</span><br><span class="line">    CGContextSetFillColorWithColor(context, color.CGColor)</span><br><span class="line">    CGContextFillRect(context, rect)</span><br><span class="line"></span><br><span class="line">    let image = UIGraphicsGetImageFromCurrentImageContext()</span><br><span class="line">    UIGraphicsEndImageContext()</span><br><span class="line">    return image</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="11-修改图片尺寸"><a href="#11-修改图片尺寸" class="headerlink" title="11- 修改图片尺寸"></a>11- 修改图片尺寸</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">func imageScaleToSize(image: UIImage, size: CGSize) -&gt; UIImage&#123;</span><br><span class="line">    // 创建一个bitmap的context</span><br><span class="line">    // 并把它设置成为当前正在使用的context</span><br><span class="line">    // Determine whether the screen is retina</span><br><span class="line">    if UIScreen.mainScreen().scale == 2.0&#123;</span><br><span class="line">        UIGraphicsBeginImageContextWithOptions(size, false, 2.0)</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        UIGraphicsBeginImageContext(size)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 绘制改变大小的图片</span><br><span class="line">    image.drawInRect(CGRectMake(0, 0, size.width, size.height))</span><br><span class="line"></span><br><span class="line">    // 从当前context中创建一个改变大小后的图片</span><br><span class="line">    let scaledImage = UIGraphicsGetImageFromCurrentImageContext()</span><br><span class="line"></span><br><span class="line">    // 使当前的context出堆栈</span><br><span class="line">    UIGraphicsEndImageContext()</span><br><span class="line"></span><br><span class="line">    // 返回新的改变大小后的图片</span><br><span class="line">    return scaledImage</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="12-压缩图片大小"><a href="#12-压缩图片大小" class="headerlink" title="12. 压缩图片大小"></a>12. 压缩图片大小</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">func imageCompress(originalImage: UIImage) -&gt; UIImage&#123;</span><br><span class="line">    guard let imageData = UIImageJPEGRepresentation(originalImage, 0.5) else&#123;</span><br><span class="line">        return originalImage</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    let compressImage = UIImage(data: imageData)!</span><br><span class="line">    return compressImage</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://githubio.95783669.xyz/2026/11/09/MethodsOfSwift/" data-id="cuidZpdg1muQ6oUi8EQWmzrJi" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/11/">November 2026</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/11/09/SwiftURLEncodeing/">Swift中URL处理中的注意点</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/UseShellModifyXcodeBuildNumber/">使用shell脚本自动修改Xcode工程编译版本号</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/Xcode10-NewBuilSystemIssue/">踩坑Xcode 10之New Build System</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/iOS_Coding_Guidelines/">iOS代码规范</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2026 抢手的哥<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

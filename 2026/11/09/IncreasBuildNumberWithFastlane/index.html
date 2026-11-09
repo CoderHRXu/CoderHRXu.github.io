@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Fastlane自动打包工具build号自增处理配置方法 | 抢手的哥的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="如题所示，本文讲述build号具体的配置方法，也就是说在已经给工程配置好fastlane自动打包工具的前提下。如果你尚未使用这个工具，可以点击一下几篇文章学习如何使用：【CI】持续集成-引导篇【CI】持续集成-第一篇 fastlane下面进入正题 step1 修改工程配置修改buildsettings里面的version配置，current project version 随便填一个。versio">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fastlane自动打包工具build号自增处理配置方法">
+<meta property="og:url" content="https://githubio.95783669.xyz/2026/11/09/IncreasBuildNumberWithFastlane/index.html">
+<meta property="og:site_name" content="抢手的哥的技术博客">
+<meta property="og:description" content="如题所示，本文讲述build号具体的配置方法，也就是说在已经给工程配置好fastlane自动打包工具的前提下。如果你尚未使用这个工具，可以点击一下几篇文章学习如何使用：【CI】持续集成-引导篇【CI】持续集成-第一篇 fastlane下面进入正题 step1 修改工程配置修改buildsettings里面的version配置，current project version 随便填一个。versio">
+<meta property="og:locale">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1447375-eadcb5ae43006646.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1447375-c76535321c288da1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2026-11-09T00:57:04.152Z">
+<meta property="article:modified_time" content="2026-11-09T00:57:04.152Z">
+<meta property="article:author" content="抢手的哥">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1447375-eadcb5ae43006646.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="抢手的哥的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">抢手的哥的技术博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://githubio.95783669.xyz"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-IncreasBuildNumberWithFastlane" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2026/11/09/IncreasBuildNumberWithFastlane/" class="article-date">
+  <time datetime="2026-11-09T00:57:04.152Z" itemprop="datePublished">2026-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Fastlane自动打包工具build号自增处理配置方法
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>如题所示，本文讲述build号具体的配置方法，也就是说在已经给工程配置好fastlane自动打包工具的前提下。<br>如果你尚未使用这个工具，可以点击一下几篇文章学习如何使用：<br><a href="http://www.jianshu.com/p/6e6503b47453">【CI】持续集成-引导篇</a><br><a href="http://www.jianshu.com/p/2d88a88467a5">【CI】持续集成-第一篇 fastlane</a><br>下面进入正题</p>
+<h2 id="step1-修改工程配置"><a href="#step1-修改工程配置" class="headerlink" title="step1 修改工程配置"></a>step1 修改工程配置</h2><p>修改buildsettings里面的version配置，current project version 随便填一个。versionsystem 选择apple generic。<br><img src="http://upload-images.jianshu.io/upload_images/1447375-eadcb5ae43006646.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="t1.jpeg"><br>修改info.plist的路径由绝对路径变为相对路径<br><img src="http://upload-images.jianshu.io/upload_images/1447375-c76535321c288da1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="t2.jpg"></p>
+<h2 id="step2-配置fastfile"><a href="#step2-配置fastfile" class="headerlink" title="step2 配置fastfile"></a>step2 配置fastfile</h2><p>推荐用sublime text打开fastfile，编辑器右下角选择Ruby语言，方便编码。<br>定义专门的函数处理</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">def updateProjectBuildNumber</span><br><span class="line"> </span><br><span class="line">currentTime = Time.new.strftime(&quot;%Y%m%d&quot;)</span><br><span class="line">build = get_build_number()</span><br><span class="line">if build.include?&quot;#&#123;currentTime&#125;.&quot;</span><br><span class="line"># =&gt; 为当天版本 计算迭代版本号</span><br><span class="line">lastStr = build[build.length-2..build.length-1]</span><br><span class="line">lastNum = lastStr.to_i</span><br><span class="line">lastNum = lastNum + 1</span><br><span class="line">lastStr = lastNum.to_s</span><br><span class="line">if lastNum &lt; 10</span><br><span class="line">lastStr = lastStr.insert(0,&quot;0&quot;)</span><br><span class="line">end</span><br><span class="line">build = &quot;#&#123;currentTime&#125;.#&#123;lastStr&#125;&quot;</span><br><span class="line">else</span><br><span class="line"># =&gt; 非当天版本 build 号重置</span><br><span class="line">build = &quot;#&#123;currentTime&#125;.01&quot;</span><br><span class="line">end</span><br><span class="line">puts(&quot;*************| 更新build #&#123;build&#125; |*************&quot;)</span><br><span class="line"># =&gt; 更改项目 build 号</span><br><span class="line">increment_build_number(</span><br><span class="line">build_number: &quot;#&#123;build&#125;&quot;</span><br><span class="line">)</span><br><span class="line">end</span><br><span class="line">定义好updateProjectBuildNumber函数后，在自定义的每个lane方法中，调用一下即可。</span><br><span class="line">eg：</span><br><span class="line">lane :uat do</span><br><span class="line"> </span><br><span class="line">updateProjectBuildNumber  // 这里调用</span><br><span class="line">currentTime = Time.new.strftime(&quot;%Y-%m-%d-%H-%M&quot;)</span><br><span class="line">ipaName = &quot;UAT-#&#123;currentTime&#125;.ipa&quot;</span><br><span class="line">gym(</span><br><span class="line">scheme: &quot;XXX-UAT&quot;,</span><br><span class="line">export_method:&quot;ad-hoc&quot;,</span><br><span class="line">archive_path:&quot;./build/uat&quot;,</span><br><span class="line">output_directory:&quot;./build/uat&quot;,</span><br><span class="line">output_name:ipaName</span><br><span class="line">) # Build your app - more options available</span><br><span class="line">#deliver(force: true)</span><br><span class="line">pgyer(api_key: &quot;xxxxx&quot;, user_key: &quot;xxxxx&quot;)</span><br><span class="line"># frameit</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>配置完了 就可以本地打包自增build号了，当然，可以根据自己项目需求自定义build号的规则，百度一下Ruby语法即可。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://githubio.95783669.xyz/2026/11/09/IncreasBuildNumberWithFastlane/" data-id="cuidG_1hhEAhmJnkw5CfEBXBm" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2026/11/09/Gitlab-RunnerErrorAnalysis/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          gitlab-runner之build failed with exit status 1问题分析
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2026/11/09/JsonToModelPit/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">iOS项目中Json转Model的坑</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/11/">November 2026</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/11/09/SwiftURLEncodeing/">Swift中URL处理中的注意点</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/UseShellModifyXcodeBuildNumber/">使用shell脚本自动修改Xcode工程编译版本号</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/Xcode10-NewBuilSystemIssue/">踩坑Xcode 10之New Build System</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/iOS_Coding_Guidelines/">iOS代码规范</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2026 抢手的哥<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

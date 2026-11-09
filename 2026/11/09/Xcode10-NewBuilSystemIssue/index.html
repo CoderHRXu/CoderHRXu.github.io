@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>踩坑Xcode 10之New Build System | 抢手的哥的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Xcode10 Version 10.0 (10A255)发布，笔者第一时间升级。很显然使用的过程中出现了不少问题，相信大家都有所耳闻，最典型的就是libstdc++.6.0.9问题，网上已经有不少方法了，这里就不多说了。 遇到的问题除了这个问题之外，笔者还遇到了build system的问题。在Xcode菜单栏选择File– Workspace Setting就会出现如下的界面  可以看出Xco">
+<meta property="og:type" content="article">
+<meta property="og:title" content="踩坑Xcode 10之New Build System">
+<meta property="og:url" content="https://githubio.95783669.xyz/2026/11/09/Xcode10-NewBuilSystemIssue/index.html">
+<meta property="og:site_name" content="抢手的哥的技术博客">
+<meta property="og:description" content="Xcode10 Version 10.0 (10A255)发布，笔者第一时间升级。很显然使用的过程中出现了不少问题，相信大家都有所耳闻，最典型的就是libstdc++.6.0.9问题，网上已经有不少方法了，这里就不多说了。 遇到的问题除了这个问题之外，笔者还遇到了build system的问题。在Xcode菜单栏选择File– Workspace Setting就会出现如下的界面  可以看出Xco">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1447375-50b354ddfb81afbb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2026-11-09T00:57:04.154Z">
+<meta property="article:modified_time" content="2026-11-09T00:57:04.154Z">
+<meta property="article:author" content="抢手的哥">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/1447375-50b354ddfb81afbb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="抢手的哥的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">抢手的哥的技术博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://githubio.95783669.xyz"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Xcode10-NewBuilSystemIssue" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2026/11/09/Xcode10-NewBuilSystemIssue/" class="article-date">
+  <time datetime="2026-11-09T00:57:04.154Z" itemprop="datePublished">2026-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      踩坑Xcode 10之New Build System
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Xcode10 Version 10.0 (10A255)发布，笔者第一时间升级。很显然使用的过程中出现了不少问题，相信大家都有所耳闻，最典型的就是<a href="http://www.cnblogs.com/chao8888/p/9674314.html">libstdc++.6.0.9问题</a>，网上已经有不少方法了，这里就不多说了。</p>
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><p>除了这个问题之外，笔者还遇到了build system的问题。在Xcode菜单栏选择File– Workspace Setting就会出现如下的界面</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1447375-50b354ddfb81afbb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="build system.png"></p>
+<p>可以看出Xcode10是默认选中的最新的New Build System(Default)，在这个编译系统的环境下，我打包的CI脚本一直会报错</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/bin/sh -c /Users/apple/Library/Developer/Xcode/DerivedData/XXX-bcebrkpahigmkngytwmzustybhev/Build/Intermediates.noindex/ArchiveIntermediates/XXX-SIT/IntermediateBuildFilesPath/XXX.build/Release-SIT-iphoneos/XXX.build/Script-187F7F6921537B0600C427DD.sh</span><br><span class="line">[14:59:47]: ▸ Updating build number to 20180920145946</span><br><span class="line">[14:59:47]: ▸ Set: Entry, &quot;:CFBundleVersion&quot;, Does Not Exist</span><br><span class="line">[14:59:47]: ▸ File Doesn&#x27;t Exist, Will Create: /Users/apple/Library/Developer/Xcode/DerivedData/XXX-bcebrkpahigmkngytwmzustybhev/Build/Intermediates.noindex/ArchiveIntermediates/XXX-SIT/BuildProductsPath/Release-SIT-iphoneos/XXX.app.dSYM/Contents/Info.plist</span><br><span class="line">[14:59:47]: ▸ Command PhaseScriptExecution failed with a nonzero exit code</span><br></pre></td></tr></table></figure>
+
+<p>问题是出在了更改项目工程buildnumber的shell脚本里：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># Update build number with buldTime</span><br><span class="line">buildNumber=$(date +%Y%m%d%H%M%S)</span><br><span class="line">echo &quot;Updating build number to $buildNumber&quot;</span><br><span class="line">/usr/libexec/PlistBuddy -c &quot;Set :CFBundleVersion $buildNumber&quot; &quot;$&#123;TARGET_BUILD_DIR&#125;/$&#123;INFOPLIST_PATH&#125;&quot;</span><br><span class="line">/usr/libexec/PlistBuddy -c &quot;Set :CFBundleVersion $buildNumber&quot; &quot;$&#123;BUILT_PRODUCTS_DIR&#125;/$&#123;WRAPPER_NAME&#125;.dSYM/Contents/Info.plist&quot;</span><br></pre></td></tr></table></figure>
+
+<p>这段脚本会在最后会把xxx.app.dSYM中的info.plist中的CFBundleVersion值修改成当前时间，而报错说，这个info.plist不存在，创建的时候出问题报错。</p>
+<p><strong>这会不会是苹果的bug??</strong></p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>把build system切换到<br>Legacy Build System，换言之就是切换成老的编译系统，就OK了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://githubio.95783669.xyz/2026/11/09/Xcode10-NewBuilSystemIssue/" data-id="cuid1POh2vMnVy0u8w5Ny_pLv" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2026/11/09/UseShellModifyXcodeBuildNumber/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          使用shell脚本自动修改Xcode工程编译版本号
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2026/11/09/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hello World</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/11/">November 2026</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/11/09/SwiftURLEncodeing/">Swift中URL处理中的注意点</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/UseShellModifyXcodeBuildNumber/">使用shell脚本自动修改Xcode工程编译版本号</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/Xcode10-NewBuilSystemIssue/">踩坑Xcode 10之New Build System</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/iOS_Coding_Guidelines/">iOS代码规范</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2026 抢手的哥<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

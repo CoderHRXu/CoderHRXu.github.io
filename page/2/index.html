@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>抢手的哥的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="欢迎来到抢手的哥的技术博客">
+<meta property="og:type" content="website">
+<meta property="og:title" content="抢手的哥的技术博客">
+<meta property="og:url" content="https://githubio.95783669.xyz/page/2/index.html">
+<meta property="og:site_name" content="抢手的哥的技术博客">
+<meta property="og:description" content="欢迎来到抢手的哥的技术博客">
+<meta property="og:locale">
+<meta property="article:author" content="抢手的哥">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="抢手的哥的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">抢手的哥的技术博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://githubio.95783669.xyz"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-SelfSginedCertificateAdaptionForMoyaAndKingfisher" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2026/11/09/SelfSginedCertificateAdaptionForMoyaAndKingfisher/" class="article-date">
+  <time datetime="2026-11-09T00:57:04.153Z" itemprop="datePublished">2026-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2026/11/09/SelfSginedCertificateAdaptionForMoyaAndKingfisher/">Moya，KingFisher中使用自签名证书发起HTTPS请求</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="HTTPS握手"><a href="#HTTPS握手" class="headerlink" title="HTTPS握手"></a>HTTPS握手</h3><p>先说声https握手，发送 HTTPS 请求首先要进行 SSL&#x2F;TLS 握手，握手过程大致如下：</p>
+<p>1.客户端发起握手请求，携带随机数、支持算法列表等参数。<br>2.服务端收到请求，选择合适的算法，下发公钥证书和随机数。<br>3.客户端对服务端证书进行校验，并发送随机数信息，该信息使用公钥加密。<br>4.服务端通过私钥获取随机数信息。<br>5.双方根据以上交互的信息生成session ticket，用作该连接后续数据传输的加密密钥。<br>上述过程中，和“IP直连”有关的是第3步，客户端需要验证服务端下发的证书，验证过程有以下两个要点：</p>
+<p>1.客户端用本地保存的根证书解开证书链，确认服务端下发的证书是由可信任的机构颁发的。<br>2.客户端需要检查证书的 domain 域和扩展域，看是否包含本次请求的 host。<br>如果上述两点都校验通过，就证明当前的服务端是可信任的，否则就是不可信任，应当中断当前连接。</p>
+<p>当客户端使用“IP直连”解析域名时，请求URL中的host会被替换成解析出来的IP，所以在证书验证的第2步，会出现domain不匹配的情况，导致SSL&#x2F;TLS握手不成功。</p>
+<h3 id="问题的产生："><a href="#问题的产生：" class="headerlink" title="问题的产生："></a>问题的产生：</h3><pre><code>  平时的swift项目开发过程中，我们需要在测试服进行开发以及测试，当网络环境配置成https的时候，经常需要加载网络请求，或者展示网络图片，测试服都是自建证书，默认情况下Moya，和KingFisher不会通过验证，导致网络(图片)加载不同。
+</code></pre>
+<h3 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h3><p>关闭Https的证书认证<br>验证自签名证书，CN 是否合法</p>
+<h3 id="Moya"><a href="#Moya" class="headerlink" title="Moya"></a>Moya</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">方法一：</span><br><span class="line">/// 关闭https认证</span><br><span class="line">let serverTrustPolicies: [String: ServerTrustPolicy] = [</span><br><span class="line">“172.16.88.106”: .disableEvaluation</span><br><span class="line">]</span><br><span class="line">let manager = Manager(</span><br><span class="line">configuration: URLSessionConfiguration.default,</span><br><span class="line">serverTrustPolicyManager: ServerTrustPolicyManager(policies: serverTrustPolicies)</span><br><span class="line">)</span><br><span class="line">let provider = MoyaProvider(manager: manager, plugins: [NetworkLoggerPlugin(verbose: true)])</span><br><span class="line">方法一是一种变通实现的方法，它直接关闭了Https的Domain验证，虽然可以请求正常进行，但是如果在客户端和服务器之间增加代理，请求发送时代理替换证书，那么代理就可以轻易拿到请求的数据，出于安全考虑并不推荐这种做法。</span><br><span class="line">方法二：</span><br><span class="line">ServerTrustPolicy枚举中使用pinCertificates。</span><br><span class="line">case pinCertificates(certificates: [SecCertificate], validateCertificateChain: Bool, validateHost: Bool)</span><br><span class="line">传入自签名证书信息。</span><br><span class="line">示例代码：</span><br><span class="line">let path = Bundle.main .path(forResource: &quot;selfSigned_pubCA.cer&quot;, ofType: nil)</span><br><span class="line">let data = NSData(contentsOfFile: path!)</span><br><span class="line">let certificates :[SecCertificate] = [data as! SecCertificate]</span><br><span class="line">let policies : [String : ServerTrustPolicy] = [&quot;172.16.88.230&quot; : .pinCertificates(certificates: certificates, validateCertificateChain: true, validateHost: true)]</span><br><span class="line">把这个 policies 作为参数传进manager 构造函数中即可</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="KingFisher信任Host方法"><a href="#KingFisher信任Host方法" class="headerlink" title="KingFisher信任Host方法"></a>KingFisher信任Host方法</h3><p>A lightweight, pure-Swift library for downloading and caching images from the web.<br><a href="https://github.com/onevcat/Kingfisher">https://github.com/onevcat/Kingfisher</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//取出downloader单例</span><br><span class="line">let downloader = KingfisherManager.shared.downloader</span><br><span class="line">//信任ip为106的</span><br><span class="line">Serverdownloader.trustedHosts = Set([&quot;172.16.88.106&quot;])</span><br><span class="line">//使用KingFisher给ImageView赋网络图片</span><br><span class="line">iconView.kf.setImage(with: iconUrl)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://githubio.95783669.xyz/2026/11/09/SelfSginedCertificateAdaptionForMoyaAndKingfisher/" data-id="cuidfDrcCdwtOZHWpc_ckSeMF" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-NetEaswIMReceiption" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2026/11/09/NetEaswIMReceiption/" class="article-date">
+  <time datetime="2026-11-09T00:57:04.153Z" itemprop="datePublished">2026-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2026/11/09/NetEaswIMReceiption/">网易云信IM已读回执开发总结</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-网易云信"><a href="#1-网易云信" class="headerlink" title="1.网易云信"></a>1.网易云信</h2><p>网易云信算是国内比较老牌的IM即时通讯服务商了，公司项目里集成的网易云信SDK，关于这个SDK就不多说了，官网上的介绍比较详细。</p>
+<p>项目里接入了SDK，然后UI界面是使用的网易提供的一套UI框架，叫<code>NIMKit.h</code> 在此基础上进行开发。</p>
+<h2 id="2-IM已读回执"><a href="#2-IM已读回执" class="headerlink" title="2.IM已读回执"></a>2.IM已读回执</h2><p>IM已读回执，整个的过程简单说来就是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.聊天消息的发送方，发出的一条带开通回执功能的消息（可以是文字，图片等等，语音一般都自带回执）；</span><br><span class="line">2.聊天接收方查看了（前提是收到了该消息）了这条消息，要告诉发送方我我已经查看了，此时发一条该消息已读的指令给发送方；</span><br><span class="line">3.聊天发送方，收到接收方，发来的消息已读回执。这个时候，就要更新本地数据，在UI界面上把那条聊天信息，显示为已读；</span><br></pre></td></tr></table></figure>
+<p>群聊也是如此，在群聊中发出一条消息，通过回执功能可以看出谁已读或者未读。<br>如果你用过钉钉，就很好理解这个流程。</p>
+<h2 id="3-前期准备"><a href="#3-前期准备" class="headerlink" title="3.前期准备"></a>3.前期准备</h2><p>既然是迭代开发，没玩过这个SDK肯定是要查看开发文档的。<br><a href="https://github.com/netease-im/NIM_iOS_UIKit/blob/master/Documents/nim_custom_ui.md">NIMKit文档</a><br><a href="https://dev.yunxin.163.com/docs/product/IM%E5%8D%B3%E6%97%B6%E9%80%9A%E8%AE%AF/SDK%E5%BC%80%E5%8F%91%E9%9B%86%E6%88%90/iOS%E5%BC%80%E5%8F%91%E9%9B%86%E6%88%90/%E6%B6%88%E6%81%AF%E6%94%B6%E5%8F%91#%E5%B7%B2%E8%AF%BB%E5%9B%9E%E6%89%A7">单聊文档</a><br><a href="https://dev.yunxin.163.com/docs/product/IM%E5%8D%B3%E6%97%B6%E9%80%9A%E8%AE%AF/SDK%E5%BC%80%E5%8F%91%E9%9B%86%E6%88%90/iOS%E5%BC%80%E5%8F%91%E9%9B%86%E6%88%90/%E7%BE%A4%E7%BB%84%E5%8A%9F%E8%83%BD#%E7%BE%A4%E7%BB%84%E5%B7%B2%E8%AF%BB%E5%9B%9E%E6%89%A7">群聊文档</a></p>
+<p><strong>敲黑板，划重点，要考！！</strong><br><strong>网易云信SDK，已读回执功能，需要单独开通服务，而且是付费服务</strong><br>也就是说，代码写的再好，不花钱开通也没吊用。<br><img src="https://upload-images.jianshu.io/upload_images/1447375-5d168f1a9ad04095.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="卧槽.png"></p>
+<p>讲到这里，其实最最首要的任务是：<strong>充钱，充钱，充钱！</strong></p>
+<h2 id="4-拿起键盘就是干"><a href="#4-拿起键盘就是干" class="headerlink" title="4.拿起键盘就是干"></a>4.拿起键盘就是干</h2><p><img src="https://upload-images.jianshu.io/upload_images/1447375-7e42bf91528876c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/613/format/webp" alt="就是干"></p>
+<h3 id="4-1-聊天Cell定制"><a href="#4-1-聊天Cell定制" class="headerlink" title="4.1 聊天Cell定制"></a>4.1 聊天Cell定制</h3><p>如下图，NIMKit里面已经封装好了一套聊天Cell。根据业务需要自行调整。<br><img src="https://upload-images.jianshu.io/upload_images/1447375-70ef1b7523d72146.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="cell结构"><br>比如，它的readLabel是放在最左侧，我们需求是放在底部位置。所以自行重定义布局，很简单代码就不贴了。</p>
+<p>当然NIMKitConfig里面你要自定义好readLabel的字体大小颜色，内容等等。<br>NIMMessageModel是每一条聊天消息的model实体，readlabel的隐藏显示是由shouldShowReadLabel这个属性来驱动。</p>
+<p>NIMSessionTableAdapter这个类用来负责聊天页面的tableview相关，因为需求是将已读放到了消息底部，那必然要对cell的高度进行调整。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath &#123;</span><br><span class="line">CGFloat cellHeight = 0;</span><br><span class="line">id modelInArray = [[self.interactor items] objectAtIndex:indexPath.row];</span><br><span class="line">if ([modelInArray isKindOfClass:[NIMMessageModel class]]) &#123;</span><br><span class="line">NIMMessageModel *model          = (NIMMessageModel *)modelInArray;</span><br><span class="line">CGSize size                     = [model contentSize:tableView.nim_width];</span><br><span class="line">UIEdgeInsets contentViewInsets  = model.contentViewInsets;</span><br><span class="line">UIEdgeInsets bubbleViewInsets   = model.bubbleViewInsets;</span><br><span class="line">CGFloat unreadLabelHeight       = [model.message.from isEqualToString:[NIMSDK sharedSDK].loginManager.currentAccount] ? 20 : 0;// 高度适配</span><br><span class="line">cellHeight                      = size.height + contentViewInsets.top + contentViewInsets.bottom + bubbleViewInsets.top + bubbleViewInsets.bottom + unreadLabelHeight;</span><br><span class="line">&#125;</span><br><span class="line">....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="4-2-P2P聊天"><a href="#4-2-P2P聊天" class="headerlink" title="4.2 P2P聊天"></a>4.2 P2P聊天</h3><p>P2P就是点对点聊天，就是单聊。</p>
+<p>在会话界面中调用发送已读回执的接口并传入最后一条消息，即表示这之前的消息都已读，对端将收到此回执。<br>发送已读回执</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@protocol NIMChatManager &lt;NSObject&gt;</span><br><span class="line">- (void)sendMessageReceipt:(NIMMessageReceipt *)receipt</span><br><span class="line">completion:(NIMSendMessageReceiptBlock)completion;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>接受已读回执</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@protocol NIMChatManagerDelegate &lt;NSObject&gt;</span><br><span class="line">- (void)onRecvMessageReceipts:(NSArray&lt;NIMMessageReceipt *&gt; *)receipts;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>文档里说了这些，所有只要在生命周期方法里，把最后一条消息捞出来，调一下sendMessageReceipt方法即可。<br>如果发送了回执，对方的onRecvMessageReceipts就会被调用。网易牛逼的地方就是，收到回执的时候，SDK内部已经把数据都处理好了，上层只需要把UI刷新一下即可。<br><strong>什么？你问我怎么刷新？？</strong><br>在onRecvMessageReceipts里<code>[self.tableView reloadData];</code><br>爽不爽？</p>
+<h3 id="4-3-群聊发送已读回执"><a href="#4-3-群聊发送已读回执" class="headerlink" title="4.3 群聊发送已读回执"></a>4.3 群聊发送已读回执</h3><p>群聊和单聊方法基本差不多，但是要改一个属性，</p>
+<p>发送需要标记已读回执的群组消息标记</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">*  其他群成员收到此消息是否需要发送已读回执</span><br><span class="line">*  @discussion 默认为NO，设置成 YES 之后所有群回执相关操作才会生效</span><br><span class="line">*/</span><br><span class="line">@property (nonatomic,assign) BOOL teamReceiptEnabled;</span><br></pre></td></tr></table></figure>
+<p>一句话搞定<br><code>[NIMSDKConfig sharedConfig].teamReceiptEnabled = YES;</code></p>
+<p>消息接收方收到消息，并回复回执 在会话界面中调用发送已读回执的接口并传入最后一条消息，即表示这之前的消息都已读，对端将收到此回执。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@protocol NIMChatManager &lt;NSObject&gt;</span><br><span class="line">- (void)sendMessageReceipt:(NIMMessageReceipt *)receipt</span><br><span class="line">completion:(NIMSendMessageReceiptBlock)completion;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>到这里就遇到坑了，属性都配置好了，发回执就是不行。后来咨询了网易的技术支持，他丢给了我一个链接<a href="https://faq.yunxin.163.com/kb/main/#/item/KB0335">https://faq.yunxin.163.com/kb/main/#/item/KB0335</a>。<br><strong>原来网易还有知识宝库这玩意</strong><br><img src="https://upload-images.jianshu.io/upload_images/1447375-09bac5e00a497e92.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>原来不只是要将NIMSDKConfig的teamReceiptEnabled要改成YES，NIMMessage中的setting中的teamReceiptEnabled也要改成YES，这个文档里居然没写。要不是技术支持发给我谁知道有这玩意？？？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark - NIMChatManagerDelegate</span><br><span class="line">- (void)willSendMessage:(NIMMessage *)message &#123;</span><br><span class="line"></span><br><span class="line">id&lt;NIMSessionInteractor&gt; interactor = self.interactor;</span><br><span class="line">if (message.session.sessionType == NIMSessionTypeTeam) &#123;</span><br><span class="line">message.setting.teamReceiptEnabled = YES; // 设置里打开才行。</span><br><span class="line">&#125;</span><br><span class="line">....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样之后才能正确发送已读回执。</p>
+<p>发送已读回执之后，对方的那条消息，就能看到<br><code>model.message.teamReceiptInfo.unreadCount</code>就能再UI上显示多少人未读。</p>
+<h3 id="4-4-群聊查看消息已读未读列表"><a href="#4-4-群聊查看消息已读未读列表" class="headerlink" title="4.4 群聊查看消息已读未读列表"></a>4.4 群聊查看消息已读未读列表</h3><p>SDK里面已提供了查询消息已读id列表接口<br>查询详情接口<br>包括已读人数的 id 和 未读人数的 id 列表。需要注意查询详情对象不会跟着回执人数变化而变化，如果要获取最新的详情，必须再次调用此接口。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@protocol NIMChatManagerDelegate &lt;NSObject&gt;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">*  查询群组消息回执详情</span><br><span class="line">*</span><br><span class="line">*  @param NIMMessage    要查询的消息</span><br><span class="line">*  @discussion          详情包括已读人数的 id 列表和未读人数的 id 列表</span><br><span class="line">*                       查询详情对象不会跟着回执人数变化而变化，如果要获取最新的详情，必须再次调用此接口</span><br><span class="line">*</span><br><span class="line">*/</span><br><span class="line">- (void)queryMessageReceiptDetail:(NIMMessage *)message</span><br><span class="line">completion:(NIMQueryReceiptDetailBlock)completion;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>参数正确之后，会返回这条消息的已读id列表和未读id列表，列表里面保存的是userid。</p>
+<p>这里也遇到一个坑：<br><strong>在聊天界面，当前新发送的消息，能够查询到已读未读列表。但是打开页面之前的历史消息，无论如何都查不到。</strong><br>经过debug发现，当退出聊天窗口，所有的消息变成历史数据之后，才进入聊天窗口，所有的历史消息<code>message.setting.teamReceiptEnabled</code>统统变成了NO，解决方法也很简单，每次<code>queryMessageReceiptDetail</code>查询之前，再把这个属性设置成YES就能正确查询列表了。</p>
+<p><strong>注意点：网易云信最多支持100人群聊的已读消息回执</strong><br>超过100也就不支持了，如果不能满足需求，要么有本事自己写一套IM，要么就换一家SDK吧。</p>
+<h2 id="5-结束语"><a href="#5-结束语" class="headerlink" title="5.结束语"></a>5.结束语</h2><p>虽然是第一次接触，总体觉得网易这整个一套IM的SDK也不是很难，嵌套的比较多，需要认真梳理各个类各个协议，所承载的功能。其次，开发难免会遇到一些坑和弯路，写这篇文章也算是为了帮后来人吧。</p>
+<p>如有错误，还请各位看官批评指正~</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://githubio.95783669.xyz/2026/11/09/NetEaswIMReceiption/" data-id="cuidj5w6YydKSWxMbJa9XUDC8" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Swift4QRCodeTool" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2026/11/09/Swift4QRCodeTool/" class="article-date">
+  <time datetime="2026-11-09T00:57:04.153Z" itemprop="datePublished">2026-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2026/11/09/Swift4QRCodeTool/">Swift4如何扫描二维码了解一下</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-扫码简史"><a href="#1-扫码简史" class="headerlink" title="1.扫码简史"></a>1.扫码简史</h2><p>这些年移动互联网的普及，也让二维码技术成功的推广。在遥远的iOS7.0之前的年代，我们实现二维码扫描的功能，还需要借助两大开源组件ZXing和ZBar来实现。iOS7.0以后，苹果提供了AVFoundation框架，来实现二维码是扫码，而且效率更高。<br>与此同时，苹果的Swift开发语言，也经历了从1.0诞生到4.1，其中不乏一些新特性以及API的变化。</p>
+<p>本文讲解了如何用Swift4，实现二维码扫描的功能</p>
+<h2 id="2-具体实现"><a href="#2-具体实现" class="headerlink" title="2.具体实现"></a>2.具体实现</h2><h3 id="2-1权限控制"><a href="#2-1权限控制" class="headerlink" title="2.1权限控制"></a>2.1权限控制</h3><p>实现二维码扫描，必然要打开手机摄像头，就需要获取权限。首先，在你的项目工程的info.plist中加入如下key-value，否则app调试的时候崩溃。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;key&gt;NSCameraUsageDescription&lt;/key&gt;</span><br><span class="line">&lt;string&gt;CameraUsageDescription&lt;/string&gt;</span><br></pre></td></tr></table></figure>
+<p>另外需要手动去检测当前APP的摄像头权限。如下代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">func checkCameraAuth() -&gt; Bool &#123;</span><br><span class="line">let status = AVCaptureDevice.authorizationStatus(for: .video)</span><br><span class="line">return status == .authorized</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不难看出，status是个枚举值，只有 .authorized才是已经获取摄像头权限，其余的都不行。</p>
+<h3 id="2-2-上代码"><a href="#2-2-上代码" class="headerlink" title="2.2 上代码"></a>2.2 上代码</h3><h4 id="2-2-1-初始化"><a href="#2-2-1-初始化" class="headerlink" title="2.2.1 初始化"></a>2.2.1 初始化</h4><p>导入AVFoundation框架之后，我们就可以初始化捕捉设备、创建捕捉会话、输入媒体类型、设置代理等</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">// 捕捉设备</span><br><span class="line">guard let device = AVCaptureDevice.default(for: .video)  else &#123;</span><br><span class="line">return</span><br><span class="line">&#125;</span><br><span class="line">do &#123;</span><br><span class="line">// 输入</span><br><span class="line">inPut: AVCaptureDeviceInput = try AVCaptureDeviceInput.init(device: device)</span><br><span class="line">&#125; catch  &#123;</span><br><span class="line">print(error)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/// 输出</span><br><span class="line">let outPut: AVCaptureMetadataOutput = &#123;</span><br><span class="line">let outPut = AVCaptureMetadataOutput.init()</span><br><span class="line">outPut.connection(with: .metadata)</span><br><span class="line">return outPut</span><br><span class="line">&#125;()</span><br><span class="line"></span><br><span class="line">/// 会话 session</span><br><span class="line">let session: AVCaptureSession = &#123;</span><br><span class="line">let session = AVCaptureSession.init()</span><br><span class="line">if session.canSetSessionPreset(.high)&#123;</span><br><span class="line">session.sessionPreset = .high</span><br><span class="line">&#125;</span><br><span class="line">return session</span><br><span class="line">&#125;()</span><br><span class="line"></span><br><span class="line">/// 预览层</span><br><span class="line">let preLayer: AVCaptureVideoPreviewLayer = AVCaptureVideoPreviewLayer.init()</span><br></pre></td></tr></table></figure>
+<h4 id="2-2-2-设置代理"><a href="#2-2-2-设置代理" class="headerlink" title="2.2.2 设置代理"></a>2.2.2 设置代理</h4><p>初始化之后，开始设置代理</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 设代理</span><br><span class="line">outPut.setMetadataObjectsDelegate(self as AVCaptureMetadataOutputObjectsDelegate, queue: DispatchQueue.main)</span><br><span class="line">// 指定预览层的捕捉会话</span><br><span class="line">preLayer.session = session</span><br></pre></td></tr></table></figure>
+<h4 id="2-2-3-指定会话输入输出"><a href="#2-2-3-指定会话输入输出" class="headerlink" title="2.2.3 指定会话输入输出"></a>2.2.3 指定会话输入输出</h4><p>然后把捕捉会话添加输入输出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 捕捉会话加入input和output</span><br><span class="line">if session.canAddInput(input) &amp;&amp; session.canAddOutput(outPut) &#123;</span><br><span class="line">session.addInput(input)</span><br><span class="line">session.addOutput(outPut)</span><br><span class="line">// 设置元数据处理类型(注意, 一定要将设置元数据处理类型的代码添加到  会话添加输出之后)</span><br><span class="line">outPut.metadataObjectTypes = [.ean13, .ean8, .upce, .code39, .code93, .code128, .code39Mod43, .qr]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>设置元数据处理类型， 可见不仅有二维码，而且还有其他条码，就不一一介绍了。注意, 一定要将设置元数据处理类型的代码添加到会话添加输出之后。</p>
+<h4 id="2-2-4-添加会话预览图层"><a href="#2-2-4-添加会话预览图层" class="headerlink" title="2.2.4 添加会话预览图层"></a>2.2.4 添加会话预览图层</h4><p>接着开始在页面添加预览层, 这样才能看到摄像头捕捉到的画面。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 添加预览图层</span><br><span class="line">let flag = view.layer.sublayers?.contains(preLayer)</span><br><span class="line">if flag == false || flag == nil &#123;</span><br><span class="line">self.preLayer.frame = view.bounds</span><br><span class="line">view.layer.insertSublayer(preLayer, at: 0)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-2-5-开启会话"><a href="#2-2-5-开启会话" class="headerlink" title="2.2.5 开启会话"></a>2.2.5 开启会话</h4><p>到此为止，这个session捕捉会话需要的参数都全了，然后开始愉快的开始这个会话</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 启动会话</span><br><span class="line">session.startRunning()</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-6-监听捕捉会话输出代理"><a href="#2-2-6-监听捕捉会话输出代理" class="headerlink" title="2.2.6 监听捕捉会话输出代理"></a>2.2.6 监听捕捉会话输出代理</h4><p>开启捕捉会话，我们就可以在代理方法中查看会话捕捉到的东西。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!)</span><br></pre></td></tr></table></figure>
+<p>识别到的就在这个方法里告诉你。<br>什么？什么？，方法不调用？<br><strong>敲黑板！！！API有变化了</strong><br>Swift4.0的代理方法在下面</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection)&#123;</span><br><span class="line">var resultStrs = [String]()</span><br><span class="line">for obj in metadataObjects &#123;</span><br><span class="line">guard let codeObj = obj as? AVMetadataMachineReadableCodeObject else &#123;</span><br><span class="line">return</span><br><span class="line">&#125; </span><br><span class="line">resultStrs.append(codeObj.stringValue ?? &quot;&quot;)</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个方法里面就能拿到扫码之后的结果了。</p>
+<h4 id="2-2-7-思考"><a href="#2-2-7-思考" class="headerlink" title="2.2.7 思考"></a>2.2.7 思考</h4><p><strong>写到这里，不经停下思考：</strong><br><strong>1.这里还只是基本的扫码功能，就已经这么多代码了，关于扫码页面的长啥样子的代码我还没写；</strong><br><strong>2.一般开发中页面少不了UI的网络的代码，难道我要再把这么一大坨AVFoundation代码都写到控制器吗？</strong><br><strong>3.如果我一个项目里面，不止一个地方用到扫码，难道我还要再把这么多代码再复制几遍</strong></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1447375-b4a08ca6b7f7de8f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="WTF.png"></p>
+<h2 id="3-封装"><a href="#3-封装" class="headerlink" title="3.封装"></a>3.封装</h2><p><strong>高内聚 低耦合</strong><br>就按照这个原则来封装。<br>1.首先把这些AVFoundation模块的代码，统统抽到一个工具类里，需要的时候，直接拿工具类调用，识别结果delegate返回。<br>2.可以根据经验，把一些定制的需求也放进去，比如说扫码的时候，中间透明的框框，加上周边的黑色蒙板。<br>3.扩展一些其他功能，比如扫码成功播放一段提示音等待</p>
+<p>什么？你准备动手了？别着急，我已经弄好了,使劲戳👇👇</p>
+<h2 id="HRQRCodeScanTool"><a href="#HRQRCodeScanTool" class="headerlink" title="HRQRCodeScanTool"></a><a href="https://github.com/CoderHRXu/HRQRCodeScanTool">HRQRCodeScanTool</a></h2><p>最简单的，在控制器中，你只需要</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// in ViewController</span><br><span class="line">HRQRCodeScanTool.shared.delegate  = self</span><br><span class="line">HRQRCodeScanTool.shared.beginScanInView(view: view)</span><br></pre></td></tr></table></figure>
+<p>然后扫码结果代理返回</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// scan result will call in  delegate methods </span><br><span class="line">func scanQRCodeFaild(error: HRQRCodeTooError)&#123;</span><br><span class="line">print(error)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func scanQRCodeSuccess(resultStrs: [String])&#123;</span><br><span class="line">print(resultStrs.first)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果你需要二维码描边，你只需要设置这几个属性</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">open var isDrawQRCodeRect: Bool    true    是否描绘二维码边框 默认true</span><br><span class="line">open var drawRectColor: UIColor    UIColor.red    二维码边框颜色 默认红色</span><br><span class="line">open var drawRectLineWith: CGFloat    2    二维码边框线宽 默认2</span><br></pre></td></tr></table></figure>
+
+<p>如果你需要添加蒙板，你只需要设置这几个属性</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">open var isShowMask: Bool    true    是否展示黑色蒙版板层 默认开启</span><br><span class="line">open var maskColor: UIColor    Black.alpha 0.5    蒙板层 默认黑色 alpha 0.5</span><br><span class="line">open var centerWidth: CGFloat    200    中心非蒙板区域的宽</span><br><span class="line">open var centerHeight: CGFloat    5.0    中心非蒙板区域的宽</span><br><span class="line">open var centerPosition: CGPoint?    nil    中心非蒙板区域的中心点 默认Veiw的中心</span><br></pre></td></tr></table></figure>
+<p>哪里需要扫码，直接接入工具类，没多少行代码搞定，就问你爽不爽。<br>另外，项目里还提供了两个扩展，用来识别二维码图片，以及图片生成二维码，需要的各位看官老爷自取。<br><img src="https://upload-images.jianshu.io/upload_images/1447375-f471166df94d37f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="yeah.png"><br>还支持Cocoapods哦</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://githubio.95783669.xyz/2026/11/09/Swift4QRCodeTool/" data-id="cuidzZZWRs9lY5oGGjtnvaHUB" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Gitlab-RunnerErrorAnalysis" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2026/11/09/Gitlab-RunnerErrorAnalysis/" class="article-date">
+  <time datetime="2026-11-09T00:57:04.152Z" itemprop="datePublished">2026-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2026/11/09/Gitlab-RunnerErrorAnalysis/">gitlab-runner之build failed with exit status 1问题分析</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><p>工作需要，原先的一台专门负责打包的机器要被调走，所以另起炉灶，把需要打包的项目迁移到新机器，本篇文章讲述了迁移过程遇到的一些问题以及解决的方法。</p>
+<h2 id="1-gitlab-runner"><a href="#1-gitlab-runner" class="headerlink" title="1.gitlab-runner"></a>1.gitlab-runner</h2><p>首先还是简单说一下什么是gitlab-runner，官网是这么描述的：</p>
+<blockquote>
+<p>GitLab Runner is the open source project that is used to run your jobs and send the results back to GitLab. It is used in conjunction with <a href="https://about.gitlab.com/gitlab-ci">GitLab CI</a>, the open-source continuous integration service included with GitLab that coordinates the jobs.</p>
+</blockquote>
+<p>也就是说gitlab-runner是配合gitlab-ci进行使用的。一般地，gitlab里面的每一个工程都会定义一个属于这个工程的软件集成脚本，用来自动化地完成一些软件集成工作。<br>当这个工程的仓库代码发生变动时，比如有人push了代码或者分支合并，gitlab就会将这个变动通知gitlab-ci。这时gitlab-ci会找出与这个工程相关联的runner，并通知这些runner把代码更新到本地并执行预定义好的执行脚本。</p>
+<h2 id="2-gitlab-runner安装和注册"><a href="#2-gitlab-runner安装和注册" class="headerlink" title="2.gitlab-runner安装和注册"></a>2.gitlab-runner安装和注册</h2><p><a href="https://docs.gitlab.com/runner/install/index.html">安装</a><br><a href="https://docs.gitlab.com/runner/register/index.html">注册</a><br>这块废话不多说，直接看官方文档，根据系统一次操作一下即可</p>
+<h2 id="3-问题描述"><a href="#3-问题描述" class="headerlink" title="3.问题描述"></a>3.问题描述</h2><p>新机器到手后，把机器上所有的软件环境统统更新了个遍，升级到macOS High Sierra，ruby 升级到2.4等等。然后开始安装gitlab-runner紧接着注册到gitlab-ci，一切的一切都看似很平静很正常。</p>
+<p>然后开始试跑脚本,然后莫名其妙的出错了，log如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Running with gitlab-runner 10.3.0 (5cf5e19a)</span><br><span class="line">  on xxx的MacBook pro (0dee7c95)</span><br><span class="line">Using Shell executor...</span><br><span class="line">Running onxxxdeMacBook-Pro.local...</span><br><span class="line">Cloning repository...</span><br><span class="line">Cloning into &#x27;/Users/xxx/builds/0dee7c95/0/iOS-Team/xxx-test&#x27;...</span><br><span class="line">Checking out 0766deb4 as develop...</span><br><span class="line">Skipping Git submodules setup</span><br><span class="line">ERROR: Job failed: exit status 1</span><br></pre></td></tr></table></figure>
+<p>clone之后立马出问题，一脸懵逼…这谁看得懂出的啥错？凉了凉了~</p>
+<h2 id="4-问题分析"><a href="#4-问题分析" class="headerlink" title="4.问题分析"></a>4.问题分析</h2><p>刚开始以为是clone出问题，打开build的目录文件，里面所有文件目录都是完整的，直接打开项目工程都能顺畅的跑起来。<br>尝试用这些log输出，Google了一下，能搜到好几个Stack Overflow的结果，但是很遗憾，都未能解决问题。</p>
+<p><strong>那么问题到底出在哪？</strong></p>
+<p>首先的换一个思考问题的角度：<strong>gitlab-ci上的log看不出，搜不出什么端倪，那么gitlab-runner呢？毕竟跑脚本是gitlab-runner的事情，它自己最清楚了。</strong> </p>
+<p>于是在打包机器终端里面输入 <code>gitlab-runner --debug run</code> 这样runner的每一步操作都能看的到。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">Checking for jobs... nothing                        runner=0dee7c95</span><br><span class="line">Feeding runners to channel                          builds=0</span><br><span class="line">Checking for jobs... received                       job=402 repo_url=http://gitlab.xxxx.cn/iOS-Team/xxx-test.git runner=0dee7c95</span><br><span class="line">Failed to requeue the runner:                       builds=1 runner=0dee7c95</span><br><span class="line">Running with gitlab-runner 10.3.0 (5cf5e19a)</span><br><span class="line">  on xxx的MacBook pro (0dee7c95)  job=402 project=47 runner=0dee7c95</span><br><span class="line">Shell configuration: environment: []</span><br><span class="line">dockercommand:</span><br><span class="line">- sh</span><br><span class="line">- -c</span><br><span class="line">- &quot;if [ -x /usr/local/bin/bash ]; then\n\texec /usr/local/bin/bash --login\nelif [</span><br><span class="line">  -x /usr/bin/bash ]; then\n\texec /usr/bin/bash --login\nelif [ -x /bin/bash ]; then\n\texec</span><br><span class="line">  /bin/bash --login\nelif [ -x /usr/local/bin/sh ]; then\n\texec /usr/local/bin/sh</span><br><span class="line">  --login\nelif [ -x /usr/bin/sh ]; then\n\texec /usr/bin/sh --login\nelif [ -x /bin/sh</span><br><span class="line">  ]; then\n\texec /bin/sh --login\nelse\n\techo shell not found\n\texit 1\nfi\n\n&quot;</span><br><span class="line">command: bash</span><br><span class="line">arguments:</span><br><span class="line">- --login</span><br><span class="line">passfile: false</span><br><span class="line">extension: &quot;&quot;</span><br><span class="line">  job=402 project=47 runner=0dee7c95</span><br><span class="line">Using Shell executor...                             job=402 project=47 runner=0dee7c95</span><br><span class="line">Waiting for signals...                              job=402 project=47 runner=0dee7c95</span><br><span class="line">WARNING: Job failed: exit status 1                  job=402 project=47 runner=0dee7c95</span><br><span class="line">Submitting job to coordinator... ok                 job=402 runner=0dee7c95</span><br><span class="line">Feeding runners to channel                          builds=0</span><br><span class="line">Checking for jobs... nothing                        runner=0dee7c95</span><br></pre></td></tr></table></figure>
+<p>以上的log是为了复现问题，把相关配置改成问题解决之前，而操作出来的，可能和问题解决之前的log有些出入。根据这些log，再次Google，果然找到了相关信息：<br><a href="https://gitlab.com/gitlab-org/gitlab-runner/issues/114">https://gitlab.com/gitlab-org/gitlab-runner/issues/114</a><br>真相大白，原来问题出在<strong>RVM</strong>上。</p>
+<p>RVM相信开发者都不陌生，它是一个便捷的多版本ruby环境的管理和切换工具。有一个注意点，MacOS本身是集成ruby环境的，不同版本的系统默认集成的ruby版本也不一样。所以日常开发中，我们会根据需要对ruby环境统一管理。这个时候就会用到rvm了。通过rvm可以升级管理ruby。通过 <code>which ruby</code> 命令可以查看目前使用的是什么ruby。比如 <code>/Users/xxx/.rvm/rubies/ruby-2.4.1/bin/ruby</code> 输出的路径包含了 <code>.rvm</code> 就说明目前使用的是rvm下的ruby。</p>
+<p>到此为止确定了目前使用的是rvm的ruby，在深入定位一下，问题是出在rvm重新定义了 <code>cd</code> 命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ type cd</span><br><span class="line">cd is a function</span><br><span class="line">cd () </span><br><span class="line">&#123; </span><br><span class="line">    __zsh_like_cd cd &quot;$@&quot;</span><br><span class="line">&#125;</span><br><span class="line">$ unset cd</span><br><span class="line">$ type cd</span><br><span class="line">cd is a shell builtin</span><br></pre></td></tr></table></figure>
+<p>所以，clone下来一直出错的原因是cd命令被重定义了，导致路径切换的不对，无法执行命令，进而报错。这就解释了为什么gitlab-runner上输出的log <code>exec /bin/sh --login\nelse\n\techo shell not found\n\texit 1\nfi\n\n</code></p>
+<h2 id="5-问题解决"><a href="#5-问题解决" class="headerlink" title="5.问题解决"></a>5.问题解决</h2><p>知道了原因name如何解决呢？刚刚的问题里面也给出了方案<br>在 <code>.bashrc</code> 或 <code>.bash_profile</code> 加上 <code>unset cd</code> 。<br>操作如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1、打开terminal(终端)</span><br><span class="line">2、cd ~ ( 进入当前用户的home目录)</span><br><span class="line">3、open .bash_profile (打开.bash_profile文件，如果文件不存在就  创建文件：touch .bash_profile  编辑文件：open -e bash_profile)</span><br><span class="line">4、直接更改弹出的.bash_profile文件内容</span><br><span class="line">5、command + s 保存文件，然后关闭</span><br><span class="line">6、在terminal(终端)中输入 source .bash_profile (使用刚才更新之后的内容)</span><br></pre></td></tr></table></figure>
+<p>或者直接finder里面找，用文本编辑器修改一下。</p>
+<p><strong>等等 <code>.bashrc</code> <code>.bash_profile</code>又是什么鬼？ unset呢？</strong><br>百度了一下这些得到如下信息：<br><a href="http://download.csdn.net/download/ygl_ygl/4354972">profile\bashrc\bash_profile之间的区别和联系:</a></p>
+<blockquote>
+<p>&#x2F;etc&#x2F;profile        每个用户，首次登录时被执行；<br>&#x2F;etc&#x2F;bashrc       每个运行bash shell的用户都执行此文件，当bsh被打开时，该文件被读取；<br>~&#x2F;.bash_profile 专用于本用户的shell信息，仅被执行一次；<br>~&#x2F;.bashrc          文件包含本用户的bsh信息，登录及每次打开shell时被读取。</p>
+</blockquote>
+<p>unset指令：删除指定的shell变量或函数<br>【语    法】unset [-fv][变量或函数名称]<br>【功能介绍】该指令作用主要是删除指定的shell变量和函数。</p>
+<p>因为gitlab-runner注册的时候<a href="https://docs.gitlab.com/runner/executors/README.html">runner executor</a>用的shell，所以shell脚本的语法是适用的。使用<code>unset cd</code>就意味着把rvm重新定义的cd方法删除，这样路径切换的时候就正常了。gitlab-runner都能正常跑起来了。</p>
+<h2 id="6-总结"><a href="#6-总结" class="headerlink" title="6.总结"></a>6.总结</h2><p>1.思考问题角度要全面，一套完整的业务流程里出现问题，可以根据不同角度，不同端想错误点靠近，逐个的排查；<br>2.多关注debug信息，活用debug输出的log搜索信息，尽量谷歌搜索，百度太垃圾；<br>3.shell脚本是个神奇的东西，工作之余可以多学习学习。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://githubio.95783669.xyz/2026/11/09/Gitlab-RunnerErrorAnalysis/" data-id="cuid8iwfMH7TbNcEDiaBMa_R3" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-IncreasBuildNumberWithFastlane" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2026/11/09/IncreasBuildNumberWithFastlane/" class="article-date">
+  <time datetime="2026-11-09T00:57:04.152Z" itemprop="datePublished">2026-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2026/11/09/IncreasBuildNumberWithFastlane/">Fastlane自动打包工具build号自增处理配置方法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>如题所示，本文讲述build号具体的配置方法，也就是说在已经给工程配置好fastlane自动打包工具的前提下。<br>如果你尚未使用这个工具，可以点击一下几篇文章学习如何使用：<br><a href="http://www.jianshu.com/p/6e6503b47453">【CI】持续集成-引导篇</a><br><a href="http://www.jianshu.com/p/2d88a88467a5">【CI】持续集成-第一篇 fastlane</a><br>下面进入正题</p>
+<h2 id="step1-修改工程配置"><a href="#step1-修改工程配置" class="headerlink" title="step1 修改工程配置"></a>step1 修改工程配置</h2><p>修改buildsettings里面的version配置，current project version 随便填一个。versionsystem 选择apple generic。<br><img src="http://upload-images.jianshu.io/upload_images/1447375-eadcb5ae43006646.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="t1.jpeg"><br>修改info.plist的路径由绝对路径变为相对路径<br><img src="http://upload-images.jianshu.io/upload_images/1447375-c76535321c288da1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="t2.jpg"></p>
+<h2 id="step2-配置fastfile"><a href="#step2-配置fastfile" class="headerlink" title="step2 配置fastfile"></a>step2 配置fastfile</h2><p>推荐用sublime text打开fastfile，编辑器右下角选择Ruby语言，方便编码。<br>定义专门的函数处理</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">def updateProjectBuildNumber</span><br><span class="line"> </span><br><span class="line">currentTime = Time.new.strftime(&quot;%Y%m%d&quot;)</span><br><span class="line">build = get_build_number()</span><br><span class="line">if build.include?&quot;#&#123;currentTime&#125;.&quot;</span><br><span class="line"># =&gt; 为当天版本 计算迭代版本号</span><br><span class="line">lastStr = build[build.length-2..build.length-1]</span><br><span class="line">lastNum = lastStr.to_i</span><br><span class="line">lastNum = lastNum + 1</span><br><span class="line">lastStr = lastNum.to_s</span><br><span class="line">if lastNum &lt; 10</span><br><span class="line">lastStr = lastStr.insert(0,&quot;0&quot;)</span><br><span class="line">end</span><br><span class="line">build = &quot;#&#123;currentTime&#125;.#&#123;lastStr&#125;&quot;</span><br><span class="line">else</span><br><span class="line"># =&gt; 非当天版本 build 号重置</span><br><span class="line">build = &quot;#&#123;currentTime&#125;.01&quot;</span><br><span class="line">end</span><br><span class="line">puts(&quot;*************| 更新build #&#123;build&#125; |*************&quot;)</span><br><span class="line"># =&gt; 更改项目 build 号</span><br><span class="line">increment_build_number(</span><br><span class="line">build_number: &quot;#&#123;build&#125;&quot;</span><br><span class="line">)</span><br><span class="line">end</span><br><span class="line">定义好updateProjectBuildNumber函数后，在自定义的每个lane方法中，调用一下即可。</span><br><span class="line">eg：</span><br><span class="line">lane :uat do</span><br><span class="line"> </span><br><span class="line">updateProjectBuildNumber  // 这里调用</span><br><span class="line">currentTime = Time.new.strftime(&quot;%Y-%m-%d-%H-%M&quot;)</span><br><span class="line">ipaName = &quot;UAT-#&#123;currentTime&#125;.ipa&quot;</span><br><span class="line">gym(</span><br><span class="line">scheme: &quot;XXX-UAT&quot;,</span><br><span class="line">export_method:&quot;ad-hoc&quot;,</span><br><span class="line">archive_path:&quot;./build/uat&quot;,</span><br><span class="line">output_directory:&quot;./build/uat&quot;,</span><br><span class="line">output_name:ipaName</span><br><span class="line">) # Build your app - more options available</span><br><span class="line">#deliver(force: true)</span><br><span class="line">pgyer(api_key: &quot;xxxxx&quot;, user_key: &quot;xxxxx&quot;)</span><br><span class="line"># frameit</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>配置完了 就可以本地打包自增build号了，当然，可以根据自己项目需求自定义build号的规则，百度一下Ruby语法即可。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://githubio.95783669.xyz/2026/11/09/IncreasBuildNumberWithFastlane/" data-id="cuidG_1hhEAhmJnkw5CfEBXBm" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-JsonToModelPit" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2026/11/09/JsonToModelPit/" class="article-date">
+  <time datetime="2026-11-09T00:57:04.152Z" itemprop="datePublished">2026-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2026/11/09/JsonToModelPit/">iOS项目中Json转Model的坑</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Json转Model"><a href="#Json转Model" class="headerlink" title="Json转Model"></a>Json转Model</h2><p>json转model，是个开发都会遇到过。都已经9102年了，谁还不会用个第三方框架搞。拿起键盘就是干！<img src="http://upload-images.jianshu.io/upload_images/1447375-7e42bf91528876c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="就是干.png"><br>打开podfile，把大名顶顶的YYModel写上，pod install一下。再用上ESJsonFormat，直接根据json，都能把model生成好。</p>
+<h2 id="特殊处理"><a href="#特殊处理" class="headerlink" title="特殊处理"></a>特殊处理</h2><p><strong>啥?返回的字段值不是我们所需的</strong><br>在日常开发中，经常会遇到一些接口字段返回的值，并不是我所需要的类型的情况，这个时候，我们都会对这个字段进行处理。<br>举个栗子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/** 错误代码 */</span><br><span class="line">@property (nonatomic, assign) NSInteger error_code;</span><br><span class="line">/** 错误消息 */</span><br><span class="line">@property (nonatomic, copy) NSString *error_msg;</span><br><span class="line">/** 是否成功 */</span><br><span class="line">@property (nonatomic, assign) BOOL isSuccess;</span><br></pre></td></tr></table></figure>
+<p>接口的json中的error_code字段，接口会用这个字段告诉我这次请求是否成功。比方说成功的error_code是1，平时我们为了方便开发，会在model里自己加一个自定义的属性isSuccess，来表示本次网络请求回来之后的结果是否成功。通常的做法，要么重写error_code的set方法，在set的时候，做一次error_code&#x3D;&#x3D;1的判断，将判断的结果，赋值给isSuccess，要么就重写isSuccess的get方法，get的时候，返回error_code&#x3D;&#x3D;1的结果。<br>相信这些对于老司机们而言，都属于常规操作了。那我们来看看坑在什么地方？</p>
+<h2 id="入坑"><a href="#入坑" class="headerlink" title="入坑"></a>入坑</h2><p>我们来看这个案例：<br>接口返回了4个字段值，每个字段都用得到，所以新建一个model类来解析。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@interface ExamSubjectVo : NSObject</span><br><span class="line"></span><br><span class="line">/**  考试学科ID */</span><br><span class="line">@property (nonatomic, assign) NSInteger examSubjectValue;</span><br><span class="line">/**  考试学科名称 */</span><br><span class="line">@property (nonatomic, strong) NSString *examSubjectName;</span><br><span class="line">/** 学科分数  */</span><br><span class="line">@property (nonatomic, strong) NSString *subjectScore;</span><br><span class="line">/** 基础学科Id  */</span><br><span class="line">@property (nonatomic, assign) NSInteger subjectBaseId;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>但是由于有业务需求，且为了方便开发过程区分，需要对考试名称的字段examSubjectName为全科或者语数外的情况，要特殊处理。所以，按照一贯的思维，我们要重写set方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (void)setExamSubjectName:(NSString *)examSubjectName&#123;</span><br><span class="line">_examSubjectName = examSubjectName;</span><br><span class="line">if ([examSubjectName isEqualToString:@&quot;全科&quot;]) &#123;</span><br><span class="line">self.subjectBaseId = -100;</span><br><span class="line">&#125;</span><br><span class="line">if ([examSubjectName isEqualToString:@&quot;语数外&quot;]) &#123;</span><br><span class="line">self.subjectBaseId = -200;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>乍一看，也没什么问题，解析的过程中，把字段的值转化为我们需要的。<strong>而且真机实测的时候，所有的测试机都没问题，除了一台iPhone5之外</strong><br>就除了一台iPhone5，debug的时候看到set方法确实也走了，可是最终的subjectBaseId并没有转化成-100或者-200，可见subjectBaseId又被json本身的值覆盖了，也就是说 <strong>set方法的执行顺序，在不同CPU架构设备上存在差异。</strong></p>
+<h2 id="出坑"><a href="#出坑" class="headerlink" title="出坑"></a>出坑</h2><p>那么如何解决问题呢？<br>正是因为存在这样的差异，所以我们只能在model所有的字段全部set完毕之后，再做一些特殊的字段处理，那么如何来处理呢？<br>翻阅YYModel源码，肯定能有所发现，果不其然，有所收获。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">If the default json-to-model transform does not fit to your model object, implement</span><br><span class="line">this method to do additional process. You can also use this method to validate the </span><br><span class="line">model&#x27;s properties.</span><br><span class="line"></span><br><span class="line">@discussion If the model implements this method, it will be called at the end of</span><br><span class="line">`+modelWithJSON:`, `+modelWithDictionary:`, `-modelSetWithJSON:` and `-modelSetWithDictionary:`.</span><br><span class="line">If this method returns NO, the transform process will ignore this model.</span><br><span class="line"></span><br><span class="line">@param dic  The json/kv dictionary.</span><br><span class="line"></span><br><span class="line">@return Returns YES if the model is valid, or NO to ignore this model.</span><br><span class="line">*/</span><br><span class="line">- (BOOL)modelCustomTransformFromDictionary:(NSDictionary *)dic;</span><br></pre></td></tr></table></figure>
+<p>YYModel提供了这么个方法，它会在<code>+modelWithJSON:</code>, <code>+modelWithDictionary:</code>, <code>-modelSetWithJSON:</code> and <code>-modelSetWithDictionary:</code>方法结束的时候调用。<br>所以我们对model特殊字段的处理，都应该放到这个方法去执行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)modelCustomTransformFromDictionary:(NSDictionary *)dic&#123;</span><br><span class="line">if ([self.examSubjectName isEqualToString:@&quot;全科&quot;]) &#123;</span><br><span class="line">self.subjectBaseId = -100;</span><br><span class="line">&#125;</span><br><span class="line">if ([self.examSubjectName isEqualToString:@&quot;语数外&quot;]) &#123;</span><br><span class="line">self.subjectBaseId = -200;</span><br><span class="line">&#125;</span><br><span class="line">return YES;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这么一来，问题就解决了。<br>注意，YYModel还有一个<code> - (NSDictionary *)modelCustomWillTransformFromDictionary:(NSDictionary *)dic;</code><br>这个方法很类似，但是执行的时机不一样，这个方法是在model转化之前执行，虽不符合本案例的需求，但是很有可能在其他类似的情况能用的上。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://githubio.95783669.xyz/2026/11/09/JsonToModelPit/" data-id="cuidQC6TWToMmQbeUh1S61oSl" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-KoaStaticServer" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2026/11/09/KoaStaticServer/" class="article-date">
+  <time datetime="2026-11-09T00:57:04.152Z" itemprop="datePublished">2026-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2026/11/09/KoaStaticServer/">如何使用Koa搭建静态资源文件服务器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-node-js"><a href="#1-node-js" class="headerlink" title="1.node.js"></a>1.node.js</h2><p>Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境，执行Javascript的速度非常快，性能非常好。<br>Node.js 使用了一个事件驱动、非阻塞式 I&#x2F;O 的模型，使其轻量又高效。<br>Node.js 的包管理器 npm，是全球最大的开源库生态系统。</p>
+<h2 id="2-Koa"><a href="#2-Koa" class="headerlink" title="2.Koa"></a>2.Koa</h2><p><a href="http://koajs.com/">Koa</a> 就是一种简单好用的 Web 框架。它的特点是优雅、简洁、表达力强、自由度高。本身代码只有1000多行，所有功能都通过插件实现，很符合 Unix 哲学。</p>
+<p>本文讲述了如何最简单的使用Koa框架来实现静态资源发布服务器。</p>
+<h2 id="3-准备工作"><a href="#3-准备工作" class="headerlink" title="3.准备工作"></a>3.准备工作</h2><p>Koa 必须使用7.6以上版本的，如果你的版本低于这个要求，就要先升级Node，操作方法不多说了。</p>
+<h2 id="4-正式开搞"><a href="#4-正式开搞" class="headerlink" title="4.正式开搞"></a>4.正式开搞</h2><h3 id="4-1-快速开启http服务"><a href="#4-1-快速开启http服务" class="headerlink" title="4.1 快速开启http服务"></a>4.1 快速开启http服务</h3><p>在你的电脑上指定一个目录，打开终端cd到目录，npm install 安装依赖包，新建一个app.js 文件，作为入口。在js文件中写如下代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const Koa = require(&#x27;koa&#x27;);</span><br><span class="line">const app = new Koa();</span><br><span class="line"></span><br><span class="line">app.listen(3000);</span><br></pre></td></tr></table></figure>
+<p>终端里输出 node app.js，一个服务就这么运行了。是不是so easy！<br>打开浏览器访问<a href="http://loacalhost:3000，你会看到页面显示"Not">http://loacalhost:3000，你会看到页面显示&quot;Not</a> Found”，表示没有发现任何内容。这是因为我们并没有告诉 Koa 应该显示什么内容。</p>
+<h3 id="4-2-配置路由和静态资源"><a href="#4-2-配置路由和静态资源" class="headerlink" title="4.2 配置路由和静态资源"></a>4.2 配置路由和静态资源</h3><p>网站一般都有多个页面，多个页面就需要路径的路由。原生路由用起来不太方便，我们可以使用封装好的<a href="https://www.npmjs.com/package/koa-route"><code>koa-route</code></a>模块。<br>如果网站提供静态资源（图片、字体、样式表、脚本……），为它们一个个写路由就很麻烦，也没必要。<a href="https://www.npmjs.com/package/koa-static"><code>koa-static</code></a>模块封装了这部分的请求。</p>
+<p>实际开发中，一个服务不仅能提供静态资源访问，也会提供一些接口给外界调用，为了统一管理这部分静态资源，一般都放在根目录public文件夹下。</p>
+<p>其他的接口，就需要用路由统一分配路径</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// 0.导入需要的资源包</span><br><span class="line">const Koa = require(&#x27;koa&#x27;);</span><br><span class="line">const app = new Koa();</span><br><span class="line">const route = require(&#x27;koa-route&#x27;);</span><br><span class="line">const serve = require(&#x27;koa-static&#x27;);</span><br><span class="line"></span><br><span class="line">// 1.主页静态网页 把静态页统一放到public中管理</span><br><span class="line">const home   = serve(path.join(__dirname)+&#x27;/public/&#x27;);</span><br><span class="line">// 2.hello接口</span><br><span class="line">const hello = ctx =&gt; &#123;</span><br><span class="line">  ctx.response.body = &#x27;Hello World&#x27;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 3.分配路由</span><br><span class="line">app.use(home); </span><br><span class="line">app.use(route.get(&#x27;/&#x27;, hello));</span><br><span class="line">app.listen(3000);</span><br></pre></td></tr></table></figure>
+<p>这里用到了一个node.js的全局变量: __dirname,表示当前执行脚本所在的目录。然后把你之前写好的静态资源，比如html，css等文件，统统放到根目录的public文件夹下。运行一下app.js。在浏览器里面输如 <a href="http://loacalhost:3000/">http://loacalhost:3000</a> 默认获取加载public目录下的index.html文件，如果没有，那就在浏览器端口号后面拼接路径。比如 <a href="http://loacalhost:3000/index2.html">http://loacalhost:3000/index2.html</a>。</p>
+<p>到此为止就可以访问public下所有的静态资源了。<br>鼓掌，散花！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://githubio.95783669.xyz/2026/11/09/KoaStaticServer/" data-id="cuidGeIGfqpglOFoc31u45hCj" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-MacOSShareWifi" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2026/11/09/MacOSShareWifi/" class="article-date">
+  <time datetime="2026-11-09T00:57:04.152Z" itemprop="datePublished">2026-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2026/11/09/MacOSShareWifi/">关于Mac共享WiFi网络，看这里就够了(2.4G，5G ， ipv6)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h3><p>WiFi这个词大家都不陌生，前几年移动互联网的飞速发展，如今家家户户都有无线路由器，都有自家的WiFi。但是总有一些场景，我们需要WiFi网络来给我们的移动设备使用，但是现场有没有相关的硬件设备，这就催生了一些WiFi使用的需求。在windows系统上，已经有不少成熟的产品，可以快速创建专属的WiFi网络。例如小米随身WiFi，本身就是一个无线网卡，作为AP分享。笔记本电脑一般都自带无线网卡，一些软件也能利用笔记本的无线网卡做热点分享。那么，在Mac平台上我们如何创建自己的专属WiFi呢？</p>
+<h3 id="So-Easy"><a href="#So-Easy" class="headerlink" title="So Easy"></a>So Easy</h3><p>苹果电脑在已经连接了有线网络的情况下（前提条件），无需下载安装其他WiFi共享软件即可实现WiFi共享，但如果连接的是无线网络时则不能共享WiFi，即连着WiFi时不能共享WiFi。<br>1.点击左上角的黑苹果🍎，选择【系统偏好设置】</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-cb62ad9287cef03f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="step1.png"><br>2.单击【共享】</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-4cc0258b11d3e344.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="step2.png"></p>
+<p>3.检测一下你电脑的无线网卡有没有开启，如果没开启，点击系统右上角的无线网icon，打开</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-5eeb6cd66e296020.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="step3.png"></p>
+<p>4.上面的框框，意思是你要把哪个网络共享，我的电脑是自带RJ45网口的，网络环境直接插网线就可以上网，所以我这里选择的是【以太网】，如果是新款的MacBook不带网口的，而是接了USB网卡，这里的来源就要选择【USB网卡设备】。但是还有一种情况，不管你电脑带不带网卡，只要是你要在电脑进行PPPoE上网的（俗称拨号上网，家庭网络这样的认证方式最多），这里的来源就要选择【PPPoE网络】，这里请根据实际情况。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-b0d8159d71ebb35a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>下面的框框，意思就是把网络通过什么端口共享出去，很明显这里选择WiFi，就是通过无线的方式分享出去。</p>
+<p>5.然后点击【WiFi选项】，弹出一个页面，填写你要创建的WiFi名称，以及安全性，自己创建的WiFi当然想自己用啦，选择【WPA2个人级】的就好，填写WiFi密码 点击好就OK了。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-d6dfa21f09370eb2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>6.也许第5步你们发现了一个问题，关于频段，我没有具体说明。点开频段之后，弹出了一个选择界面，有很多频段，我们该如何选择？而且11和36之间，怎么会多了一根分割线？</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-12a2f1fc97ace1ea.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>这里就要补充一些关于WiFi的一些基本知识了。Wi-Fi是一种允许电子设备连接到一个无线局域网（WLAN）的技术,通常使用2.4G UHF或5G SHF ISM 射频频段。 频段是固定，那么所以的设备都在这个频段使用，就会容易造成干扰，就好比马路宽度是一定的，大家都在一条道上来回走，就会碰撞。所以又划分出了信道，就好比把马路划分了很多车道，不同速度等级的各行其道互不干扰。不同国家划分标准不一致，以中国为例，运行在2.4G的WiFi网络，信道划分如下图。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-3d70320d3a2d08a8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<pre><code>1.IEEE 802.11b/g标准工作在2.4G频段，频率范围为2.400—2.4835GHz，共83.5M带宽
+2.划分为14个子信道
+3.每个子信道宽度为22MHz
+4.相邻信道的中心频点间隔5MHz 
+5.相邻的多个信道存在频率重叠(如1信道与2、3、4、5信道有频率重叠)
+6.整个频段内只有3个（1、6、11）互不干扰信道
+</code></pre>
+<p>如果创建2.4G的WiFi的话，选择的频道的时候，在1、6、11里面选择一种就行了。到这里就可以理解那根分割线是啥意思了，分割线以上的是2.4G的信道，分割线一下就是5G的信道，那么5G的信道如何选择？</p>
+<p>很简单，随便选！（😜嘿嘿嘿）因为现阶段5G用的还是不多，不会有啥干扰。<br>如果你的电脑，点开这个选项，发现只有1到11的信道选择，说明你的电脑的无线网卡，硬件上不支持5GHz的WiFi，那就木有办法咯。</p>
+<p>7.回到我们的话题来，选择好你要的频段，设置好之后，点击勾选【互联网共享】，此时会弹出一个框框，点击【启动】就好啦！</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-57bd55c1eb869ee3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>成功之后，你会发现，WiFi的小图标变成了这个样子。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-7cc166273d8a3b16.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>到这里就大功告成啦。</p>
+<h2 id="Wait-说好的IPV6呢？"><a href="#Wait-说好的IPV6呢？" class="headerlink" title="Wait 说好的IPV6呢？"></a>Wait 说好的IPV6呢？</h2><p>先要知道一个概念，目前我们绝大多数使用的网络，都是IPV4的，IP地址有四段0~255的数字组成。 由于<a href="http://baike.baidu.com/item/IPv4">IPv4</a>最大的问题在于网络地址资源有限，严重制约了互联网的应用和发展。IPV6应运而生，IPv6的使用，不仅能解决网络地址资源数量的问题，而且也解决了多种接入设备连入互联网的障碍。IPv6的地址长度为128b，是IPv4地址长度的4倍。于是IPv4点分十进制格式不再适用，采用十六进制表示。简单讲，ipv6能分配的地址非常多，绝对够用。<br>那么我们如何创建一个ipv6的网络呢？</p>
+<h3 id="还是So-Easy"><a href="#还是So-Easy" class="headerlink" title="还是So Easy"></a>还是So Easy</h3><p>1.点击左上角的黑苹果，选择【系统偏好设置】，敲黑板！！按住’Option’按键的同时点选“共享”图标，注意：不要放开’Option’按键，一直按住不放哦；这样操作之后，你会发现下面多了一个选项【创建NAT64网络】，勾选它就OK啦。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-140c0ef7198e6bc7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h3 id="那么问题来了，NAT64是啥？"><a href="#那么问题来了，NAT64是啥？" class="headerlink" title="那么问题来了，NAT64是啥？"></a>那么问题来了，NAT64是啥？</h3><p>这里我找了一张图</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-506743972838ede3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p> NAT64是一种有状态的网络地址与协议转换技术，一般只支持通过IPv6网络侧用户发起连接访问IPv4侧网络资源。但NAT64也支持通过手工配置静态映射关系，实现IPv4网络主动发起连接访问IPv6网络。NAT64可实现TCP、UDP、ICMP协议下的IPv6与IPv4网络地址和协议转换。<br> DNS64则主要是配合NAT64工作，主要是将DNS查询信息中的A记录（IPv4地址）合成到AAAA记录（IPv6地址）中，返回合成的AAAA记录用户给IPv6侧用户。<br> NAT64一般与DNS64协同工作，而不需要在IPv6客户端或IPv4服务器端做任何修改。</p>
+<p>一句话，可以简单理解为中转机构。<br>当然了，ipv6目前对大众使用没啥用户需求，但是对于行业相关技术人员，有需要使用ipv6的环境做一些相关的测试。</p>
+<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>到此为止，Mac共享WiFi网络的方法其实很简单，一学就会，掌握这个技巧，可以很高效的运用到你的工作或者生活中，快去试试吧。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://githubio.95783669.xyz/2026/11/09/MacOSShareWifi/" data-id="cuid6LgRa2TXWh0ZYZ2_t6uyS" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-MethodsOfObjective-C" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2026/11/09/MethodsOfObjective-C/" class="article-date">
+  <time datetime="2026-11-09T00:57:04.152Z" itemprop="datePublished">2026-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2026/11/09/MethodsOfObjective-C/">OC常用方法总结--不定期更新</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-统一收起键盘"><a href="#1-统一收起键盘" class="headerlink" title="1.统一收起键盘"></a>1.统一收起键盘</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[[UIApplication sharedApplication] keyWindow] endEditing:YES];</span><br></pre></td></tr></table></figure>
+<h3 id="2-数组去重"><a href="#2-数组去重" class="headerlink" title="2.数组去重"></a>2.数组去重</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NSArray *newArr = [oldArr valueForKeyPath:@“@distinctUnionOfObjects.self&quot;];</span><br><span class="line">@distinctUnionOfObjects.self  表示比较对象</span><br><span class="line">@distinctUnionOfObjects.[key] 表示比较对象的任意keyboarded</span><br></pre></td></tr></table></figure>
+<h3 id="3-修改textField的placeholder的字体颜色、大小"><a href="#3-修改textField的placeholder的字体颜色、大小" class="headerlink" title="3.修改textField的placeholder的字体颜色、大小"></a>3.修改textField的placeholder的字体颜色、大小</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[textField setValue:[UIColor redColor] forKeyPath:@&quot;_placeholderLabel.textColor&quot;];</span><br><span class="line">[textField setValue:[UIFont boldSystemFontOfSize:16] forKeyPath:@&quot;_placeholderLabel.font&quot;];</span><br></pre></td></tr></table></figure>
+<h3 id="4-给一个view截图"><a href="#4-给一个view截图" class="headerlink" title="4.给一个view截图"></a>4.给一个view截图</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">UIGraphicsBeginImageContextWithOptions(view.bounds.size, YES, 0.0);</span><br><span class="line">[view.layer renderInContext:UIGraphicsGetCurrentContext()];</span><br><span class="line">UIImage *img = UIGraphicsGetImageFromCurrentImageContext();</span><br><span class="line">UIGraphicsEndImageContext();</span><br></pre></td></tr></table></figure>
+<h3 id="5-UIView背景颜色渐变"><a href="#5-UIView背景颜色渐变" class="headerlink" title="5.UIView背景颜色渐变"></a>5.UIView背景颜色渐变</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];</span><br><span class="line">[self.view addSubview:view];</span><br><span class="line">CAGradientLayer *gradient = [CAGradientLayer layer];</span><br><span class="line">gradient.frame = view.bounds;</span><br><span class="line">gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor blackColor] CGColor], (id)[[UIColor whiteColor] CGColor], nil];</span><br><span class="line">[view.layer insertSublayer:gradient atIndex:0];</span><br></pre></td></tr></table></figure>
+<h3 id="6-为UIView某个角添加圆角"><a href="#6-为UIView某个角添加圆角" class="headerlink" title="6.为UIView某个角添加圆角"></a>6.为UIView某个角添加圆角</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 左上角和右下角添加圆角</span><br><span class="line">UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:view.bounds byRoundingCorners:(UIRectCornerTopLeft | UIRectCornerBottomRight) cornerRadii:CGSizeMake(20, 20)];</span><br><span class="line">CAShapeLayer *maskLayer = [CAShapeLayer layer];</span><br><span class="line">maskLayer.frame = view.bounds;</span><br><span class="line">maskLayer.path = maskPath.CGPath;</span><br><span class="line">view.layer.mask = maskLayer;</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-拿到当前正在显示的控制器"><a href="#7-拿到当前正在显示的控制器" class="headerlink" title="7.拿到当前正在显示的控制器"></a>7.拿到当前正在显示的控制器</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">- (UIViewController *)getVisibleViewControllerFrom:(UIViewController*)vc &#123;</span><br><span class="line">    if ([vc isKindOfClass:[UINavigationController class]]) &#123;</span><br><span class="line">        return [self getVisibleViewControllerFrom:[((UINavigationController*) vc) visibleViewController]];</span><br><span class="line">    &#125;else if ([vc isKindOfClass:[UITabBarController class]])&#123;</span><br><span class="line">        return [self getVisibleViewControllerFrom:[((UITabBarController*) vc) selectedViewController]];</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        if (vc.presentedViewController) &#123;</span><br><span class="line">            return [self getVisibleViewControllerFrom:vc.presentedViewController];</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return vc;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="8-tableViewCell分割线顶到头"><a href="#8-tableViewCell分割线顶到头" class="headerlink" title="8.tableViewCell分割线顶到头"></a>8.tableViewCell分割线顶到头</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath &#123;</span><br><span class="line">    [cell setSeparatorInset:UIEdgeInsetsZero];</span><br><span class="line">    [cell setLayoutMargins:UIEdgeInsetsZero];</span><br><span class="line">    cell.preservesSuperviewLayoutMargins = NO;</span><br><span class="line">&#125;</span><br><span class="line">- (void)viewDidLayoutSubviews &#123;</span><br><span class="line">    [self.tableView setSeparatorInset:UIEdgeInsetsZero];</span><br><span class="line">    [self.tableView setLayoutMargins:UIEdgeInsetsZero];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="9-image添加倒影效果"><a href="#9-image添加倒影效果" class="headerlink" title="9.image添加倒影效果"></a>9.image添加倒影效果</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">- (void)setImageShadow &#123;</span><br><span class="line">    CGRect frame = self.frame;</span><br><span class="line">    frame.origin.y += (frame.size.height + 1);</span><br><span class="line"></span><br><span class="line">    UIImageView *reflectionImageView = [[UIImageView alloc] initWithFrame:frame];</span><br><span class="line">    self.clipsToBounds = TRUE;</span><br><span class="line">    reflectionImageView.contentMode = self.contentMode;</span><br><span class="line">    [reflectionImageView setImage:self.image];</span><br><span class="line">    reflectionImageView.transform = CGAffineTransformMakeScale(1.0, -1.0);</span><br><span class="line"></span><br><span class="line">    CALayer *reflectionLayer = [reflectionImageView layer];</span><br><span class="line">    CAGradientLayer *gradientLayer = [CAGradientLayer layer];</span><br><span class="line">    gradientLayer.bounds = reflectionLayer.bounds;</span><br><span class="line">    gradientLayer.position = CGPointMake(reflectionLayer.bounds.size.width / 2, reflectionLayer.bounds.size.height * 0.5);</span><br><span class="line">    gradientLayer.colors = [NSArray arrayWithObjects:</span><br><span class="line">                                                        (id)[[UIColor clearColor] CGColor],</span><br><span class="line">                                                        (id)[[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.3] CGColor], nil];</span><br><span class="line">    gradientLayer.startPoint = CGPointMake(0.5,0.5);</span><br><span class="line">    gradientLayer.endPoint = CGPointMake(0.5,1.0);</span><br><span class="line">    reflectionLayer.mask = gradientLayer;</span><br><span class="line">    [self.superview addSubview:reflectionImageView];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="10-添加图片水印"><a href="#10-添加图片水印" class="headerlink" title="10.添加图片水印"></a>10.添加图片水印</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// 画水印</span><br><span class="line">- (void) setImage:(UIImage *)image withWaterMark:(UIImage *)mark inRect:(CGRect)rect &#123;</span><br><span class="line">    if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 4.0)&#123;</span><br><span class="line">        UIGraphicsBeginImageContextWithOptions(self.frame.size, NO, 0.0);</span><br><span class="line">    &#125;</span><br><span class="line">    //原图</span><br><span class="line">    [image drawInRect:self.bounds];</span><br><span class="line">    //水印图</span><br><span class="line">    [mark drawInRect:rect];</span><br><span class="line">    UIImage *newPic = UIGraphicsGetImageFromCurrentImageContext();</span><br><span class="line">    UIGraphicsEndImageContext();</span><br><span class="line">    self.image = newPic;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="11-删除NSUserDefaults所有记录"><a href="#11-删除NSUserDefaults所有记录" class="headerlink" title="11.删除NSUserDefaults所有记录"></a>11.删除NSUserDefaults所有记录</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//方法一</span><br><span class="line">NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];</span><br><span class="line">[[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];  </span><br><span class="line">//方法二  </span><br><span class="line">- (void)resetDefaults &#123;   </span><br><span class="line">  NSUserDefaults * defs = [NSUserDefaults standardUserDefaults];</span><br><span class="line">     NSDictionary * dict = [defs dictionaryRepresentation];</span><br><span class="line">     for (id key in dict) &#123;</span><br><span class="line">          [defs removeObjectForKey:key];</span><br><span class="line">     &#125;</span><br><span class="line">      [defs synchronize];</span><br><span class="line"> &#125;</span><br><span class="line">// 方法三</span><br><span class="line">[[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];</span><br></pre></td></tr></table></figure>
+
+<h3 id="12-跳进app权限设置"><a href="#12-跳进app权限设置" class="headerlink" title="12.跳进app权限设置"></a>12.跳进app权限设置</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if (UIApplicationOpenSettingsURLString != NULL) &#123;</span><br><span class="line">    NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];</span><br><span class="line">    [[UIApplication sharedApplication] openURL:url];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="13-获取app缓存大小"><a href="#13-获取app缓存大小" class="headerlink" title="13.获取app缓存大小"></a>13.获取app缓存大小</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">- (CGFloat)getCachSize &#123;</span><br><span class="line"></span><br><span class="line">    NSUInteger imageCacheSize = [[SDImageCache sharedImageCache] getSize];</span><br><span class="line">    // 获取自定义缓存大小</span><br><span class="line">    // 用枚举器遍历 一个文件夹的内容</span><br><span class="line">    // 1.获取 文件夹枚举器</span><br><span class="line">    NSString *myCachePath = [NSHomeDirectory() stringByAppendingPathComponent:@&quot;Library/Caches&quot;];</span><br><span class="line">    NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtPath:myCachePath];</span><br><span class="line">    __block NSUInteger count = 0;</span><br><span class="line">    // 2.遍历</span><br><span class="line">    for (NSString *fileName in enumerator) &#123;</span><br><span class="line">        NSString *path = [myCachePath stringByAppendingPathComponent:fileName];</span><br><span class="line">        NSDictionary *fileDict = [[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil];</span><br><span class="line">        //自定义所有缓存大小</span><br><span class="line">        count += fileDict.fileSize;</span><br><span class="line">    &#125;</span><br><span class="line">    // 得到是字节  转化为M</span><br><span class="line">    CGFloat totalSize = ((CGFloat)imageCacheSize+count)/1024/1024;</span><br><span class="line">    return totalSize;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="14-清理app缓存"><a href="#14-清理app缓存" class="headerlink" title="14.清理app缓存"></a>14.清理app缓存</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">- (void)cleanAppCache &#123;</span><br><span class="line">    // 删除两部分</span><br><span class="line">    // 1.删除 sd 图片缓存</span><br><span class="line">    // 先清除内存中的图片缓存</span><br><span class="line">    [[SDImageCache sharedImageCache] clearMemory];</span><br><span class="line">    // 清除磁盘的缓存</span><br><span class="line">    [[SDImageCache sharedImageCache] clearDisk];</span><br><span class="line">    // 2.删除自己缓存</span><br><span class="line">    NSString *myCachePath = [NSHomeDirectory() stringByAppendingPathComponent:@&quot;Library/Caches&quot;];</span><br><span class="line">    [[NSFileManager defaultManager] removeItemAtPath:myCachePath error:nil];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="15-几个常用权限判断"><a href="#15-几个常用权限判断" class="headerlink" title="15.几个常用权限判断"></a>15.几个常用权限判断</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">- (void)checkAppAuthorization&#123;</span><br><span class="line">    if ([CLLocationManager authorizationStatus] ==kCLAuthorizationStatusDenied&#123;</span><br><span class="line">    </span><br><span class="line">        NSLog(@&quot;没有定位权限&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    AVAuthorizationStatus statusVideo = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];</span><br><span class="line">    if (statusVideo == AVAuthorizationStatusDenied) &#123;</span><br><span class="line">        NSLog(@&quot;没有摄像头权限&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    AVAuthorizationStatus statusAudio = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeAudio];</span><br><span class="line">    if (statusAudio == AVAuthorizationStatusDenied) &#123;</span><br><span class="line">        NSLog(@&quot;没有录音权限&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) &#123;</span><br><span class="line">        if (status == PHAuthorizationStatusDenied) &#123;</span><br><span class="line">            NSLog(@&quot;没有相册权限&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="16-文字生成二维码"><a href="#16-文字生成二维码" class="headerlink" title="16.文字生成二维码"></a>16.文字生成二维码</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> 生成二维码</span><br><span class="line"></span><br><span class="line"> @param codeString 二维码客串</span><br><span class="line"> @return 二维码图片</span><br><span class="line"> */</span><br><span class="line">+ (UIImage *)qrCodeWithString:(NSString *)codeString&#123;</span><br><span class="line">    </span><br><span class="line">    // 1.创建过滤器</span><br><span class="line">    CIFilter *filter = [CIFilter filterWithName:@&quot;CIQRCodeGenerator&quot;];</span><br><span class="line">    // 2.恢复默认</span><br><span class="line">    [filter setDefaults];</span><br><span class="line">    // 3.给过滤器添加数据(正则表达式/账号和密码)</span><br><span class="line">    NSString *dataString = codeString;</span><br><span class="line">    NSData *data = [dataString dataUsingEncoding:NSUTF8StringEncoding];</span><br><span class="line">    [filter setValue:data forKeyPath:@&quot;inputMessage&quot;];</span><br><span class="line">    // 4.获取输出的二维码</span><br><span class="line">    CIImage *outputImage = [filter outputImage];</span><br><span class="line">    // 5.将CIImage转换成UIImage，并放大显示</span><br><span class="line">    return [self createNonInterpolatedUIImageFormCIImage:outputImage withSize:400];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> 根据CIImage生成指定大小的UIImage</span><br><span class="line"> </span><br><span class="line"> @param image CIImage</span><br><span class="line"> @param size 图片宽度</span><br><span class="line"> */</span><br><span class="line">+ (UIImage *)createNonInterpolatedUIImageFormCIImage:(CIImage *)image withSize:(CGFloat)size &#123;</span><br><span class="line">    </span><br><span class="line">    CGRect extent = CGRectIntegral(image.extent);</span><br><span class="line">    CGFloat scale = MIN(size/CGRectGetWidth(extent), size/CGRectGetHeight(extent));</span><br><span class="line">    // 1.创建bitmap;</span><br><span class="line">    size_t width = CGRectGetWidth(extent) * scale;</span><br><span class="line">    size_t height = CGRectGetHeight(extent) * scale;</span><br><span class="line">    CGColorSpaceRef cs = CGColorSpaceCreateDeviceGray();</span><br><span class="line">    CGContextRef bitmapRef = CGBitmapContextCreate(nil, width, height, 8, 0, cs, (CGBitmapInfo)kCGImageAlphaNone);</span><br><span class="line">    CIContext *context = [CIContext contextWithOptions:nil];</span><br><span class="line">    CGImageRef bitmapImage = [context createCGImage:image fromRect:extent];</span><br><span class="line">    CGContextSetInterpolationQuality(bitmapRef, kCGInterpolationNone);</span><br><span class="line">    CGContextScaleCTM(bitmapRef, scale, scale);</span><br><span class="line">    CGContextDrawImage(bitmapRef, extent, bitmapImage);</span><br><span class="line">    // 2.保存bitmap到图片</span><br><span class="line">    CGImageRef scaledImage = CGBitmapContextCreateImage(bitmapRef);</span><br><span class="line">    CGContextRelease(bitmapRef);</span><br><span class="line">    CGImageRelease(bitmapImage);</span><br><span class="line">    return [UIImage imageWithCGImage:scaledImage];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="17-手机号码验证"><a href="#17-手机号码验证" class="headerlink" title="17.手机号码验证"></a>17.手机号码验证</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> *  手机号码验证</span><br><span class="line"> *</span><br><span class="line"> *  @param mobileNum 手机号</span><br><span class="line"> *</span><br><span class="line"> *  @return 是否</span><br><span class="line"> */</span><br><span class="line">+ (BOOL)isMobileNumber:(NSString *)mobileNum &#123;</span><br><span class="line">    </span><br><span class="line">    if (mobileNum.length != 11)&#123;</span><br><span class="line">        return NO;</span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     * 手机号码:</span><br><span class="line">     * 13[0-9], 14[5,7], 15[0, 1, 2, 3, 5, 6, 7, 8, 9], 17[0, 1, 6, 7, 8], 18[0-9]</span><br><span class="line">     * 移动号段: 134,135,136,137,138,139,147,150,151,152,157,158,159,170,178,182,183,184,187,188</span><br><span class="line">     * 联通号段: 130,131,132,145,152,155,156,170,171,176,185,186</span><br><span class="line">     * 电信号段: 133,134,153,170,173,177,180,181,189</span><br><span class="line">     */</span><br><span class="line">    NSString *MOBILE = @&quot;^1(3[0-9]|4[57]|5[0-35-9]|7[013678]|8[0-9])\\d&#123;8&#125;$&quot;;</span><br><span class="line">    /**</span><br><span class="line">     * 中国移动：China Mobile</span><br><span class="line">     * 134,135,136,137,138,139,147,150,151,152,157,158,159,170,178,182,183,184,187,188</span><br><span class="line">     */</span><br><span class="line">    NSString *CM = @&quot;^1(3[4-9]|4[7]|5[0-27-9]|7[08]|8[2-478])\\d&#123;8&#125;$&quot;;</span><br><span class="line">    /**</span><br><span class="line">     * 中国联通：China Unicom</span><br><span class="line">     * 130,131,132,145,152,155,156,170,171,176,185,186</span><br><span class="line">     */</span><br><span class="line">    NSString *CU = @&quot;^1(3[0-2]|4[5]|5[256]|7[016]|8[56])\\d&#123;8&#125;$&quot;;</span><br><span class="line">    /**</span><br><span class="line">     * 中国电信：China Telecom</span><br><span class="line">     * 133,134,153,170,173,177,180,181,189</span><br><span class="line">     */</span><br><span class="line">    NSString *CT = @&quot;^1(3[34]|53|7[037]|8[019])\\d&#123;8&#125;$&quot;;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    NSPredicate *regextestmobile = [NSPredicate predicateWithFormat:@&quot;SELF MATCHES %@&quot;, MOBILE];</span><br><span class="line">    NSPredicate *regextestcm = [NSPredicate predicateWithFormat:@&quot;SELF MATCHES %@&quot;, CM];</span><br><span class="line">    NSPredicate *regextestcu = [NSPredicate predicateWithFormat:@&quot;SELF MATCHES %@&quot;, CU];</span><br><span class="line">    NSPredicate *regextestct = [NSPredicate predicateWithFormat:@&quot;SELF MATCHES %@&quot;, CT];</span><br><span class="line">    </span><br><span class="line">    if (([regextestmobile evaluateWithObject:mobileNum] == YES)</span><br><span class="line">        || ([regextestcm evaluateWithObject:mobileNum] == YES)</span><br><span class="line">        || ([regextestct evaluateWithObject:mobileNum] == YES)</span><br><span class="line">        || ([regextestcu evaluateWithObject:mobileNum] == YES))&#123;</span><br><span class="line">        </span><br><span class="line">        return YES;</span><br><span class="line">    &#125;</span><br><span class="line">    else&#123;</span><br><span class="line">        return NO;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="18-邮箱验证"><a href="#18-邮箱验证" class="headerlink" title="18.邮箱验证"></a>18.邮箱验证</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> 邮箱验证</span><br><span class="line"></span><br><span class="line"> @param email 邮箱地址</span><br><span class="line"> @return 是否</span><br><span class="line"> */</span><br><span class="line">+ (BOOL)isValidateEmail:(NSString *)email &#123;</span><br><span class="line">    </span><br><span class="line">    NSString *emailRegex = @&quot;[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]&#123;2,4&#125;&quot;;</span><br><span class="line">    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@&quot;SELF MATCHES %@&quot;, emailRegex];</span><br><span class="line">    return [emailTest evaluateWithObject:email];</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="19-根据年和月返回当月天数"><a href="#19-根据年和月返回当月天数" class="headerlink" title="19.根据年和月返回当月天数"></a>19.根据年和月返回当月天数</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">+ (NSInteger)getDaysWithYear:(NSInteger)year</span><br><span class="line">                       month:(NSInteger)month&#123;</span><br><span class="line">                       </span><br><span class="line">    switch (month) &#123;</span><br><span class="line">        case 1:</span><br><span class="line">            return 31;</span><br><span class="line">            break;</span><br><span class="line">        case 2:</span><br><span class="line">            if (year%400==0 || (year%100!=0 &amp;&amp; year%4 == 0)) &#123;</span><br><span class="line">                return 29;</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                return 28;</span><br><span class="line">            &#125;</span><br><span class="line">            break;</span><br><span class="line">        case 3:</span><br><span class="line">            return 31;</span><br><span class="line">            break;</span><br><span class="line">        case 4:</span><br><span class="line">            return 30;</span><br><span class="line">            break;</span><br><span class="line">        case 5:</span><br><span class="line">            return 31;</span><br><span class="line">            break;</span><br><span class="line">        case 6:</span><br><span class="line">            return 30;</span><br><span class="line">            break;</span><br><span class="line">        case 7:</span><br><span class="line">            return 31;</span><br><span class="line">            break;</span><br><span class="line">        case 8:</span><br><span class="line">            return 31;</span><br><span class="line">            break;</span><br><span class="line">        case 9:</span><br><span class="line">            return 30;</span><br><span class="line">            break;</span><br><span class="line">        case 10:</span><br><span class="line">            return 31;</span><br><span class="line">            break;</span><br><span class="line">        case 11:</span><br><span class="line">            return 30;</span><br><span class="line">            break;</span><br><span class="line">        case 12:</span><br><span class="line">            return 31;</span><br><span class="line">            break;</span><br><span class="line">        default:</span><br><span class="line">            return 0;</span><br><span class="line">            break;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="20-压缩图片成二进制数据"><a href="#20-压缩图片成二进制数据" class="headerlink" title="20.压缩图片成二进制数据"></a>20.压缩图片成二进制数据</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">+ (NSData *)compressImage:(UIImage *)image &#123;</span><br><span class="line">    </span><br><span class="line">    NSData *imageData = UIImageJPEGRepresentation(image, 1.0f);</span><br><span class="line">    if (imageData.length &lt;= 1000*1000) &#123;</span><br><span class="line">        </span><br><span class="line">        return imageData;</span><br><span class="line">    &#125; else if (imageData.length &gt; 1000*1000 &amp;&amp; imageData.length &lt; 3000 * 1000) &#123;</span><br><span class="line">        </span><br><span class="line">        imageData = UIImageJPEGRepresentation(image, 0.8f);</span><br><span class="line">        return imageData;</span><br><span class="line">    &#125; else if (imageData.length &gt; 3000*1000 &amp;&amp; imageData.length &lt; 5000 * 1000) &#123;</span><br><span class="line">        </span><br><span class="line">        imageData = UIImageJPEGRepresentation(image, 0.6f);</span><br><span class="line">        return imageData;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        </span><br><span class="line">        imageData = UIImageJPEGRepresentation(image, 0.4f);</span><br><span class="line">        return imageData;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="21-根据正则，过滤特殊字符"><a href="#21-根据正则，过滤特殊字符" class="headerlink" title="21.根据正则，过滤特殊字符"></a>21.根据正则，过滤特殊字符</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> 根据正则，过滤特殊字符</span><br><span class="line"></span><br><span class="line"> @param regexString 正则表达式</span><br><span class="line"> @return 过滤后的字符串</span><br><span class="line"> */</span><br><span class="line">- (NSString *)filterCharactorWithRegex:(NSString *)regexString &#123;</span><br><span class="line">    </span><br><span class="line">    NSString *searchText = self;</span><br><span class="line">    NSError *error = NULL;</span><br><span class="line">    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexString options:NSRegularExpressionCaseInsensitive error:&amp;error];</span><br><span class="line">    NSString *result = [regex stringByReplacingMatchesInString:searchText options:NSMatchingReportCompletion range:NSMakeRange(0, searchText.length) withTemplate:@&quot;&quot;];</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="22-身份证号码验证"><a href="#22-身份证号码验证" class="headerlink" title="22.身份证号码验证"></a>22.身份证号码验证</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> 身份证号码验证</span><br><span class="line"> * 验证方法：</span><br><span class="line"> * 1、将前面的身份证号码17位数分别乘以不同的系数。从第一位到第十七位的系数分别为：7－9－10－5－8－4－2－1－6－3－7－9－10－5－8－4－2</span><br><span class="line"> * 2、将这17位数字和系数相乘的结果相加</span><br><span class="line"> * 3、用加出来和除以11，看余数是多少？</span><br><span class="line"> * 4、余数只可能有0－1－2－3－4－5－6－7－8－9－10这11个数字。其分别对应的最后一位身份证的号码为1－0－X －9－8－7－6－5－4－3－2</span><br><span class="line"> * 5、通过上面得知如果余数是3，就会在身份证的第18位数字上出现的是9。如果对应的数字是10，身份证的最后一位号码就是罗马数字x</span><br><span class="line"> @return 是/否</span><br><span class="line"> */</span><br><span class="line">- (BOOL)isIDCardNumber &#123;</span><br><span class="line">    </span><br><span class="line">    NSInteger sum = 0;</span><br><span class="line">    NSArray *numArr = @[@7, @9, @10, @5, @8, @4, @2, @1, @6, @3, @7, @9, @10, @5, @8, @4, @2]; // 系数</span><br><span class="line">    NSArray *lastArr = @[@&quot;1&quot;, @&quot;0&quot;, @&quot;X&quot;, @&quot;9&quot;, @&quot;8&quot;,@&quot;7&quot;, @&quot;6&quot;, @&quot;5&quot;, @&quot;4&quot;, @&quot;3&quot;, @&quot;2&quot;]; // 最后一位身份证的号码</span><br><span class="line">    </span><br><span class="line">    if (self.length == 15) &#123;</span><br><span class="line">        NSString *lastCharactor =[self substringFromIndex:self.length -1];</span><br><span class="line">        if ([lastCharactor isEqualToString:@&quot;X&quot;] || [lastCharactor isEqualToString:@&quot;x&quot;]) &#123;</span><br><span class="line">            NSString * subStr14 = [self substringToIndex:self.length -1];</span><br><span class="line">            return [self isPureInt:subStr14];</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            return [self isPureInt:self];</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    if (self.length == 18) &#123;</span><br><span class="line">        //将字符串转化为大写</span><br><span class="line">        NSString *newString =[self uppercaseString];</span><br><span class="line">        NSMutableArray *array = [NSMutableArray array];</span><br><span class="line">        for (int i = 0; i &lt; [self length]; i++) &#123;</span><br><span class="line">            [array addObject:[NSString stringWithFormat:@&quot;%C&quot;, [newString characterAtIndex:i]]];</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        for (int i = 0; i &lt; self.length - 1; i++) &#123;</span><br><span class="line">            sum += [array[i] integerValue] * [numArr[i] integerValue];</span><br><span class="line">        &#125;</span><br><span class="line">        return [array[17] isEqualToString:lastArr[sum % 11]];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return NO;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="23-判断字符串是否是纯数字"><a href="#23-判断字符串是否是纯数字" class="headerlink" title="23.判断字符串是否是纯数字"></a>23.判断字符串是否是纯数字</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> 判断字符串是否是纯数字</span><br><span class="line"> </span><br><span class="line"> @param string 带判断字符串</span><br><span class="line"> @return 是/否</span><br><span class="line"> */</span><br><span class="line">- (BOOL)isPureInt:(NSString *)string &#123;</span><br><span class="line">    </span><br><span class="line">    NSScanner* scan = [NSScanner scannerWithString:string];</span><br><span class="line">    int val;</span><br><span class="line">    return [scan scanInt:&amp;val] &amp;&amp; [scan isAtEnd];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="24-车牌校验"><a href="#24-车牌校验" class="headerlink" title="24.车牌校验"></a>24.车牌校验</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> 车牌校验</span><br><span class="line"></span><br><span class="line"> @return 是/否</span><br><span class="line"> */</span><br><span class="line">- (BOOL)isCarLicenceNum&#123;</span><br><span class="line"></span><br><span class="line">    if (self.length == 7 || self.length == 8) &#123;</span><br><span class="line">        </span><br><span class="line">        NSString *carRegex = @&quot;^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]&#123;1&#125;[A-Z]&#123;1&#125;[A-Z0-9]&#123;4&#125;[A-Z0-9挂学警港澳]&#123;1&#125;$&quot;;</span><br><span class="line">        NSPredicate *carTest = [NSPredicate predicateWithFormat:@&quot;SELF MATCHES %@&quot;,carRegex];</span><br><span class="line">        return [carTest evaluateWithObject:self];</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        return NO;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="25-JSON格式的字符串转换成字典"><a href="#25-JSON格式的字符串转换成字典" class="headerlink" title="25.JSON格式的字符串转换成字典"></a>25.JSON格式的字符串转换成字典</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"> * @brief 把格式化的JSON格式的字符串转换成字典</span><br><span class="line"> * @param jsonString JSON格式的字符串</span><br><span class="line"> * @return 返回字典</span><br><span class="line"> */</span><br><span class="line">+ (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString &#123;</span><br><span class="line">    </span><br><span class="line">    if (jsonString == nil) &#123;</span><br><span class="line">        </span><br><span class="line">        return nil;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];</span><br><span class="line">    </span><br><span class="line">    NSError *err;</span><br><span class="line">    </span><br><span class="line">    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData</span><br><span class="line">                                                        options:NSJSONReadingMutableContainers</span><br><span class="line">                                                          error:&amp;err];</span><br><span class="line">    </span><br><span class="line">    if(err) &#123;</span><br><span class="line">        </span><br><span class="line">        NSLog(@&quot;%@json解析失败：%@&quot;,jsonString,err);</span><br><span class="line">        return nil;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    return dic;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="26-字典转json格式字符串"><a href="#26-字典转json格式字符串" class="headerlink" title="26.字典转json格式字符串"></a>26.字典转json格式字符串</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> *  字典转json格式字符串：</span><br><span class="line"> *</span><br><span class="line"> *  @param NSString &lt;#NSString description#&gt;</span><br><span class="line"> *</span><br><span class="line"> *  @return &lt;#return value description#&gt;</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">- (NSString*)dictionaryToJson &#123;</span><br><span class="line">    </span><br><span class="line">    NSError *parseError = nil;</span><br><span class="line">    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:self options:NSJSONWritingPrettyPrinted error:&amp;parseError];</span><br><span class="line">    return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="27-通过Value取Key"><a href="#27-通过Value取Key" class="headerlink" title="27.通过Value取Key"></a>27.通过Value取Key</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> 通过Value取Key</span><br><span class="line"></span><br><span class="line"> @param value ValueString</span><br><span class="line"> @return KeyString</span><br><span class="line"> */</span><br><span class="line">- (NSString *)keyForValue:(NSString *)value &#123;</span><br><span class="line">    </span><br><span class="line">    __block NSString *keyStr = nil;</span><br><span class="line">    [self enumerateKeysAndObjectsUsingBlock:^(NSString * key, id  _Nonnull obj, BOOL * _Nonnull stop) &#123;</span><br><span class="line">        if ([value isEqualToString:obj]) &#123;</span><br><span class="line">            keyStr = key;</span><br><span class="line">            *stop = YES;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">    return keyStr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="28-加载本地json文件"><a href="#28-加载本地json文件" class="headerlink" title="28.加载本地json文件"></a>28.加载本地json文件</h3><p>将本地json文件，导入工程，确定target membership勾选上</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">- (void)loadJson&#123;</span><br><span class="line"></span><br><span class="line">    NSError*error;</span><br><span class="line">    //获取文件路径</span><br><span class="line">    NSString *filePath          =[[NSBundle mainBundle] pathForResource:@&quot;test&quot; ofType:@&quot;json&quot;];</span><br><span class="line">    //根据文件路径读取数据</span><br><span class="line">    NSData *jdata               = [[NSData alloc]initWithContentsOfFile:filePath];</span><br><span class="line">    //格式化成json数据</span><br><span class="line">    NSDictionary *jsonObject    = [NSJSONSerialization JSONObjectWithData:jdata options:kNilOptions error:&amp;error];</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="29-获取app中所有icon名字数组"><a href="#29-获取app中所有icon名字数组" class="headerlink" title="29.获取app中所有icon名字数组"></a>29.获取app中所有icon名字数组</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//获取app中所有icon名字数组</span><br><span class="line">   NSDictionary *infoDict  = [[NSBundle mainBundle] infoDictionary];</span><br><span class="line">   NSArray *iconsArr       = infoDict[@&quot;CFBundleIcons&quot;][@&quot;CFBundlePrimaryIcon&quot;][@&quot;CFBundleIconFiles&quot;];</span><br><span class="line">   NSString *iconLastName  = [iconsArr lastObject];</span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+
+<h3 id="30-计算两个时间"><a href="#30-计算两个时间" class="headerlink" title="30.计算两个时间"></a>30.计算两个时间</h3><p>计算两个时间字符串的时间差 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> 计算时长</span><br><span class="line"> */</span><br><span class="line">- (NSString *)caculateDurationWithStartTime:(NSString *)startTime andEndTime:(NSString *)endTime&#123;</span><br><span class="line">    if (endTime == nil) &#123;</span><br><span class="line">        return @&quot;未知&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    NSDate *startDate 			= [NSDate date];</span><br><span class="line">    NSDate *endDate 			= [NSDate date];</span><br><span class="line">    </span><br><span class="line">    NSDateFormatter *format 	= [[NSDateFormatter alloc]init];</span><br><span class="line">    format.dateFormat 			= @&quot;YYYY-MM-dd HH:mm:ss&quot;;</span><br><span class="line">    format.timeZone				= [NSTimeZone systemTimeZone];</span><br><span class="line">    startDate 					= [format dateFromString:startTime];</span><br><span class="line">    endDate 						= [format dateFromString:endTime];</span><br><span class="line">    NSTimeInterval duration 	= endDate.timeIntervalSince1970 - startDate.timeIntervalSince1970;</span><br><span class="line">    int hour 						= (int)duration / 3600;</span><br><span class="line">    int min 						= (int)duration % 3600 / 60;</span><br><span class="line">    int sec 						= (int)duration % 60;</span><br><span class="line">    </span><br><span class="line">    return [NSString stringWithFormat:@&quot;%d小时%d分%d秒&quot;,hour,min,sec];</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="31-计算两个NSDate经历了多少天"><a href="#31-计算两个NSDate经历了多少天" class="headerlink" title="31.计算两个NSDate经历了多少天"></a>31.计算两个NSDate经历了多少天</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> *  返回两个NSDate经历了多少天</span><br><span class="line"> */</span><br><span class="line">- (NSInteger)getDaysFrom:(NSDate *)startDate To:(NSDate *)endDate&#123;</span><br><span class="line">    </span><br><span class="line">    NSCalendar *gregorian = [[NSCalendar alloc]initWithCalendarIdentifier:NSCalendarIdentifierGregorian];</span><br><span class="line">    </span><br><span class="line">    [gregorian setFirstWeekday:2];</span><br><span class="line">    </span><br><span class="line">    //去掉时分秒信息</span><br><span class="line">    NSDate *fromDate;</span><br><span class="line">    NSDate *toDate;</span><br><span class="line">    [gregorian rangeOfUnit:NSCalendarUnitDay startDate:&amp;fromDate interval:NULL forDate:startDate];</span><br><span class="line">    [gregorian rangeOfUnit:NSCalendarUnitDay startDate:&amp;toDate interval:NULL forDate:endDate];</span><br><span class="line">    NSDateComponents *dayComponents = [gregorian components:NSCalendarUnitDay fromDate:fromDate toDate:toDate options:0];</span><br><span class="line">    </span><br><span class="line">    return dayComponents.day;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="32-主动申请常用权限"><a href="#32-主动申请常用权限" class="headerlink" title="32.主动申请常用权限"></a>32.主动申请常用权限</h3><p>记得在info.plist里面加入对应权限的描述。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">///申请麦克风权限</span><br><span class="line">[AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) &#123;</span><br><span class="line">&#125;];</span><br><span class="line">///申请拍照权限</span><br><span class="line">[AVCaptureDevice requestAccessForMediaType:AVMediaTypeAudio completionHandler:^(BOOL granted) &#123;</span><br><span class="line">&#125;];</span><br><span class="line">///申请相册权限</span><br><span class="line">[PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) &#123;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://githubio.95783669.xyz/2026/11/09/MethodsOfObjective-C/" data-id="cuidSHwiUdL95FkfjsZqe3bkO" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-AdaptionForiOS11andiPhoneX" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2026/11/09/AdaptionForiOS11andiPhoneX/" class="article-date">
+  <time datetime="2026-11-09T00:57:04.151Z" itemprop="datePublished">2026-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2026/11/09/AdaptionForiOS11andiPhoneX/">适配iOS 11和iPhoneX屏幕适配遇到的一些坑</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>随着iOS 11正式版,以及Xcode9正式版的发布，已有项目工程对于新版本系统和机型的适配就提上了日程。下面简单讲一讲遇到的一些坑，同时也向在解决问题中查阅的资料文章作者表示感谢！</p>
+<h3 id="安全区域"><a href="#安全区域" class="headerlink" title="安全区域"></a>安全区域</h3><h4 id="坑NO-1-iOS-11下APP中tableView内容下移20pt"><a href="#坑NO-1-iOS-11下APP中tableView内容下移20pt" class="headerlink" title="坑NO.1 iOS 11下APP中tableView内容下移20pt"></a>坑NO.1 iOS 11下APP中tableView内容下移20pt</h4><p><img src="http://upload-images.jianshu.io/upload_images/1447375-74617a67ad70b287.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>整个页面隐藏了导航栏（自定义导航栏），下面就是一个tableview，加上了MJRefresh第三方。可以明显看出上方状态栏的部分空白，整个tableview内容下滑了20pt。</p>
+<p>原因：iOS 11中automaticallyAdjustsScrollViewInsets属性被废弃了，self.automaticallyAdjustsScrollViewInsets &#x3D; NO 就等于没有设置（默认是YES），于是顶部就多了一定的contentInset。点开系统头文件就会有提示说明</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-af9395ec319c1c97.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>解决方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if (@available(iOS 11.0, *)) &#123;</span><br><span class="line">    self.tableView.contentInsetAdjustmentBehavior = 	UIScrollViewContentInsetAdjustmentNever;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    self.automaticallyAdjustsScrollViewInsets = NO;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>关于安全区域适配，简书上的这篇文章<a href="http://www.jianshu.com/p/efbc8619d56b">iOS 11 安全区域适配</a>总结介绍得非常详细，请参考这篇文章。</p>
+<h3 id="iPhoneX"><a href="#iPhoneX" class="headerlink" title="iPhoneX"></a>iPhoneX</h3><h4 id="坑NO-2-LaunchImage问题"><a href="#坑NO-2-LaunchImage问题" class="headerlink" title="坑NO.2 LaunchImage问题"></a>坑NO.2 LaunchImage问题</h4><p>关于带刘海的iPhoneX，如果你的APP在iPhoneX上运行发现没有充满屏幕，上下有黑色区域，那么你应该也像我一样LaunchImage没有用storyboard而是用的Assets。Assets中解决办法添加一张启动图，尺寸为1125x2436，或者直接启用LaunchScreen.storyboard。<br>另外在这里提供一个判断iPhoneX机型的宏定义，前提是launchimage已经设置好。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#define IS_iPhoneX  UIScreen.mainScreen.currentMode.size.width == 1125 &amp;&amp; UIScreen.mainScreen.currentMode.size.height == 2436</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="坑NO-3-storyboard、xib上的安全区问题"><a href="#坑NO-3-storyboard、xib上的安全区问题" class="headerlink" title="坑NO.3 storyboard、xib上的安全区问题"></a>坑NO.3 storyboard、xib上的安全区问题</h4><p>本人在做解决第二个坑的时候，创建了storyboard作为启动图使用。按照以往的思路，搞一个imageView覆盖到整个控制器的view上去，拉好约束，一编译<br>编译发现系统报了个错。<br><img src="http://upload-images.jianshu.io/upload_images/1447375-842058207ad29076.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h5 id="原因"><a href="#原因" class="headerlink" title="原因:"></a>原因:</h5><p>苹果在iOS7中引入的Top Layout Guide和Bottom Layout Guide,这些布局指南在iOS 11中被弃用，取而代之的是Safe Area Layout Guide.</p>
+<p>因为项目要求系统最低适配iOS 8，所以要对这里进行处理。</p>
+<h5 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h5><p>1、打开右侧的 Show the File inspetcor<br>2、去掉 Use Safe Area Layout Guides<br><img src="http://upload-images.jianshu.io/upload_images/1447375-bca78de3065ddcc0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>如图，这样一来就和之前的界面一样。</p>
+<p>目前遇到的就这些坑，欢迎大家指正补充~<br>最后，作为该行从业人员，不得不讲一句：“苹果爸爸说啥就是啥🙂🙂”</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://githubio.95783669.xyz/2026/11/09/AdaptionForiOS11andiPhoneX/" data-id="cuidHqNmEQ8gQY1L3w3tcC9Kh" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/11/">November 2026</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/11/09/SwiftURLEncodeing/">Swift中URL处理中的注意点</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/UseShellModifyXcodeBuildNumber/">使用shell脚本自动修改Xcode工程编译版本号</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/Xcode10-NewBuilSystemIssue/">踩坑Xcode 10之New Build System</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/iOS_Coding_Guidelines/">iOS代码规范</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2026 抢手的哥<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

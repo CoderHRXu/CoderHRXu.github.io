@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Swift4如何扫描二维码了解一下 | 抢手的哥的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1.扫码简史这些年移动互联网的普及，也让二维码技术成功的推广。在遥远的iOS7.0之前的年代，我们实现二维码扫描的功能，还需要借助两大开源组件ZXing和ZBar来实现。iOS7.0以后，苹果提供了AVFoundation框架，来实现二维码是扫码，而且效率更高。与此同时，苹果的Swift开发语言，也经历了从1.0诞生到4.1，其中不乏一些新特性以及API的变化。 本文讲解了如何用Swift4，实现">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift4如何扫描二维码了解一下">
+<meta property="og:url" content="https://githubio.95783669.xyz/2026/11/09/Swift4QRCodeTool/index.html">
+<meta property="og:site_name" content="抢手的哥的技术博客">
+<meta property="og:description" content="1.扫码简史这些年移动互联网的普及，也让二维码技术成功的推广。在遥远的iOS7.0之前的年代，我们实现二维码扫描的功能，还需要借助两大开源组件ZXing和ZBar来实现。iOS7.0以后，苹果提供了AVFoundation框架，来实现二维码是扫码，而且效率更高。与此同时，苹果的Swift开发语言，也经历了从1.0诞生到4.1，其中不乏一些新特性以及API的变化。 本文讲解了如何用Swift4，实现">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1447375-b4a08ca6b7f7de8f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1447375-f471166df94d37f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2026-11-09T00:57:04.153Z">
+<meta property="article:modified_time" content="2026-11-09T00:57:04.153Z">
+<meta property="article:author" content="抢手的哥">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/1447375-b4a08ca6b7f7de8f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="抢手的哥的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">抢手的哥的技术博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://githubio.95783669.xyz"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Swift4QRCodeTool" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2026/11/09/Swift4QRCodeTool/" class="article-date">
+  <time datetime="2026-11-09T00:57:04.153Z" itemprop="datePublished">2026-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Swift4如何扫描二维码了解一下
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-扫码简史"><a href="#1-扫码简史" class="headerlink" title="1.扫码简史"></a>1.扫码简史</h2><p>这些年移动互联网的普及，也让二维码技术成功的推广。在遥远的iOS7.0之前的年代，我们实现二维码扫描的功能，还需要借助两大开源组件ZXing和ZBar来实现。iOS7.0以后，苹果提供了AVFoundation框架，来实现二维码是扫码，而且效率更高。<br>与此同时，苹果的Swift开发语言，也经历了从1.0诞生到4.1，其中不乏一些新特性以及API的变化。</p>
+<p>本文讲解了如何用Swift4，实现二维码扫描的功能</p>
+<h2 id="2-具体实现"><a href="#2-具体实现" class="headerlink" title="2.具体实现"></a>2.具体实现</h2><h3 id="2-1权限控制"><a href="#2-1权限控制" class="headerlink" title="2.1权限控制"></a>2.1权限控制</h3><p>实现二维码扫描，必然要打开手机摄像头，就需要获取权限。首先，在你的项目工程的info.plist中加入如下key-value，否则app调试的时候崩溃。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;key&gt;NSCameraUsageDescription&lt;/key&gt;</span><br><span class="line">&lt;string&gt;CameraUsageDescription&lt;/string&gt;</span><br></pre></td></tr></table></figure>
+<p>另外需要手动去检测当前APP的摄像头权限。如下代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">func checkCameraAuth() -&gt; Bool &#123;</span><br><span class="line">let status = AVCaptureDevice.authorizationStatus(for: .video)</span><br><span class="line">return status == .authorized</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不难看出，status是个枚举值，只有 .authorized才是已经获取摄像头权限，其余的都不行。</p>
+<h3 id="2-2-上代码"><a href="#2-2-上代码" class="headerlink" title="2.2 上代码"></a>2.2 上代码</h3><h4 id="2-2-1-初始化"><a href="#2-2-1-初始化" class="headerlink" title="2.2.1 初始化"></a>2.2.1 初始化</h4><p>导入AVFoundation框架之后，我们就可以初始化捕捉设备、创建捕捉会话、输入媒体类型、设置代理等</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">// 捕捉设备</span><br><span class="line">guard let device = AVCaptureDevice.default(for: .video)  else &#123;</span><br><span class="line">return</span><br><span class="line">&#125;</span><br><span class="line">do &#123;</span><br><span class="line">// 输入</span><br><span class="line">inPut: AVCaptureDeviceInput = try AVCaptureDeviceInput.init(device: device)</span><br><span class="line">&#125; catch  &#123;</span><br><span class="line">print(error)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/// 输出</span><br><span class="line">let outPut: AVCaptureMetadataOutput = &#123;</span><br><span class="line">let outPut = AVCaptureMetadataOutput.init()</span><br><span class="line">outPut.connection(with: .metadata)</span><br><span class="line">return outPut</span><br><span class="line">&#125;()</span><br><span class="line"></span><br><span class="line">/// 会话 session</span><br><span class="line">let session: AVCaptureSession = &#123;</span><br><span class="line">let session = AVCaptureSession.init()</span><br><span class="line">if session.canSetSessionPreset(.high)&#123;</span><br><span class="line">session.sessionPreset = .high</span><br><span class="line">&#125;</span><br><span class="line">return session</span><br><span class="line">&#125;()</span><br><span class="line"></span><br><span class="line">/// 预览层</span><br><span class="line">let preLayer: AVCaptureVideoPreviewLayer = AVCaptureVideoPreviewLayer.init()</span><br></pre></td></tr></table></figure>
+<h4 id="2-2-2-设置代理"><a href="#2-2-2-设置代理" class="headerlink" title="2.2.2 设置代理"></a>2.2.2 设置代理</h4><p>初始化之后，开始设置代理</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 设代理</span><br><span class="line">outPut.setMetadataObjectsDelegate(self as AVCaptureMetadataOutputObjectsDelegate, queue: DispatchQueue.main)</span><br><span class="line">// 指定预览层的捕捉会话</span><br><span class="line">preLayer.session = session</span><br></pre></td></tr></table></figure>
+<h4 id="2-2-3-指定会话输入输出"><a href="#2-2-3-指定会话输入输出" class="headerlink" title="2.2.3 指定会话输入输出"></a>2.2.3 指定会话输入输出</h4><p>然后把捕捉会话添加输入输出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 捕捉会话加入input和output</span><br><span class="line">if session.canAddInput(input) &amp;&amp; session.canAddOutput(outPut) &#123;</span><br><span class="line">session.addInput(input)</span><br><span class="line">session.addOutput(outPut)</span><br><span class="line">// 设置元数据处理类型(注意, 一定要将设置元数据处理类型的代码添加到  会话添加输出之后)</span><br><span class="line">outPut.metadataObjectTypes = [.ean13, .ean8, .upce, .code39, .code93, .code128, .code39Mod43, .qr]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>设置元数据处理类型， 可见不仅有二维码，而且还有其他条码，就不一一介绍了。注意, 一定要将设置元数据处理类型的代码添加到会话添加输出之后。</p>
+<h4 id="2-2-4-添加会话预览图层"><a href="#2-2-4-添加会话预览图层" class="headerlink" title="2.2.4 添加会话预览图层"></a>2.2.4 添加会话预览图层</h4><p>接着开始在页面添加预览层, 这样才能看到摄像头捕捉到的画面。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 添加预览图层</span><br><span class="line">let flag = view.layer.sublayers?.contains(preLayer)</span><br><span class="line">if flag == false || flag == nil &#123;</span><br><span class="line">self.preLayer.frame = view.bounds</span><br><span class="line">view.layer.insertSublayer(preLayer, at: 0)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-2-5-开启会话"><a href="#2-2-5-开启会话" class="headerlink" title="2.2.5 开启会话"></a>2.2.5 开启会话</h4><p>到此为止，这个session捕捉会话需要的参数都全了，然后开始愉快的开始这个会话</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 启动会话</span><br><span class="line">session.startRunning()</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-6-监听捕捉会话输出代理"><a href="#2-2-6-监听捕捉会话输出代理" class="headerlink" title="2.2.6 监听捕捉会话输出代理"></a>2.2.6 监听捕捉会话输出代理</h4><p>开启捕捉会话，我们就可以在代理方法中查看会话捕捉到的东西。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!)</span><br></pre></td></tr></table></figure>
+<p>识别到的就在这个方法里告诉你。<br>什么？什么？，方法不调用？<br><strong>敲黑板！！！API有变化了</strong><br>Swift4.0的代理方法在下面</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection)&#123;</span><br><span class="line">var resultStrs = [String]()</span><br><span class="line">for obj in metadataObjects &#123;</span><br><span class="line">guard let codeObj = obj as? AVMetadataMachineReadableCodeObject else &#123;</span><br><span class="line">return</span><br><span class="line">&#125; </span><br><span class="line">resultStrs.append(codeObj.stringValue ?? &quot;&quot;)</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个方法里面就能拿到扫码之后的结果了。</p>
+<h4 id="2-2-7-思考"><a href="#2-2-7-思考" class="headerlink" title="2.2.7 思考"></a>2.2.7 思考</h4><p><strong>写到这里，不经停下思考：</strong><br><strong>1.这里还只是基本的扫码功能，就已经这么多代码了，关于扫码页面的长啥样子的代码我还没写；</strong><br><strong>2.一般开发中页面少不了UI的网络的代码，难道我要再把这么一大坨AVFoundation代码都写到控制器吗？</strong><br><strong>3.如果我一个项目里面，不止一个地方用到扫码，难道我还要再把这么多代码再复制几遍</strong></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1447375-b4a08ca6b7f7de8f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="WTF.png"></p>
+<h2 id="3-封装"><a href="#3-封装" class="headerlink" title="3.封装"></a>3.封装</h2><p><strong>高内聚 低耦合</strong><br>就按照这个原则来封装。<br>1.首先把这些AVFoundation模块的代码，统统抽到一个工具类里，需要的时候，直接拿工具类调用，识别结果delegate返回。<br>2.可以根据经验，把一些定制的需求也放进去，比如说扫码的时候，中间透明的框框，加上周边的黑色蒙板。<br>3.扩展一些其他功能，比如扫码成功播放一段提示音等待</p>
+<p>什么？你准备动手了？别着急，我已经弄好了,使劲戳👇👇</p>
+<h2 id="HRQRCodeScanTool"><a href="#HRQRCodeScanTool" class="headerlink" title="HRQRCodeScanTool"></a><a href="https://github.com/CoderHRXu/HRQRCodeScanTool">HRQRCodeScanTool</a></h2><p>最简单的，在控制器中，你只需要</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// in ViewController</span><br><span class="line">HRQRCodeScanTool.shared.delegate  = self</span><br><span class="line">HRQRCodeScanTool.shared.beginScanInView(view: view)</span><br></pre></td></tr></table></figure>
+<p>然后扫码结果代理返回</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// scan result will call in  delegate methods </span><br><span class="line">func scanQRCodeFaild(error: HRQRCodeTooError)&#123;</span><br><span class="line">print(error)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func scanQRCodeSuccess(resultStrs: [String])&#123;</span><br><span class="line">print(resultStrs.first)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果你需要二维码描边，你只需要设置这几个属性</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">open var isDrawQRCodeRect: Bool    true    是否描绘二维码边框 默认true</span><br><span class="line">open var drawRectColor: UIColor    UIColor.red    二维码边框颜色 默认红色</span><br><span class="line">open var drawRectLineWith: CGFloat    2    二维码边框线宽 默认2</span><br></pre></td></tr></table></figure>
+
+<p>如果你需要添加蒙板，你只需要设置这几个属性</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">open var isShowMask: Bool    true    是否展示黑色蒙版板层 默认开启</span><br><span class="line">open var maskColor: UIColor    Black.alpha 0.5    蒙板层 默认黑色 alpha 0.5</span><br><span class="line">open var centerWidth: CGFloat    200    中心非蒙板区域的宽</span><br><span class="line">open var centerHeight: CGFloat    5.0    中心非蒙板区域的宽</span><br><span class="line">open var centerPosition: CGPoint?    nil    中心非蒙板区域的中心点 默认Veiw的中心</span><br></pre></td></tr></table></figure>
+<p>哪里需要扫码，直接接入工具类，没多少行代码搞定，就问你爽不爽。<br>另外，项目里还提供了两个扩展，用来识别二维码图片，以及图片生成二维码，需要的各位看官老爷自取。<br><img src="https://upload-images.jianshu.io/upload_images/1447375-f471166df94d37f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="yeah.png"><br>还支持Cocoapods哦</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://githubio.95783669.xyz/2026/11/09/Swift4QRCodeTool/" data-id="cuidzZZWRs9lY5oGGjtnvaHUB" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2026/11/09/NetEaswIMReceiption/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          网易云信IM已读回执开发总结
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2026/11/09/Gitlab-RunnerErrorAnalysis/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">gitlab-runner之build failed with exit status 1问题分析</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/11/">November 2026</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/11/09/SwiftURLEncodeing/">Swift中URL处理中的注意点</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/UseShellModifyXcodeBuildNumber/">使用shell脚本自动修改Xcode工程编译版本号</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/Xcode10-NewBuilSystemIssue/">踩坑Xcode 10之New Build System</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/iOS_Coding_Guidelines/">iOS代码规范</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2026 抢手的哥<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

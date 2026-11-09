@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>iOS小数点格式化：最多保留两位小数，小数点后末尾的0不要 | 抢手的哥的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="需求如题的需求，再详细解释一下就是：1.如果有两位小数不为0则保留两位小数,eg: “0.23”2.如果有一位小数不为0则保留一位小数，否则显示整数, eg: “0.2” “0”也就是说，不能出现”0.20”,”0.00”这种情况。 平时在项目开发中，格式化小数乘字符串是时候，经常会保留2位小数处理，不足则用0补全，也就是在格式化方法中用 %.2f 作占位符，来占位小数。这样得出来的字符串肯定是类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS小数点格式化：最多保留两位小数，小数点后末尾的0不要">
+<meta property="og:url" content="https://githubio.95783669.xyz/2026/11/09/iOS_doubleString_removeSuffix_0/index.html">
+<meta property="og:site_name" content="抢手的哥的技术博客">
+<meta property="og:description" content="需求如题的需求，再详细解释一下就是：1.如果有两位小数不为0则保留两位小数,eg: “0.23”2.如果有一位小数不为0则保留一位小数，否则显示整数, eg: “0.2” “0”也就是说，不能出现”0.20”,”0.00”这种情况。 平时在项目开发中，格式化小数乘字符串是时候，经常会保留2位小数处理，不足则用0补全，也就是在格式化方法中用 %.2f 作占位符，来占位小数。这样得出来的字符串肯定是类">
+<meta property="og:locale">
+<meta property="article:published_time" content="2026-11-09T00:57:04.154Z">
+<meta property="article:modified_time" content="2026-11-09T00:57:04.154Z">
+<meta property="article:author" content="抢手的哥">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="抢手的哥的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">抢手的哥的技术博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://githubio.95783669.xyz"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-iOS_doubleString_removeSuffix_0" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2026/11/09/iOS_doubleString_removeSuffix_0/" class="article-date">
+  <time datetime="2026-11-09T00:57:04.154Z" itemprop="datePublished">2026-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS小数点格式化：最多保留两位小数，小数点后末尾的0不要
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>如题的需求，再详细解释一下就是：<br>1.如果有两位小数不为0则保留两位小数,eg: “0.23”<br>2.如果有一位小数不为0则保留一位小数，否则显示整数, eg: “0.2” “0”<br>也就是说，不能出现”0.20”,”0.00”这种情况。</p>
+<p>平时在项目开发中，格式化小数乘字符串是时候，经常会保留2位小数处理，不足则用0补全，也就是在格式化方法中用 %.2f 作占位符，来占位小数。这样得出来的字符串肯定是类似”X.XX”的字符串，且如果不足两位小数，都会用0来补全。</p>
+<p>然鹅现在的需求变了，要求保留两位小数，且能不显示0就不显示。</p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>OC：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> 过滤器/ 将.2f格式化的字符串，去除末尾0</span><br><span class="line"></span><br><span class="line"> @param numberStr .2f格式化后的字符串</span><br><span class="line"> @return 去除末尾0之后的</span><br><span class="line"> */</span><br><span class="line">- (NSString *)removeSuffix:(NSString *)numberStr&#123;</span><br><span class="line">    if (numberStr.length &gt; 1) &#123;</span><br><span class="line">        </span><br><span class="line">        if ([numberStr componentsSeparatedByString:@&quot;.&quot;].count == 2) &#123;</span><br><span class="line">            NSString *last = [numberStr componentsSeparatedByString:@&quot;.&quot;].lastObject;</span><br><span class="line">            if ([last isEqualToString:@&quot;00&quot;]) &#123;</span><br><span class="line">                numberStr = [numberStr substringToIndex:numberStr.length - (last.length + 1)];</span><br><span class="line">                return numberStr;</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                if ([[last substringFromIndex:last.length -1] isEqualToString:@&quot;0&quot;]) &#123;</span><br><span class="line">                    numberStr = [numberStr substringToIndex:numberStr.length - 1];</span><br><span class="line">                    return numberStr;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return numberStr;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        return nil;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Swift</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">/// 过滤器 将.2f格式化的字符串，去除末尾0</span><br><span class="line">///</span><br><span class="line">/// - Parameter numberString: .2f格式化后的字符串</span><br><span class="line">/// - Returns: 去除末尾0之后的</span><br><span class="line">func removeSuffix(numberString : String) -&gt; String &#123;</span><br><span class="line">    </span><br><span class="line">    if numberString.count &gt; 1 &#123;</span><br><span class="line">        let strs = numberString.components(separatedBy: &quot;.&quot;)</span><br><span class="line">        let last = strs.last!</span><br><span class="line">        if strs.count == 2 &#123;</span><br><span class="line">            if last == &quot;00&quot; &#123;</span><br><span class="line">                </span><br><span class="line">                let indexEndOfText      = numberString.index(numberString.endIndex, offsetBy:-3)</span><br><span class="line">                return String(numberString[..&lt;indexEndOfText])</span><br><span class="line">                </span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                </span><br><span class="line">                let indexStartOfText    = numberString.index(numberString.endIndex, offsetBy:-1)</span><br><span class="line">                let str                 = numberString[indexStartOfText...]</span><br><span class="line">                let indexEndOfText      = numberString.index(numberString.endIndex, offsetBy:-1)</span><br><span class="line">                if str == &quot;0&quot; &#123;</span><br><span class="line">                    return String(numberString[..&lt;indexEndOfText])</span><br><span class="line">                &#125;</span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        return numberString</span><br><span class="line">        </span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        return &quot;&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>思路：1.先将小数按照.2f格式化处理成“0.00”;<br>2.然后再根据小数点”.”，切割字符串比较,判断最后的是不是“0”，是的话，直接切除掉；</p>
+<p>同样思路的也适用于格式化.3f的情况，判断方法中再加入“000”的判断，然后判断切割后的字符串。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://githubio.95783669.xyz/2026/11/09/iOS_doubleString_removeSuffix_0/" data-id="cuidN0h1DpZkJMTzC4zgGS_21" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2026/11/09/iOS_Coding_Guidelines/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          iOS代码规范
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2026/11/09/iOS_round_numberString/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">iOS小数四舍五入总结</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/11/">November 2026</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/11/09/SwiftURLEncodeing/">Swift中URL处理中的注意点</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/UseShellModifyXcodeBuildNumber/">使用shell脚本自动修改Xcode工程编译版本号</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/Xcode10-NewBuilSystemIssue/">踩坑Xcode 10之New Build System</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/iOS_Coding_Guidelines/">iOS代码规范</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2026 抢手的哥<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

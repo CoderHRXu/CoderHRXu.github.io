@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Moya，KingFisher中使用自签名证书发起HTTPS请求 | 抢手的哥的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="HTTPS握手先说声https握手，发送 HTTPS 请求首先要进行 SSL&#x2F;TLS 握手，握手过程大致如下： 1.客户端发起握手请求，携带随机数、支持算法列表等参数。2.服务端收到请求，选择合适的算法，下发公钥证书和随机数。3.客户端对服务端证书进行校验，并发送随机数信息，该信息使用公钥加密。4.服务端通过私钥获取随机数信息。5.双方根据以上交互的信息生成session ticket，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Moya，KingFisher中使用自签名证书发起HTTPS请求">
+<meta property="og:url" content="https://githubio.95783669.xyz/2026/11/09/SelfSginedCertificateAdaptionForMoyaAndKingfisher/index.html">
+<meta property="og:site_name" content="抢手的哥的技术博客">
+<meta property="og:description" content="HTTPS握手先说声https握手，发送 HTTPS 请求首先要进行 SSL&#x2F;TLS 握手，握手过程大致如下： 1.客户端发起握手请求，携带随机数、支持算法列表等参数。2.服务端收到请求，选择合适的算法，下发公钥证书和随机数。3.客户端对服务端证书进行校验，并发送随机数信息，该信息使用公钥加密。4.服务端通过私钥获取随机数信息。5.双方根据以上交互的信息生成session ticket，">
+<meta property="og:locale">
+<meta property="article:published_time" content="2026-11-09T00:57:04.153Z">
+<meta property="article:modified_time" content="2026-11-09T00:57:04.153Z">
+<meta property="article:author" content="抢手的哥">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="抢手的哥的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">抢手的哥的技术博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://githubio.95783669.xyz"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-SelfSginedCertificateAdaptionForMoyaAndKingfisher" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2026/11/09/SelfSginedCertificateAdaptionForMoyaAndKingfisher/" class="article-date">
+  <time datetime="2026-11-09T00:57:04.153Z" itemprop="datePublished">2026-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Moya，KingFisher中使用自签名证书发起HTTPS请求
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="HTTPS握手"><a href="#HTTPS握手" class="headerlink" title="HTTPS握手"></a>HTTPS握手</h3><p>先说声https握手，发送 HTTPS 请求首先要进行 SSL&#x2F;TLS 握手，握手过程大致如下：</p>
+<p>1.客户端发起握手请求，携带随机数、支持算法列表等参数。<br>2.服务端收到请求，选择合适的算法，下发公钥证书和随机数。<br>3.客户端对服务端证书进行校验，并发送随机数信息，该信息使用公钥加密。<br>4.服务端通过私钥获取随机数信息。<br>5.双方根据以上交互的信息生成session ticket，用作该连接后续数据传输的加密密钥。<br>上述过程中，和“IP直连”有关的是第3步，客户端需要验证服务端下发的证书，验证过程有以下两个要点：</p>
+<p>1.客户端用本地保存的根证书解开证书链，确认服务端下发的证书是由可信任的机构颁发的。<br>2.客户端需要检查证书的 domain 域和扩展域，看是否包含本次请求的 host。<br>如果上述两点都校验通过，就证明当前的服务端是可信任的，否则就是不可信任，应当中断当前连接。</p>
+<p>当客户端使用“IP直连”解析域名时，请求URL中的host会被替换成解析出来的IP，所以在证书验证的第2步，会出现domain不匹配的情况，导致SSL&#x2F;TLS握手不成功。</p>
+<h3 id="问题的产生："><a href="#问题的产生：" class="headerlink" title="问题的产生："></a>问题的产生：</h3><pre><code>  平时的swift项目开发过程中，我们需要在测试服进行开发以及测试，当网络环境配置成https的时候，经常需要加载网络请求，或者展示网络图片，测试服都是自建证书，默认情况下Moya，和KingFisher不会通过验证，导致网络(图片)加载不同。
+</code></pre>
+<h3 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h3><p>关闭Https的证书认证<br>验证自签名证书，CN 是否合法</p>
+<h3 id="Moya"><a href="#Moya" class="headerlink" title="Moya"></a>Moya</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">方法一：</span><br><span class="line">/// 关闭https认证</span><br><span class="line">let serverTrustPolicies: [String: ServerTrustPolicy] = [</span><br><span class="line">“172.16.88.106”: .disableEvaluation</span><br><span class="line">]</span><br><span class="line">let manager = Manager(</span><br><span class="line">configuration: URLSessionConfiguration.default,</span><br><span class="line">serverTrustPolicyManager: ServerTrustPolicyManager(policies: serverTrustPolicies)</span><br><span class="line">)</span><br><span class="line">let provider = MoyaProvider(manager: manager, plugins: [NetworkLoggerPlugin(verbose: true)])</span><br><span class="line">方法一是一种变通实现的方法，它直接关闭了Https的Domain验证，虽然可以请求正常进行，但是如果在客户端和服务器之间增加代理，请求发送时代理替换证书，那么代理就可以轻易拿到请求的数据，出于安全考虑并不推荐这种做法。</span><br><span class="line">方法二：</span><br><span class="line">ServerTrustPolicy枚举中使用pinCertificates。</span><br><span class="line">case pinCertificates(certificates: [SecCertificate], validateCertificateChain: Bool, validateHost: Bool)</span><br><span class="line">传入自签名证书信息。</span><br><span class="line">示例代码：</span><br><span class="line">let path = Bundle.main .path(forResource: &quot;selfSigned_pubCA.cer&quot;, ofType: nil)</span><br><span class="line">let data = NSData(contentsOfFile: path!)</span><br><span class="line">let certificates :[SecCertificate] = [data as! SecCertificate]</span><br><span class="line">let policies : [String : ServerTrustPolicy] = [&quot;172.16.88.230&quot; : .pinCertificates(certificates: certificates, validateCertificateChain: true, validateHost: true)]</span><br><span class="line">把这个 policies 作为参数传进manager 构造函数中即可</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="KingFisher信任Host方法"><a href="#KingFisher信任Host方法" class="headerlink" title="KingFisher信任Host方法"></a>KingFisher信任Host方法</h3><p>A lightweight, pure-Swift library for downloading and caching images from the web.<br><a href="https://github.com/onevcat/Kingfisher">https://github.com/onevcat/Kingfisher</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//取出downloader单例</span><br><span class="line">let downloader = KingfisherManager.shared.downloader</span><br><span class="line">//信任ip为106的</span><br><span class="line">Serverdownloader.trustedHosts = Set([&quot;172.16.88.106&quot;])</span><br><span class="line">//使用KingFisher给ImageView赋网络图片</span><br><span class="line">iconView.kf.setImage(with: iconUrl)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://githubio.95783669.xyz/2026/11/09/SelfSginedCertificateAdaptionForMoyaAndKingfisher/" data-id="cuidfDrcCdwtOZHWpc_ckSeMF" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2026/11/09/MethodsOfSwift/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Swift常用方法总结----不定期更新
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2026/11/09/NetEaswIMReceiption/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">网易云信IM已读回执开发总结</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/11/">November 2026</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/11/09/SwiftURLEncodeing/">Swift中URL处理中的注意点</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/UseShellModifyXcodeBuildNumber/">使用shell脚本自动修改Xcode工程编译版本号</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/Xcode10-NewBuilSystemIssue/">踩坑Xcode 10之New Build System</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/iOS_Coding_Guidelines/">iOS代码规范</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2026 抢手的哥<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

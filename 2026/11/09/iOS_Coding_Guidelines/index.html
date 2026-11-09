@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>iOS代码规范 | 抢手的哥的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="iOS Coding Guidelines（代码指南）   版本号 编写人 日期    2.0 抢手的哥 2019-06-05   一、命名基础驼峰命名 针对属性、变量、方法等均采用小写字母开头的驼峰命名准则。 针对类、枚举、宏等均采用大写字母开头的驼峰命名准则。  清晰性 最好是既清晰又简短，但不要为简短而丧失清晰性  示例：removeObject:  反例：remove  名称通常不缩写，即">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS代码规范">
+<meta property="og:url" content="https://githubio.95783669.xyz/2026/11/09/iOS_Coding_Guidelines/index.html">
+<meta property="og:site_name" content="抢手的哥的技术博客">
+<meta property="og:description" content="iOS Coding Guidelines（代码指南）   版本号 编写人 日期    2.0 抢手的哥 2019-06-05   一、命名基础驼峰命名 针对属性、变量、方法等均采用小写字母开头的驼峰命名准则。 针对类、枚举、宏等均采用大写字母开头的驼峰命名准则。  清晰性 最好是既清晰又简短，但不要为简短而丧失清晰性  示例：removeObject:  反例：remove  名称通常不缩写，即">
+<meta property="og:locale">
+<meta property="article:published_time" content="2026-11-09T00:57:04.154Z">
+<meta property="article:modified_time" content="2026-11-09T00:57:04.154Z">
+<meta property="article:author" content="抢手的哥">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="抢手的哥的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">抢手的哥的技术博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://githubio.95783669.xyz"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-iOS_Coding_Guidelines" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2026/11/09/iOS_Coding_Guidelines/" class="article-date">
+  <time datetime="2026-11-09T00:57:04.154Z" itemprop="datePublished">2026-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS代码规范
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="iOS-Coding-Guidelines（代码指南）"><a href="#iOS-Coding-Guidelines（代码指南）" class="headerlink" title="iOS Coding Guidelines（代码指南）"></a>iOS Coding Guidelines（代码指南）</h1><table>
+<thead>
+<tr>
+<th>版本号</th>
+<th>编写人</th>
+<th>日期</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2.0</td>
+<td>抢手的哥</td>
+<td>2019-06-05</td>
+</tr>
+</tbody></table>
+<h1 id="一、命名基础"><a href="#一、命名基础" class="headerlink" title="一、命名基础"></a>一、命名基础</h1><h3 id="驼峰命名"><a href="#驼峰命名" class="headerlink" title="驼峰命名"></a>驼峰命名</h3><ul>
+<li>针对属性、变量、方法等均采用小写字母开头的驼峰命名准则。</li>
+<li>针对类、枚举、宏等均采用大写字母开头的驼峰命名准则。</li>
+</ul>
+<h3 id="清晰性"><a href="#清晰性" class="headerlink" title="清晰性"></a>清晰性</h3><ul>
+<li><p>最好是既清晰又简短，但不要为简短而丧失清晰性</p>
+</li>
+<li><p>示例：<code>removeObject:</code></p>
+</li>
+<li><p>反例：<code>remove</code></p>
+</li>
+<li><p>名称通常不缩写，即使名称很长，也要拼写完全</p>
+</li>
+<li><p>示例：<code>destinationSelection </code></p>
+</li>
+<li><p>反例：<code>destSel </code></p>
+</li>
+</ul>
+<h6 id="我们尽可能遵守-Apple-的命名约定，其推荐使用长的，描述性强的方法和变量名，使其阅读起来更加清晰易懂。不能随意使用缩写，导致他人阅读代码困难。"><a href="#我们尽可能遵守-Apple-的命名约定，其推荐使用长的，描述性强的方法和变量名，使其阅读起来更加清晰易懂。不能随意使用缩写，导致他人阅读代码困难。" class="headerlink" title="我们尽可能遵守 Apple 的命名约定，其推荐使用长的，描述性强的方法和变量名，使其阅读起来更加清晰易懂。不能随意使用缩写，导致他人阅读代码困难。"></a><em>我们尽可能遵守 Apple 的命名约定，其推荐使用长的，描述性强的方法和变量名，使其阅读起来更加清晰易懂。不能随意使用缩写，导致他人阅读代码困难。</em></h6><h3 id="一致性"><a href="#一致性" class="headerlink" title="一致性"></a>一致性</h3><ul>
+<li>尽可能使用与 Cocoa 编程接口命名保持一致的名称。如果你不太确定某个命名的一致性，请浏览一下头文件。</li>
+<li>在使用多态方法的类中，命名的一致性非常重要。在不同类中实现相同功能的方法应该具有相同的名称</li>
+<li>示例：<code>- (NSInteger)tag</code></li>
+<li>示例：<code>- (void)setStringValue:(NSString *)</code></li>
+</ul>
+<h3 id="前缀"><a href="#前缀" class="headerlink" title="前缀"></a>前缀</h3><p><strong>前缀是名称的重要组成部分，它们可以区分应用的功能范畴。前缀可以防止与第三方开发者之间的命名冲突</strong></p>
+<ul>
+<li>前缀有规定的格式。它由两到三个大写字符组成，不能使用下划线与子前缀</li>
+<li>命名 class， protocol， struct， 函数，常量时使用前缀；</li>
+<li>命名成员方法时不使用前缀，因为方法已经在它所在类的命名空间中；</li>
+<li>同理，命名结构体字段时也不使用前缀</li>
+</ul>
+<h1 id="二、方法命名【强制】"><a href="#二、方法命名【强制】" class="headerlink" title="二、方法命名【强制】"></a>二、方法命名【强制】</h1><h3 id="一般性规则"><a href="#一般性规则" class="headerlink" title="一般性规则"></a>一般性规则</h3><p><strong>为方法命名时，请考虑如下一些一般性规则:</strong></p>
+<ul>
+<li>小写第一个单词的首字符，大写随后单词的首字符，不使用前缀。有两种例外情况:</li>
+</ul>
+<ol>
+<li>方法名以广为人知的大写字母缩略词(如 TIFF or PDF)开头</li>
+<li>私有方法可以使用统一的前缀来分组和辨识</li>
+</ol>
+<ul>
+<li><p>表示对象行为的方法，名称以动词开头</p>
+</li>
+<li><p>示例：<code>- (void)invokeWithTarget:(id)target:</code></p>
+</li>
+<li><p>示例：<code>- (void)selectTabViewItem:(NSTableViewItem *)tableViewItem</code></p>
+</li>
+<li><p>如果方法返回方法接收者的某个属性，直接用属性名称命名。不要使用 get，除非是间接返回一个或多个值。</p>
+</li>
+<li><p>示例：<code>- (NSSize)cellSize</code></p>
+</li>
+<li><p>反例：<code>- (NSSize)getCellSize</code></p>
+</li>
+<li><p>不要使用 and 来连接用属性作参数关键字</p>
+</li>
+<li><p>示例：<code>- (NSInteger)runModalForDirectory:(NSString *)path file:(NSString *)name</code></p>
+</li>
+<li><p>反例：<code>- (NSInteger)runModalForDirectory:(NSString *)path andFile:(NSString *)name</code></p>
+</li>
+</ul>
+<h3 id="方法参数"><a href="#方法参数" class="headerlink" title="方法参数"></a>方法参数</h3><p><strong>命名方法参数时要考虑如下规则:</strong></p>
+<ul>
+<li><p>如同方法名，参数名小写第一个单词的首字符，大写后继单词的首字符。</p>
+</li>
+<li><p>示例：<code>removeObject:(id)anObject</code></p>
+</li>
+<li><p>不要在参数名中使用 pointer 或 ptr，让参数的类型来说明它是指针</p>
+</li>
+<li><p>避免使用 one， two，…，作为参数名</p>
+</li>
+<li><p>避免为节省几个字符而缩写</p>
+</li>
+</ul>
+<h1 id="三、实例变量与数据类型命名【强制】"><a href="#三、实例变量与数据类型命名【强制】" class="headerlink" title="三、实例变量与数据类型命名【强制】"></a>三、实例变量与数据类型命名【强制】</h1><p>描述性的单词（有意义）+ 变量类型</p>
+<h3 id="私有变量："><a href="#私有变量：" class="headerlink" title="私有变量："></a>私有变量：</h3><p>私有变量放在 .m 文件中声明 以 _ 开头，第一个单词首字母小写<br>例子：<code>NSString * _somePrivateVariable</code></p>
+<h3 id="属性变量："><a href="#属性变量：" class="headerlink" title="属性变量："></a>属性变量：</h3><p>正例：<code>@property (nonatomic, strong) UILabel *nameLabel；</code><br>注意nonatomic和strong之间有一个空格，*号之前有空格，之后没有<br>反例：<code>@property(strong,nonatomic)UILabel * lab;</code></p>
+<p><strong>如果实例变量别设计为可被访问的，确保编写了访问方法并注意读写权限。</strong></p>
+<h3 id="枚举常量"><a href="#枚举常量" class="headerlink" title="枚举常量"></a>枚举常量</h3><ul>
+<li>使用枚举来定义一组相关的整数常量</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">typedef NS_ENUM(NSInteger, NSMatrixMode) &#123; </span><br><span class="line">NSRadioModeMatrix       = 0, </span><br><span class="line">NSHighlightModeMatrix   = 1,</span><br><span class="line">NSListModeMatrix        = 2, </span><br><span class="line">NSTrackModeMatrix       = 3</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="其他常量"><a href="#其他常量" class="headerlink" title="其他常量"></a>其他常量</h3><ul>
+<li>通常不使用 #define 来创建常量。如上面所述，整数常量请使用枚举。</li>
+<li>使用大写字母来定义预处理编译宏。如:<code>#ifdef DEBUG</code></li>
+<li>为 notification 名定义大驼峰字符串常量，从而能够利用编译器的拼写检查，减少书写错误。</li>
+</ul>
+<h1 id="四、图片资源命名"><a href="#四、图片资源命名" class="headerlink" title="四、图片资源命名"></a>四、图片资源命名</h1><p>模块名+功能名+控件名+状态<br><code>photoBrowser_btn_selected  photoBrowser_btn_unselected </code></p>
+<h1 id="五、可接受的缩略语"><a href="#五、可接受的缩略语" class="headerlink" title="五、可接受的缩略语"></a>五、可接受的缩略语</h1><p><strong>在设计编程接口时，通常名称不要缩写。下面列出的缩写要么是固定下来的要么是过去被广泛使用的，所以可以继续使用。关于缩写有一些额外的注意事项:</strong></p>
+<ul>
+<li>标准 C 库中长期使用的缩写形式是可以接受的。如:”alloc”， “getc”</li>
+<li>你可以在参数名中更自由地使用缩写。如: imageRep, col(column), obj, otherWin</li>
+</ul>
+<h3 id="常见的缩写"><a href="#常见的缩写" class="headerlink" title="常见的缩写"></a>常见的缩写</h3><table>
+<thead>
+<tr>
+<th align="left">缩写</th>
+<th align="left">含义</th>
+<th align="left">缩写</th>
+<th align="left">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">alloc</td>
+<td align="left">Allocate</td>
+<td align="left">alt</td>
+<td align="left">Alternate</td>
+</tr>
+<tr>
+<td align="left">app</td>
+<td align="left">Application</td>
+<td align="left">calc</td>
+<td align="left">Calculate</td>
+</tr>
+<tr>
+<td align="left">dealloc</td>
+<td align="left">dealloc</td>
+<td align="left">func</td>
+<td align="left">Function</td>
+</tr>
+<tr>
+<td align="left">horiz</td>
+<td align="left">Horizontal</td>
+<td align="left">info</td>
+<td align="left">Information</td>
+</tr>
+<tr>
+<td align="left">init</td>
+<td align="left">Initialize</td>
+<td align="left">int</td>
+<td align="left">Integer</td>
+</tr>
+<tr>
+<td align="left">max</td>
+<td align="left">Maximum</td>
+<td align="left">min</td>
+<td align="left">Minimum</td>
+</tr>
+<tr>
+<td align="left">msg</td>
+<td align="left">Message</td>
+<td align="left">nib</td>
+<td align="left">Interface Builder archive</td>
+</tr>
+<tr>
+<td align="left">pboard</td>
+<td align="left">Pasteboard</td>
+<td align="left">rect</td>
+<td align="left">Rectangle</td>
+</tr>
+<tr>
+<td align="left">Rep</td>
+<td align="left">Representation</td>
+<td align="left">temp</td>
+<td align="left">Temporary</td>
+</tr>
+<tr>
+<td align="left">vert</td>
+<td align="left">Vertical</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<h3 id="补充的缩写"><a href="#补充的缩写" class="headerlink" title="补充的缩写"></a>补充的缩写</h3><table>
+<thead>
+<tr>
+<th align="left">缩写</th>
+<th align="left">含义</th>
+<th align="left">缩写</th>
+<th align="left">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">idx</td>
+<td align="left">Index</td>
+<td align="left">btn</td>
+<td align="left">Button</td>
+</tr>
+<tr>
+<td align="left">proj</td>
+<td align="left">Project</td>
+<td align="left">pro</td>
+<td align="left">Professional</td>
+</tr>
+<tr>
+<td align="left">pwd</td>
+<td align="left">Password</td>
+<td align="left">pic</td>
+<td align="left">Picture</td>
+</tr>
+<tr>
+<td align="left">str</td>
+<td align="left">String</td>
+<td align="left">img</td>
+<td align="left">Image</td>
+</tr>
+<tr>
+<td align="left">VC</td>
+<td align="left">ViewController</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<h1 id="五、编码格式"><a href="#五、编码格式" class="headerlink" title="五、编码格式"></a>五、编码格式</h1><h3 id="星号-位置"><a href="#星号-位置" class="headerlink" title="星号(*)位置"></a>星号(*)位置</h3><ul>
+<li><p>定义一个对象时，*靠近变量</p>
+</li>
+<li><p>示例：<code>NSString *userName;</code></p>
+</li>
+</ul>
+<h3 id="统一的ViewController模板（代码缩进、Method进行分组、大括号写法）"><a href="#统一的ViewController模板（代码缩进、Method进行分组、大括号写法）" class="headerlink" title="统一的ViewController模板（代码缩进、Method进行分组、大括号写法）"></a>统一的ViewController模板（代码缩进、Method进行分组、大括号写法）</h3><ul>
+<li>import引用分组划分</li>
+<li>使用property与局部变量，不使用用全局变量（不能显性区分作用域）</li>
+<li>空格与换行建议（参照iOS SDK API）</li>
+<li>方法功能区域性划分</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;GMBaseViewController.h&quot;</span><br><span class="line">/**</span><br><span class="line">HomePage</span><br><span class="line">*/</span><br><span class="line">@interface HomePageViewController : GMBaseViewController</span><br><span class="line">/** 项目Id */</span><br><span class="line">@property (nonatomic, copy) NSString *projectId;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;HomePageViewController.h&quot;</span><br><span class="line">#import &quot;HomePageTableViewCell&quot;     //View</span><br><span class="line">#import &quot;HomePageListRequest&quot;        //Model数据类</span><br><span class="line">#import &quot;ProjectViewController&quot;     //非本页面所用</span><br><span class="line"></span><br><span class="line">@interface GMHPViewController ()</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation GMHPViewController</span><br><span class="line">#pragma mark - LifeCycle</span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">[super viewDidLoad];</span><br><span class="line">[self setupView];</span><br><span class="line">[self loadData];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - Custom Methods</span><br><span class="line">- (void)setupView &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">#pragma mark - Event Response</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#pragma mark - Data &amp;&amp; Net</span><br><span class="line">- (void)loadData &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - UITableViewDataSource &amp;&amp; UITableViewDelegate</span><br><span class="line"></span><br><span class="line">#pragma mark - CustomDelegate</span><br><span class="line"></span><br><span class="line">#pragma mark - Getter &amp;&amp; Setter</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="条件语句"><a href="#条件语句" class="headerlink" title="条件语句"></a>条件语句</h3><ul>
+<li>条件判断语句执行主体不管是 if 里面还是 else 里面都必须要使用大括号包住, 即使代码是一行的情况（Apple SSL&#x2F;TLS gotofail）。for 循环同样。</li>
+<li>if-else中，else不另起一行，与if的反括号在同一行，如下段代码所示，注意else前后均有空格。</li>
+<li>switch-case中，建议所有case和default后的代码块均用{}包裹。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">if（success）&#123;</span><br><span class="line">...</span><br><span class="line">&#125; else &#123;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">for（int i = 0 ; i &lt; 10 ; i++）&#123;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="单一原则"><a href="#单一原则" class="headerlink" title="单一原则"></a>单一原则</h3><ul>
+<li>每个函数的职责都应该划分明确（如类一样）</li>
+</ul>
+<h4 id="模型解析（MJExtension）"><a href="#模型解析（MJExtension）" class="headerlink" title="模型解析（MJExtension）"></a>模型解析（MJExtension）</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+ (NSDictionary *)mj_replacedKeyFromPropertyName &#123;</span><br><span class="line">return @&#123;@&quot;Id&quot; : @&quot;id&quot;&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (NSDictionary *)mj_objectClassInArray &#123;</span><br><span class="line">return @&#123;@“block” : @&quot;GMBlockModel&quot;&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li>子类重写父类方法一般需先调用父类方法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">[super viewDidLoad];</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>单模块多页面可新建模块Header类，统一导入共用类，设定常量等。非全局不可定义在<code>PCH</code>中</li>
+</ul>
+<h1 id="六、代码注释"><a href="#六、代码注释" class="headerlink" title="六、代码注释"></a>六、代码注释</h1><p><strong>优秀的代码大部分是可以自描述的，我们完全可以用代码本身来表达它到底在干什么，而不需要注释的辅助。<br>但并不是说一定不需要写注释，有以下三种情况需要编写注释：</strong></p>
+<ul>
+<li>公共接口（注释要告诉阅读代码的人，当前类能实现什么功能，譬如：基础类、工具类）</li>
+<li>涉及到比较深层专业知识及业务逻辑的代码（注释要体现出实现原理和思想）</li>
+<li>容易产生歧义的代码（但是严格来说，容易让人产生歧义的代码是不允许存在的）</li>
+</ul>
+<h3 id="import注释"><a href="#import注释" class="headerlink" title="import注释"></a>import注释</h3><p><strong>如果有一个以上的import语句，就对这些语句进行分组，每个分组的注释是可选的。</strong></p>
+<h3 id="属性注释"><a href="#属性注释" class="headerlink" title="属性注释"></a>属性注释</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/** 注释 */</span><br><span class="line">@property (nonatomic, strong) UIView *headerView;</span><br></pre></td></tr></table></figure>
+<h3 id="枚举注释"><a href="#枚举注释" class="headerlink" title="枚举注释"></a>枚举注释</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">typedef NS_ENUM(NSInteger, RefreshDateType) &#123;</span><br><span class="line">/** 新建 */</span><br><span class="line">RefreshDateTypeTaskMain    = 1,</span><br><span class="line">/** 编辑 */</span><br><span class="line">RefreshDateTypeEdit,</span><br><span class="line">/** 重派 */</span><br><span class="line">RefreshDateTypeAssign,</span><br><span class="line">/** 新建子任务 */</span><br><span class="line">RefreshDateTypeSubTask,</span><br><span class="line">/** 任务派发（进度管理模块） */</span><br><span class="line">RefreshDateTypeTaskDis,</span><br><span class="line">/** 任务变更（进度管理模块） */</span><br><span class="line">RefreshDateTypeTaskChanged,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="方法声明注释"><a href="#方法声明注释" class="headerlink" title="方法声明注释"></a>方法声明注释</h3><p><strong>公开接口，重要的方法，分类，以及协议都应该伴随注释。方法的注释使用Xcode自带注释快捷键:<code>Commond+option+/</code>或者<code>///</code>，这两种注释方式可被<code>Xcode</code>中<code>Quick Help</code>识别</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">&lt;#Description#&gt;</span><br><span class="line"></span><br><span class="line">@param tableView &lt;#tableView description#&gt;</span><br><span class="line">@param section &lt;#section description#&gt;</span><br><span class="line">@return &lt;#return value description#&gt;</span><br><span class="line">*/</span><br><span class="line">- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section &#123;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">///&lt;#Description#&gt;</span><br><span class="line">- (void)getUserInfo &#123;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><font size=2 color=#4A7EC0>参考文档：</font><a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html#//apple_ref/doc/uid/10000146-SW1">Apple Coding Guidelines for Cocoa</a></p>
+<h1 id="七、其他事项"><a href="#七、其他事项" class="headerlink" title="七、其他事项"></a>七、其他事项</h1><h2 id="1-【推荐】条件过多、过长时应该换行"><a href="#1-【推荐】条件过多、过长时应该换行" class="headerlink" title="1.【推荐】条件过多、过长时应该换行"></a>1.【推荐】条件过多、过长时应该换行</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if  ( condition1 &amp;&amp;</span><br><span class="line">condition2 &amp;&amp;</span><br><span class="line">condition3 ) &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2-【强制】二元运算符与变量之间必须有空格"><a href="#2-【强制】二元运算符与变量之间必须有空格" class="headerlink" title="2.【强制】二元运算符与变量之间必须有空格"></a>2.【强制】二元运算符与变量之间必须有空格</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">width = 5 + 5; </span><br><span class="line">height = width * 2;</span><br><span class="line">length = width + height;</span><br><span class="line">for (int i = 0; i &lt; 10; i++)</span><br></pre></td></tr></table></figure>
+<h2 id="3-【强制】NSArray泛型"><a href="#3-【强制】NSArray泛型" class="headerlink" title="3.【强制】NSArray泛型"></a>3.【强制】NSArray泛型</h2><p>如果NSArray中存储数据类型是统一的，必须如下使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/** modelArray  */</span><br><span class="line">@property (nonatomic, strong) NSArray &lt;GCBModel *&gt; *modelArray;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-【强制】block循环引用问题"><a href="#4-【强制】block循环引用问题" class="headerlink" title="4.【强制】block循环引用问题&lt;特别关注&gt;"></a>4.【强制】block循环引用问题&lt;特别关注&gt;</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">__weak_self;</span><br><span class="line">[selectPerVC setSingleResultBlock:^(ContactModel *resultModel) &#123;</span><br><span class="line">__strong_self;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+<h2 id="5【强制】枚举使用"><a href="#5【强制】枚举使用" class="headerlink" title="5【强制】枚举使用"></a>5【强制】枚举使用</h2><p>项目中两个以上的区分逻辑要使用枚举，使用枚举值赋值的时候不能使用枚举的值（1、2、3… 等）<br>正例：<code>self.dataType = RefreshDateTypeTaskMain；</code><br>反例：<code>self.dataType = 1；</code></p>
+<h2 id="6【强制】加载xib"><a href="#6【强制】加载xib" class="headerlink" title="6【强制】加载xib"></a>6【强制】加载xib</h2><p>xib名称用NSStringFromClass(),避免书写错误<br>正例：<code>[self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([DXRecommendTagVCell class]) bundle:nil] forCellReuseIdentifier:ID];</code><br>反例：<code>[self.tableView registerNib:[UINib nibWithNibName:@&quot;DXRecommendTagVCell&quot; bundle:nil] forCellReuseIdentifier:ID];</code></p>
+<h2 id="7【强制】三目运算符"><a href="#7【强制】三目运算符" class="headerlink" title="7【强制】三目运算符"></a>7【强制】三目运算符</h2><p>三目运算符使用时注意?和:空格<br>正例：<code>NSString *string = model.isSelected ? @&quot;已选中&quot; : @&quot;未选中&quot;;</code><br><strong>禁止连续使用三目运算符</strong><br>反例：<code>return indexPath.row == 0 ? 109 : indexPath.row == 1 ? 138 : indexPath.row == 10 ? 45 : indexPath.row == 11 ? [PublicPhotoBrowserView getCollecHeiImageCount:self.taskModel.imgsArray.count remainCount:9 - self.taskModel.filesArray.count width: ScreenW - 30 detail:NO]+[PublicPhotoBrowserView publicPhotoGetFilesHeight:self.taskModel.filesArray.count singleHeight:0] : 55 </code></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://githubio.95783669.xyz/2026/11/09/iOS_Coding_Guidelines/" data-id="cuidEP9zDgGlbsWVZINq1x10M" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2026/11/09/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Hello World
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2026/11/09/iOS_doubleString_removeSuffix_0/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">iOS小数点格式化：最多保留两位小数，小数点后末尾的0不要</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/11/">November 2026</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/11/09/SwiftURLEncodeing/">Swift中URL处理中的注意点</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/UseShellModifyXcodeBuildNumber/">使用shell脚本自动修改Xcode工程编译版本号</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/Xcode10-NewBuilSystemIssue/">踩坑Xcode 10之New Build System</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/iOS_Coding_Guidelines/">iOS代码规范</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2026 抢手的哥<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

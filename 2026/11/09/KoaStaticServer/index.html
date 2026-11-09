@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>如何使用Koa搭建静态资源文件服务器 | 抢手的哥的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1.node.jsNode.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境，执行Javascript的速度非常快，性能非常好。Node.js 使用了一个事件驱动、非阻塞式 I&#x2F;O 的模型，使其轻量又高效。Node.js 的包管理器 npm，是全球最大的开源库生态系统。 2.KoaKoa 就是一种简单好用的 Web 框架。它的特点是优雅、简洁、表达力强、自由度">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何使用Koa搭建静态资源文件服务器">
+<meta property="og:url" content="https://githubio.95783669.xyz/2026/11/09/KoaStaticServer/index.html">
+<meta property="og:site_name" content="抢手的哥的技术博客">
+<meta property="og:description" content="1.node.jsNode.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境，执行Javascript的速度非常快，性能非常好。Node.js 使用了一个事件驱动、非阻塞式 I&#x2F;O 的模型，使其轻量又高效。Node.js 的包管理器 npm，是全球最大的开源库生态系统。 2.KoaKoa 就是一种简单好用的 Web 框架。它的特点是优雅、简洁、表达力强、自由度">
+<meta property="og:locale">
+<meta property="article:published_time" content="2026-11-09T00:57:04.152Z">
+<meta property="article:modified_time" content="2026-11-09T00:57:04.152Z">
+<meta property="article:author" content="抢手的哥">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="抢手的哥的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">抢手的哥的技术博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://githubio.95783669.xyz"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-KoaStaticServer" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2026/11/09/KoaStaticServer/" class="article-date">
+  <time datetime="2026-11-09T00:57:04.152Z" itemprop="datePublished">2026-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      如何使用Koa搭建静态资源文件服务器
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-node-js"><a href="#1-node-js" class="headerlink" title="1.node.js"></a>1.node.js</h2><p>Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境，执行Javascript的速度非常快，性能非常好。<br>Node.js 使用了一个事件驱动、非阻塞式 I&#x2F;O 的模型，使其轻量又高效。<br>Node.js 的包管理器 npm，是全球最大的开源库生态系统。</p>
+<h2 id="2-Koa"><a href="#2-Koa" class="headerlink" title="2.Koa"></a>2.Koa</h2><p><a href="http://koajs.com/">Koa</a> 就是一种简单好用的 Web 框架。它的特点是优雅、简洁、表达力强、自由度高。本身代码只有1000多行，所有功能都通过插件实现，很符合 Unix 哲学。</p>
+<p>本文讲述了如何最简单的使用Koa框架来实现静态资源发布服务器。</p>
+<h2 id="3-准备工作"><a href="#3-准备工作" class="headerlink" title="3.准备工作"></a>3.准备工作</h2><p>Koa 必须使用7.6以上版本的，如果你的版本低于这个要求，就要先升级Node，操作方法不多说了。</p>
+<h2 id="4-正式开搞"><a href="#4-正式开搞" class="headerlink" title="4.正式开搞"></a>4.正式开搞</h2><h3 id="4-1-快速开启http服务"><a href="#4-1-快速开启http服务" class="headerlink" title="4.1 快速开启http服务"></a>4.1 快速开启http服务</h3><p>在你的电脑上指定一个目录，打开终端cd到目录，npm install 安装依赖包，新建一个app.js 文件，作为入口。在js文件中写如下代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const Koa = require(&#x27;koa&#x27;);</span><br><span class="line">const app = new Koa();</span><br><span class="line"></span><br><span class="line">app.listen(3000);</span><br></pre></td></tr></table></figure>
+<p>终端里输出 node app.js，一个服务就这么运行了。是不是so easy！<br>打开浏览器访问<a href="http://loacalhost:3000，你会看到页面显示"Not">http://loacalhost:3000，你会看到页面显示&quot;Not</a> Found”，表示没有发现任何内容。这是因为我们并没有告诉 Koa 应该显示什么内容。</p>
+<h3 id="4-2-配置路由和静态资源"><a href="#4-2-配置路由和静态资源" class="headerlink" title="4.2 配置路由和静态资源"></a>4.2 配置路由和静态资源</h3><p>网站一般都有多个页面，多个页面就需要路径的路由。原生路由用起来不太方便，我们可以使用封装好的<a href="https://www.npmjs.com/package/koa-route"><code>koa-route</code></a>模块。<br>如果网站提供静态资源（图片、字体、样式表、脚本……），为它们一个个写路由就很麻烦，也没必要。<a href="https://www.npmjs.com/package/koa-static"><code>koa-static</code></a>模块封装了这部分的请求。</p>
+<p>实际开发中，一个服务不仅能提供静态资源访问，也会提供一些接口给外界调用，为了统一管理这部分静态资源，一般都放在根目录public文件夹下。</p>
+<p>其他的接口，就需要用路由统一分配路径</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// 0.导入需要的资源包</span><br><span class="line">const Koa = require(&#x27;koa&#x27;);</span><br><span class="line">const app = new Koa();</span><br><span class="line">const route = require(&#x27;koa-route&#x27;);</span><br><span class="line">const serve = require(&#x27;koa-static&#x27;);</span><br><span class="line"></span><br><span class="line">// 1.主页静态网页 把静态页统一放到public中管理</span><br><span class="line">const home   = serve(path.join(__dirname)+&#x27;/public/&#x27;);</span><br><span class="line">// 2.hello接口</span><br><span class="line">const hello = ctx =&gt; &#123;</span><br><span class="line">  ctx.response.body = &#x27;Hello World&#x27;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 3.分配路由</span><br><span class="line">app.use(home); </span><br><span class="line">app.use(route.get(&#x27;/&#x27;, hello));</span><br><span class="line">app.listen(3000);</span><br></pre></td></tr></table></figure>
+<p>这里用到了一个node.js的全局变量: __dirname,表示当前执行脚本所在的目录。然后把你之前写好的静态资源，比如html，css等文件，统统放到根目录的public文件夹下。运行一下app.js。在浏览器里面输如 <a href="http://loacalhost:3000/">http://loacalhost:3000</a> 默认获取加载public目录下的index.html文件，如果没有，那就在浏览器端口号后面拼接路径。比如 <a href="http://loacalhost:3000/index2.html">http://loacalhost:3000/index2.html</a>。</p>
+<p>到此为止就可以访问public下所有的静态资源了。<br>鼓掌，散花！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://githubio.95783669.xyz/2026/11/09/KoaStaticServer/" data-id="cuidGeIGfqpglOFoc31u45hCj" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2026/11/09/JsonToModelPit/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          iOS项目中Json转Model的坑
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2026/11/09/MacOSShareWifi/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">关于Mac共享WiFi网络，看这里就够了(2.4G，5G ， ipv6)</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/11/">November 2026</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/11/09/SwiftURLEncodeing/">Swift中URL处理中的注意点</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/UseShellModifyXcodeBuildNumber/">使用shell脚本自动修改Xcode工程编译版本号</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/Xcode10-NewBuilSystemIssue/">踩坑Xcode 10之New Build System</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2026/11/09/iOS_Coding_Guidelines/">iOS代码规范</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2026 抢手的哥<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
