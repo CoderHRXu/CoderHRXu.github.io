@@ -18,12 +18,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha256-4Lad8m4ZWW1Lgb9+sMVLYEfnIh7BjV1NQMEe79Pviks=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"githubio.95783669.xyz","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.29.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":null,"show_result":true},"fold":{"enable":false,"height":500},"language":false,"highlight_theme":"light"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":true,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js" defer></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.95783669.xyz","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.29.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":null,"show_result":true},"fold":{"enable":false,"height":500},"language":false,"highlight_theme":"light"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":true,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js" defer></script>
 
     <meta name="description" content="Fastlane简介Fastlane  是用Ruby语言编写的一套自动化工具集和框架，每一个工具实际都对应一个Ruby脚本，用来执行某一个特定的任务。Fastlane的强大之处，就是可以将不同的工具（action）有机而灵活的结合在一起，从而形成一个完整的自动化流程，大大提高了日常的开发测试效率，推荐大家使用。如果你尚未使用这个工具，可以点击一下几篇文章学习如何使用：【CI】持续集成-引导篇【CI">
 <meta property="og:type" content="article">
 <meta property="og:title" content="当Fastlane遇到Xcode9打包出来不一定是ipa而是坑">
-<meta property="og:url" content="https://githubio.95783669.xyz/2026/11/09/FastlaneWithXcode9Issue/index.html">
+<meta property="og:url" content="https://blog.95783669.xyz/2026/11/09/FastlaneWithXcode9Issue/index.html">
 <meta property="og:site_name" content="抢手的哥的技术博客">
 <meta property="og:description" content="Fastlane简介Fastlane  是用Ruby语言编写的一套自动化工具集和框架，每一个工具实际都对应一个Ruby脚本，用来执行某一个特定的任务。Fastlane的强大之处，就是可以将不同的工具（action）有机而灵活的结合在一起，从而形成一个完整的自动化流程，大大提高了日常的开发测试效率，推荐大家使用。如果你尚未使用这个工具，可以点击一下几篇文章学习如何使用：【CI】持续集成-引导篇【CI">
 <meta property="og:locale" content="zh_CN">
@@ -46,10 +46,10 @@
 <meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1447375-1697cd95bad7cd6a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
-<link rel="canonical" href="https://githubio.95783669.xyz/2026/11/09/FastlaneWithXcode9Issue/">
+<link rel="canonical" href="https://blog.95783669.xyz/2026/11/09/FastlaneWithXcode9Issue/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://githubio.95783669.xyz/2026/11/09/FastlaneWithXcode9Issue/","path":"2026/11/09/FastlaneWithXcode9Issue/","title":"当Fastlane遇到Xcode9打包出来不一定是ipa而是坑"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.95783669.xyz/2026/11/09/FastlaneWithXcode9Issue/","path":"2026/11/09/FastlaneWithXcode9Issue/","title":"当Fastlane遇到Xcode9打包出来不一定是ipa而是坑"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>当Fastlane遇到Xcode9打包出来不一定是ipa而是坑 | 抢手的哥的技术博客</title>
@@ -212,7 +212,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://githubio.95783669.xyz/2026/11/09/FastlaneWithXcode9Issue/">
+    <link itemprop="mainEntityOfPage" href="https://blog.95783669.xyz/2026/11/09/FastlaneWithXcode9Issue/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -296,13 +296,10 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2026/11/09/ContainInSwift/" rel="prev" title="Swift中使用Contains的正确姿势">
-                  <i class="fa fa-angle-left"></i> Swift中使用Contains的正确姿势
-                </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2026/11/09/Distance/" rel="next" title="iOS计算点到直线的距离以及与垂足的交点">
-                  iOS计算点到直线的距离以及与垂足的交点 <i class="fa fa-angle-right"></i>
+                <a href="/2026/11/09/ContainInSwift/" rel="next" title="Swift中使用Contains的正确姿势">
+                  Swift中使用Contains的正确姿势 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>

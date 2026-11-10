@@ -18,12 +18,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha256-4Lad8m4ZWW1Lgb9+sMVLYEfnIh7BjV1NQMEe79Pviks=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"githubio.95783669.xyz","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.29.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":null,"show_result":true},"fold":{"enable":false,"height":500},"language":false,"highlight_theme":"light"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":true,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js" defer></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.95783669.xyz","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.29.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":null,"show_result":true},"fold":{"enable":false,"height":500},"language":false,"highlight_theme":"light"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":true,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js" defer></script>
 
     <meta name="description" content="背景公司的项目开发中，肯定是需要打包的，目前已经建立起了一套gitlab+fastlane的持续集成方案。但是在项目开发周期的测试阶段以及上线之前，项目打包的频次会升高不少。所以在一个团队开发中，尤其是测试人员如何区分哪次的打包，是一个很常见的问题。 要区分不同的包也很简单，通过build号来区分。Xcode工程的build号可以随便填的，但是如果每次打包都要手动填写肯定也是一个麻烦的事情，所以我">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用shell脚本自动修改Xcode工程编译版本号">
-<meta property="og:url" content="https://githubio.95783669.xyz/2026/11/09/UseShellModifyXcodeBuildNumber/index.html">
+<meta property="og:url" content="https://blog.95783669.xyz/2026/11/09/UseShellModifyXcodeBuildNumber/index.html">
 <meta property="og:site_name" content="抢手的哥的技术博客">
 <meta property="og:description" content="背景公司的项目开发中，肯定是需要打包的，目前已经建立起了一套gitlab+fastlane的持续集成方案。但是在项目开发周期的测试阶段以及上线之前，项目打包的频次会升高不少。所以在一个团队开发中，尤其是测试人员如何区分哪次的打包，是一个很常见的问题。 要区分不同的包也很简单，通过build号来区分。Xcode工程的build号可以随便填的，但是如果每次打包都要手动填写肯定也是一个麻烦的事情，所以我">
 <meta property="og:locale" content="zh_CN">
@@ -36,10 +36,10 @@
 <meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1447375-1eb4e82f3885ec87.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
-<link rel="canonical" href="https://githubio.95783669.xyz/2026/11/09/UseShellModifyXcodeBuildNumber/">
+<link rel="canonical" href="https://blog.95783669.xyz/2026/11/09/UseShellModifyXcodeBuildNumber/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://githubio.95783669.xyz/2026/11/09/UseShellModifyXcodeBuildNumber/","path":"2026/11/09/UseShellModifyXcodeBuildNumber/","title":"使用shell脚本自动修改Xcode工程编译版本号"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.95783669.xyz/2026/11/09/UseShellModifyXcodeBuildNumber/","path":"2026/11/09/UseShellModifyXcodeBuildNumber/","title":"使用shell脚本自动修改Xcode工程编译版本号"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>使用shell脚本自动修改Xcode工程编译版本号 | 抢手的哥的技术博客</title>
@@ -202,7 +202,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://githubio.95783669.xyz/2026/11/09/UseShellModifyXcodeBuildNumber/">
+    <link itemprop="mainEntityOfPage" href="https://blog.95783669.xyz/2026/11/09/UseShellModifyXcodeBuildNumber/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -272,13 +272,13 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2026/11/09/updateCocoapodsIssue/" rel="prev" title="更新cocoapods 遇到的坑">
-                  <i class="fa fa-angle-left"></i> 更新cocoapods 遇到的坑
+                <a href="/2026/11/09/NetEaswIMReceiption/" rel="prev" title="网易云信IM已读回执开发总结">
+                  <i class="fa fa-angle-left"></i> 网易云信IM已读回执开发总结
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2026/11/09/hello-world/" rel="next" title="Hello World">
-                  Hello World <i class="fa fa-angle-right"></i>
+                <a href="/2026/11/09/iPhoneXNetworkTypeIssue/" rel="next" title="iPhone X获取设备网络类型错误分析">
+                  iPhone X获取设备网络类型错误分析 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>

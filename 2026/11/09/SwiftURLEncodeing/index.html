@@ -18,12 +18,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha256-4Lad8m4ZWW1Lgb9+sMVLYEfnIh7BjV1NQMEe79Pviks=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"githubio.95783669.xyz","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.29.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":null,"show_result":true},"fold":{"enable":false,"height":500},"language":false,"highlight_theme":"light"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":true,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js" defer></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.95783669.xyz","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.29.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":null,"show_result":true},"fold":{"enable":false,"height":500},"language":false,"highlight_theme":"light"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":true,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js" defer></script>
 
     <meta name="description" content="日常的开发当中，网络请求是不可或缺的。而在网络访问请求中，经常会遇到有中文空格字符的情况，直接用这些字符串去访问是无法正常访问，需要我们做进一步的处理。 一般处理1let urlString &#x3D; &quot;http:&#x2F;&#x2F;10.0.3.86&#x2F;中文&#x2F;main.html#&#x2F;help&quot; 比如以上的url，想使用webview进行访问或者是原生发起http请求，都需要进行转码处理。有人会问，这有">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Swift中URL处理中的注意点">
-<meta property="og:url" content="https://githubio.95783669.xyz/2026/11/09/SwiftURLEncodeing/index.html">
+<meta property="og:url" content="https://blog.95783669.xyz/2026/11/09/SwiftURLEncodeing/index.html">
 <meta property="og:site_name" content="抢手的哥的技术博客">
 <meta property="og:description" content="日常的开发当中，网络请求是不可或缺的。而在网络访问请求中，经常会遇到有中文空格字符的情况，直接用这些字符串去访问是无法正常访问，需要我们做进一步的处理。 一般处理1let urlString &#x3D; &quot;http:&#x2F;&#x2F;10.0.3.86&#x2F;中文&#x2F;main.html#&#x2F;help&quot; 比如以上的url，想使用webview进行访问或者是原生发起http请求，都需要进行转码处理。有人会问，这有">
 <meta property="og:locale" content="zh_CN">
@@ -39,10 +39,10 @@
 <meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1447375-7e42bf91528876c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
-<link rel="canonical" href="https://githubio.95783669.xyz/2026/11/09/SwiftURLEncodeing/">
+<link rel="canonical" href="https://blog.95783669.xyz/2026/11/09/SwiftURLEncodeing/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://githubio.95783669.xyz/2026/11/09/SwiftURLEncodeing/","path":"2026/11/09/SwiftURLEncodeing/","title":"Swift中URL处理中的注意点"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.95783669.xyz/2026/11/09/SwiftURLEncodeing/","path":"2026/11/09/SwiftURLEncodeing/","title":"Swift中URL处理中的注意点"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>Swift中URL处理中的注意点 | 抢手的哥的技术博客</title>
@@ -205,7 +205,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://githubio.95783669.xyz/2026/11/09/SwiftURLEncodeing/">
+    <link itemprop="mainEntityOfPage" href="https://blog.95783669.xyz/2026/11/09/SwiftURLEncodeing/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">

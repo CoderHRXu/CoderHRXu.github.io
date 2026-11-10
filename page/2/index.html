@@ -18,12 +18,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha256-4Lad8m4ZWW1Lgb9+sMVLYEfnIh7BjV1NQMEe79Pviks=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"githubio.95783669.xyz","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.29.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":null,"show_result":true},"fold":{"enable":false,"height":500},"language":false,"highlight_theme":"light"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":true,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js" defer></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.95783669.xyz","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.29.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":null,"show_result":true},"fold":{"enable":false,"height":500},"language":false,"highlight_theme":"light"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":true,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js" defer></script>
 
     <meta name="description" content="欢迎来到抢手的哥的技术博客">
 <meta property="og:type" content="website">
 <meta property="og:title" content="抢手的哥的技术博客">
-<meta property="og:url" content="https://githubio.95783669.xyz/page/2/index.html">
+<meta property="og:url" content="https://blog.95783669.xyz/page/2/index.html">
 <meta property="og:site_name" content="抢手的哥的技术博客">
 <meta property="og:description" content="欢迎来到抢手的哥的技术博客">
 <meta property="og:locale" content="zh_CN">
@@ -31,7 +31,7 @@
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://githubio.95783669.xyz/page/2/">
+<link rel="canonical" href="https://blog.95783669.xyz/page/2/">
 
 
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"page/2/index.html","title":""}</script>
@@ -195,7 +195,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://githubio.95783669.xyz/2026/11/09/NetEaswIMReceiption/">
+    <link itemprop="mainEntityOfPage" href="https://blog.95783669.xyz/2026/11/09/MethodsOfSwift/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -213,7 +213,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/11/09/NetEaswIMReceiption/" class="post-title-link" itemprop="url">网易云信IM已读回执开发总结</a>
+          <a href="/2026/11/09/MethodsOfSwift/" class="post-title-link" itemprop="url">Swift常用方法总结----不定期更新</a>
         </h2>
 
         <div class="post-meta-container">
@@ -237,46 +237,30 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="1-网易云信"><a href="#1-网易云信" class="headerlink" title="1.网易云信"></a>1.网易云信</h2><p>网易云信算是国内比较老牌的IM即时通讯服务商了，公司项目里集成的网易云信SDK，关于这个SDK就不多说了，官网上的介绍比较详细。</p>
-<p>项目里接入了SDK，然后UI界面是使用的网易提供的一套UI框架，叫<code>NIMKit.h</code> 在此基础上进行开发。</p>
-<h2 id="2-IM已读回执"><a href="#2-IM已读回执" class="headerlink" title="2.IM已读回执"></a>2.IM已读回执</h2><p>IM已读回执，整个的过程简单说来就是：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.聊天消息的发送方，发出的一条带开通回执功能的消息（可以是文字，图片等等，语音一般都自带回执）；</span><br><span class="line">2.聊天接收方查看了（前提是收到了该消息）了这条消息，要告诉发送方我我已经查看了，此时发一条该消息已读的指令给发送方；</span><br><span class="line">3.聊天发送方，收到接收方，发来的消息已读回执。这个时候，就要更新本地数据，在UI界面上把那条聊天信息，显示为已读；</span><br></pre></td></tr></table></figure>
-<p>群聊也是如此，在群聊中发出一条消息，通过回执功能可以看出谁已读或者未读。<br>如果你用过钉钉，就很好理解这个流程。</p>
-<h2 id="3-前期准备"><a href="#3-前期准备" class="headerlink" title="3.前期准备"></a>3.前期准备</h2><p>既然是迭代开发，没玩过这个SDK肯定是要查看开发文档的。<br><a href="https://github.com/netease-im/NIM_iOS_UIKit/blob/master/Documents/nim_custom_ui.md">NIMKit文档</a><br><a href="https://dev.yunxin.163.com/docs/product/IM%E5%8D%B3%E6%97%B6%E9%80%9A%E8%AE%AF/SDK%E5%BC%80%E5%8F%91%E9%9B%86%E6%88%90/iOS%E5%BC%80%E5%8F%91%E9%9B%86%E6%88%90/%E6%B6%88%E6%81%AF%E6%94%B6%E5%8F%91#%E5%B7%B2%E8%AF%BB%E5%9B%9E%E6%89%A7">单聊文档</a><br><a href="https://dev.yunxin.163.com/docs/product/IM%E5%8D%B3%E6%97%B6%E9%80%9A%E8%AE%AF/SDK%E5%BC%80%E5%8F%91%E9%9B%86%E6%88%90/iOS%E5%BC%80%E5%8F%91%E9%9B%86%E6%88%90/%E7%BE%A4%E7%BB%84%E5%8A%9F%E8%83%BD#%E7%BE%A4%E7%BB%84%E5%B7%B2%E8%AF%BB%E5%9B%9E%E6%89%A7">群聊文档</a></p>
-<p><strong>敲黑板，划重点，要考！！</strong><br><strong>网易云信SDK，已读回执功能，需要单独开通服务，而且是付费服务</strong><br>也就是说，代码写的再好，不花钱开通也没吊用。<br><img src="https://upload-images.jianshu.io/upload_images/1447375-5d168f1a9ad04095.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="卧槽.png"></p>
-<p>讲到这里，其实最最首要的任务是：<strong>充钱，充钱，充钱！</strong></p>
-<h2 id="4-拿起键盘就是干"><a href="#4-拿起键盘就是干" class="headerlink" title="4.拿起键盘就是干"></a>4.拿起键盘就是干</h2><p><img src="https://upload-images.jianshu.io/upload_images/1447375-7e42bf91528876c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/613/format/webp" alt="就是干"></p>
-<h3 id="4-1-聊天Cell定制"><a href="#4-1-聊天Cell定制" class="headerlink" title="4.1 聊天Cell定制"></a>4.1 聊天Cell定制</h3><p>如下图，NIMKit里面已经封装好了一套聊天Cell。根据业务需要自行调整。<br><img src="https://upload-images.jianshu.io/upload_images/1447375-70ef1b7523d72146.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="cell结构"><br>比如，它的readLabel是放在最左侧，我们需求是放在底部位置。所以自行重定义布局，很简单代码就不贴了。</p>
-<p>当然NIMKitConfig里面你要自定义好readLabel的字体大小颜色，内容等等。<br>NIMMessageModel是每一条聊天消息的model实体，readlabel的隐藏显示是由shouldShowReadLabel这个属性来驱动。</p>
-<p>NIMSessionTableAdapter这个类用来负责聊天页面的tableview相关，因为需求是将已读放到了消息底部，那必然要对cell的高度进行调整。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath &#123;</span><br><span class="line">CGFloat cellHeight = 0;</span><br><span class="line">id modelInArray = [[self.interactor items] objectAtIndex:indexPath.row];</span><br><span class="line">if ([modelInArray isKindOfClass:[NIMMessageModel class]]) &#123;</span><br><span class="line">NIMMessageModel *model          = (NIMMessageModel *)modelInArray;</span><br><span class="line">CGSize size                     = [model contentSize:tableView.nim_width];</span><br><span class="line">UIEdgeInsets contentViewInsets  = model.contentViewInsets;</span><br><span class="line">UIEdgeInsets bubbleViewInsets   = model.bubbleViewInsets;</span><br><span class="line">CGFloat unreadLabelHeight       = [model.message.from isEqualToString:[NIMSDK sharedSDK].loginManager.currentAccount] ? 20 : 0;// 高度适配</span><br><span class="line">cellHeight                      = size.height + contentViewInsets.top + contentViewInsets.bottom + bubbleViewInsets.top + bubbleViewInsets.bottom + unreadLabelHeight;</span><br><span class="line">&#125;</span><br><span class="line">....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <h3 id="1-本地读取json文件"><a href="#1-本地读取json文件" class="headerlink" title="1.本地读取json文件"></a>1.本地读取json文件</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func readJsonFileByFileName(fileName : String) -&gt; Any? &#123;</span><br><span class="line">       </span><br><span class="line">       let path    = Bundle.main.path(forResource: &quot;\(fileName).json&quot;, ofType: nil)</span><br><span class="line">       let data    = NSData(contentsOfFile: path!)</span><br><span class="line">       let jsonStr = try? JSONSerialization.jsonObject(with: data! as Data, options:.allowFragments)</span><br><span class="line">       return jsonStr</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-实现手机号银行卡号输入加空格"><a href="#2-实现手机号银行卡号输入加空格" class="headerlink" title="2.实现手机号银行卡号输入加空格"></a>2.实现手机号银行卡号输入加空格</h3><p>eg：188 8888 8888</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -&gt; Bool &#123;</span><br><span class="line">        </span><br><span class="line">        let oldStr = textField.text</span><br><span class="line">        var newStr = (oldStr as NSString?)?.replacingCharacters(in: range, with: string)</span><br><span class="line">        if textField.placeholder == &quot;请输入银行预留手机号&quot; &#123;</span><br><span class="line">            </span><br><span class="line">            newStr = newStr?.replacingOccurrences(of: &quot; &quot;, with: &quot;&quot;)</span><br><span class="line">            </span><br><span class="line">            let expression = &quot;^([1]&#123;1&#125;([34578]&#123;1&#125;([0-9]&#123;0,9&#125;+)?)?)?$&quot;</span><br><span class="line">            let regex = try?NSRegularExpression.init(pattern: expression, options: .caseInsensitive)</span><br><span class="line">            let numOfMatches = regex?.matches(in: newStr!, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, (newStr?.characters.count)!))</span><br><span class="line">            </span><br><span class="line">            if numOfMatches?.count == 0 &#123;</span><br><span class="line">                </span><br><span class="line">                return false</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            _ = self.formatPhoneNumText(textField: textField, range: range, string: string)</span><br><span class="line">            </span><br><span class="line">            return false</span><br><span class="line">        &#125;</span><br><span class="line">        else if textField.placeholder == &quot;请输入银行卡号&quot;&#123;</span><br><span class="line">        </span><br><span class="line">            </span><br><span class="line">            // 只能输入数字</span><br><span class="line">            let characterSet = NSCharacterSet.init(charactersIn: &quot;0123456789&quot;)</span><br><span class="line">            </span><br><span class="line">            let tempString = string.replacingOccurrences(of: &quot; &quot;, with: &quot;&quot;)</span><br><span class="line">            if (tempString.rangeOfCharacter(from: characterSet.inverted) != nil) &#123;</span><br><span class="line">                </span><br><span class="line">                return false</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            var text = ((oldStr as NSString?)?.replacingCharacters(in: range, with: string))!</span><br><span class="line">            text = text.replacingOccurrences(of: &quot; &quot;, with: &quot;&quot;)</span><br><span class="line">            </span><br><span class="line">            var newString = &quot;&quot;</span><br><span class="line">            </span><br><span class="line">            while (text.characters.count) &gt; 0 &#123;</span><br><span class="line">                </span><br><span class="line">                let subString = (text as NSString).substring(to: min(text.characters.count, 4))</span><br><span class="line">                newString = newString.appending(subString)</span><br><span class="line">                if subString.characters.count == 4 &#123;</span><br><span class="line">                    </span><br><span class="line">                    newString = newString.appending(&quot; &quot;)</span><br><span class="line">                &#125;</span><br><span class="line">                text = (text as NSString).substring(from: min(text.characters.count, 4))</span><br><span class="line">            &#125;</span><br><span class="line">            newString = newString.trimmingCharacters(in: characterSet.inverted)</span><br><span class="line">            </span><br><span class="line">            if newString.characters.count &gt;= 24 &#123;</span><br><span class="line">                </span><br><span class="line">                return false</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            if range.location != textField.text?.characters.count &#123;</span><br><span class="line">                </span><br><span class="line">                textField.text = newString</span><br><span class="line">                </span><br><span class="line">                return false</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            textField.text = newString</span><br><span class="line">            </span><br><span class="line">         </span><br><span class="line">            return false</span><br><span class="line">            </span><br><span class="line">            </span><br><span class="line">            </span><br><span class="line">        &#125;else &#123;</span><br><span class="line">            // 只能输入数字</span><br><span class="line">            let characterSet = NSCharacterSet.init(charactersIn: &quot;0123456789&quot;)</span><br><span class="line">            </span><br><span class="line">            let tempString = string.replacingOccurrences(of: &quot; &quot;, with: &quot;&quot;)</span><br><span class="line">            if (tempString.rangeOfCharacter(from: characterSet.inverted) != nil) &#123;</span><br><span class="line">                </span><br><span class="line">                return false</span><br><span class="line">            &#125;</span><br><span class="line">            if (newStr?.characters.count)! &gt; 20 &#123;</span><br><span class="line">                </span><br><span class="line">                return false</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        return true</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">private func formatPhoneNumText (textField:UITextField, range:NSRange, string:String) -&gt; Bool &#123;</span><br><span class="line">        </span><br><span class="line">        var text = textField.text!</span><br><span class="line">        </span><br><span class="line">        // 只能输入数字</span><br><span class="line">        let characterSet = NSCharacterSet.init(charactersIn: &quot;0123456789&quot;)</span><br><span class="line">        </span><br><span class="line">        let tempString = string.replacingOccurrences(of: &quot; &quot;, with: &quot;&quot;)</span><br><span class="line">        if (tempString.rangeOfCharacter(from: characterSet.inverted) != nil) &#123;</span><br><span class="line">            </span><br><span class="line">            return false</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        text = ((text as NSString?)?.replacingCharacters(in: range, with: string))!</span><br><span class="line">        text = text.replacingOccurrences(of: &quot; &quot;, with: &quot;&quot;)</span><br><span class="line">        </span><br><span class="line">        text.insert(&quot; &quot;, at: (text.startIndex))</span><br><span class="line">        var newString = &quot;&quot;</span><br><span class="line">        </span><br><span class="line">        while (text.characters.count) &gt; 0 &#123;</span><br><span class="line">            </span><br><span class="line">            let subString = (text as NSString).substring(to: min(text.characters.count, 4))</span><br><span class="line">            newString = newString.appending(subString)</span><br><span class="line">            if subString.characters.count == 4 &#123;</span><br><span class="line">                </span><br><span class="line">                newString = newString.appending(&quot; &quot;)</span><br><span class="line">            &#125;</span><br><span class="line">            text = (text as NSString).substring(from: min(text.characters.count, 4))</span><br><span class="line">        &#125;</span><br><span class="line">        newString = newString.trimmingCharacters(in: characterSet.inverted)</span><br><span class="line">        </span><br><span class="line">        if newString.characters.count &gt;= 14 &#123;</span><br><span class="line">            </span><br><span class="line">            return false</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        if range.location != textField.text?.characters.count &#123;</span><br><span class="line">            </span><br><span class="line">            textField.text = newString</span><br><span class="line">            </span><br><span class="line">            if textField == self.phoneTextField &#123;</span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            return false</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        textField.text = newString</span><br><span class="line">        </span><br><span class="line">        if textField == self.phoneTextField &#123;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">        return false</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="3-给UITextField的placeholder设置字体大小"><a href="#3-给UITextField的placeholder设置字体大小" class="headerlink" title="3.给UITextField的placeholder设置字体大小"></a>3.给UITextField的placeholder设置字体大小</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">使用：textField.verticalLeftPlaceholder(phFontSize: 15)</span><br><span class="line"></span><br><span class="line">源码：</span><br><span class="line">extension UITextField &#123;</span><br><span class="line">    </span><br><span class="line">    func verticalLeftPlaceholder(phFontSize size: CGFloat = 15, text: String = &quot;&quot;)  &#123;</span><br><span class="line">        </span><br><span class="line">        var placeholderStr = text</span><br><span class="line">        </span><br><span class="line">        if text.isEmpty &#123;</span><br><span class="line">            </span><br><span class="line">            placeholderStr = self.placeholder ?? &quot;&quot;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        let pStyle = NSMutableParagraphStyle()</span><br><span class="line">        pStyle.minimumLineHeight    = (self.font?.lineHeight)! - ((self.font?.lineHeight)! - UIFont.systemFont(ofSize: size).lineHeight)/2.0</span><br><span class="line">        let aString = NSAttributedString(string: placeholderStr, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: size), NSParagraphStyleAttributeName: pStyle])</span><br><span class="line">        </span><br><span class="line">        self.attributedPlaceholder    = aString</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h3 id="4-插入排序"><a href="#4-插入排序" class="headerlink" title="4.插入排序"></a>4.插入排序</h3><p>⒈ 从第一个元素开始，该元素可以认为已经被排序<br>⒉ 取出下一个元素，在已经排序的元素序列中从后向前扫描<br>⒊ 如果该元素（已排序）大于新元素，将该元素移到下一位置<br>⒋ 重复步骤3，直到找到已排序的元素小于或者等于新元素的位置<br>⒌ 将新元素插入到下一位置中<br>⒍ 重复步骤2~5</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public func insertionSort(arr: inout Array&lt;Int&gt;) &#123;</span><br><span class="line"></span><br><span class="line">    for i in 0..&lt;arr.count - 1 &#123;</span><br><span class="line">        if arr[i + 1] &lt; arr[i] &#123;</span><br><span class="line">            let temp = arr[i + 1]</span><br><span class="line">            for j in (1...(i + 1)).reversed() &#123;</span><br><span class="line">                if arr[j - 1] &gt; temp &#123;</span><br><span class="line">                    (arr[j - 1],arr[j]) = (arr[j],arr[j - 1])</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="4-2-P2P聊天"><a href="#4-2-P2P聊天" class="headerlink" title="4.2 P2P聊天"></a>4.2 P2P聊天</h3><p>P2P就是点对点聊天，就是单聊。</p>
-<p>在会话界面中调用发送已读回执的接口并传入最后一条消息，即表示这之前的消息都已读，对端将收到此回执。<br>发送已读回执</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@protocol NIMChatManager &lt;NSObject&gt;</span><br><span class="line">- (void)sendMessageReceipt:(NIMMessageReceipt *)receipt</span><br><span class="line">completion:(NIMSendMessageReceiptBlock)completion;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
-<p>接受已读回执</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@protocol NIMChatManagerDelegate &lt;NSObject&gt;</span><br><span class="line">- (void)onRecvMessageReceipts:(NSArray&lt;NIMMessageReceipt *&gt; *)receipts;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
-<p>文档里说了这些，所有只要在生命周期方法里，把最后一条消息捞出来，调一下sendMessageReceipt方法即可。<br>如果发送了回执，对方的onRecvMessageReceipts就会被调用。网易牛逼的地方就是，收到回执的时候，SDK内部已经把数据都处理好了，上层只需要把UI刷新一下即可。<br><strong>什么？你问我怎么刷新？？</strong><br>在onRecvMessageReceipts里<code>[self.tableView reloadData];</code><br>爽不爽？</p>
-<h3 id="4-3-群聊发送已读回执"><a href="#4-3-群聊发送已读回执" class="headerlink" title="4.3 群聊发送已读回执"></a>4.3 群聊发送已读回执</h3><p>群聊和单聊方法基本差不多，但是要改一个属性，</p>
-<p>发送需要标记已读回执的群组消息标记</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">*  其他群成员收到此消息是否需要发送已读回执</span><br><span class="line">*  @discussion 默认为NO，设置成 YES 之后所有群回执相关操作才会生效</span><br><span class="line">*/</span><br><span class="line">@property (nonatomic,assign) BOOL teamReceiptEnabled;</span><br></pre></td></tr></table></figure>
-<p>一句话搞定<br><code>[NIMSDKConfig sharedConfig].teamReceiptEnabled = YES;</code></p>
-<p>消息接收方收到消息，并回复回执 在会话界面中调用发送已读回执的接口并传入最后一条消息，即表示这之前的消息都已读，对端将收到此回执。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@protocol NIMChatManager &lt;NSObject&gt;</span><br><span class="line">- (void)sendMessageReceipt:(NIMMessageReceipt *)receipt</span><br><span class="line">completion:(NIMSendMessageReceiptBlock)completion;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
-<p>到这里就遇到坑了，属性都配置好了，发回执就是不行。后来咨询了网易的技术支持，他丢给了我一个链接<a href="https://faq.yunxin.163.com/kb/main/#/item/KB0335">https://faq.yunxin.163.com/kb/main/#/item/KB0335</a>。<br><strong>原来网易还有知识宝库这玩意</strong><br><img src="https://upload-images.jianshu.io/upload_images/1447375-09bac5e00a497e92.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>原来不只是要将NIMSDKConfig的teamReceiptEnabled要改成YES，NIMMessage中的setting中的teamReceiptEnabled也要改成YES，这个文档里居然没写。要不是技术支持发给我谁知道有这玩意？？？</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark - NIMChatManagerDelegate</span><br><span class="line">- (void)willSendMessage:(NIMMessage *)message &#123;</span><br><span class="line"></span><br><span class="line">id&lt;NIMSessionInteractor&gt; interactor = self.interactor;</span><br><span class="line">if (message.session.sessionType == NIMSessionTypeTeam) &#123;</span><br><span class="line">message.setting.teamReceiptEnabled = YES; // 设置里打开才行。</span><br><span class="line">&#125;</span><br><span class="line">....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这样之后才能正确发送已读回执。</p>
-<p>发送已读回执之后，对方的那条消息，就能看到<br><code>model.message.teamReceiptInfo.unreadCount</code>就能再UI上显示多少人未读。</p>
-<h3 id="4-4-群聊查看消息已读未读列表"><a href="#4-4-群聊查看消息已读未读列表" class="headerlink" title="4.4 群聊查看消息已读未读列表"></a>4.4 群聊查看消息已读未读列表</h3><p>SDK里面已提供了查询消息已读id列表接口<br>查询详情接口<br>包括已读人数的 id 和 未读人数的 id 列表。需要注意查询详情对象不会跟着回执人数变化而变化，如果要获取最新的详情，必须再次调用此接口。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@protocol NIMChatManagerDelegate &lt;NSObject&gt;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">*  查询群组消息回执详情</span><br><span class="line">*</span><br><span class="line">*  @param NIMMessage    要查询的消息</span><br><span class="line">*  @discussion          详情包括已读人数的 id 列表和未读人数的 id 列表</span><br><span class="line">*                       查询详情对象不会跟着回执人数变化而变化，如果要获取最新的详情，必须再次调用此接口</span><br><span class="line">*</span><br><span class="line">*/</span><br><span class="line">- (void)queryMessageReceiptDetail:(NIMMessage *)message</span><br><span class="line">completion:(NIMQueryReceiptDetailBlock)completion;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
-<p>参数正确之后，会返回这条消息的已读id列表和未读id列表，列表里面保存的是userid。</p>
-<p>这里也遇到一个坑：<br><strong>在聊天界面，当前新发送的消息，能够查询到已读未读列表。但是打开页面之前的历史消息，无论如何都查不到。</strong><br>经过debug发现，当退出聊天窗口，所有的消息变成历史数据之后，才进入聊天窗口，所有的历史消息<code>message.setting.teamReceiptEnabled</code>统统变成了NO，解决方法也很简单，每次<code>queryMessageReceiptDetail</code>查询之前，再把这个属性设置成YES就能正确查询列表了。</p>
-<p><strong>注意点：网易云信最多支持100人群聊的已读消息回执</strong><br>超过100也就不支持了，如果不能满足需求，要么有本事自己写一套IM，要么就换一家SDK吧。</p>
-<h2 id="5-结束语"><a href="#5-结束语" class="headerlink" title="5.结束语"></a>5.结束语</h2><p>虽然是第一次接触，总体觉得网易这整个一套IM的SDK也不是很难，嵌套的比较多，需要认真梳理各个类各个协议，所承载的功能。其次，开发难免会遇到一些坑和弯路，写这篇文章也算是为了帮后来人吧。</p>
-<p>如有错误，还请各位看官批评指正~</p>
+<h3 id="5-冒泡排序"><a href="#5-冒泡排序" class="headerlink" title="5.冒泡排序"></a>5.冒泡排序</h3><p>⒈比较相邻的元素。如果第一个比第二个大，就交换他们两个。<br>⒉ 对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对。在这一点，最后的元素应该会是最大的数。<br>⒊ 针对所有的元素重复以上的步骤，除了最后一个。<br>⒋ 持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public func bubbleSort(arr: inout Array&lt;Int&gt;) &#123;</span><br><span class="line">    for i in 0..&lt;(arr.count - 1) &#123;</span><br><span class="line">        for j in 0..&lt;(arr.count - i - 1) &#123;</span><br><span class="line">            if arr[j] &gt; arr[j + 1] &#123;</span><br><span class="line">                (arr[j],arr[j + 1]) = (arr[j + 1],arr[j])</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h3 id="6-快速排序（冒泡排序的改进版）"><a href="#6-快速排序（冒泡排序的改进版）" class="headerlink" title="6.快速排序（冒泡排序的改进版）"></a>6.快速排序（冒泡排序的改进版）</h3><p>⒈设置两个变量i、j，排序开始的时候：i&#x3D;0，j&#x3D;n-1。<br>⒉ 以第一个数组元素作为关键数据，赋值给key，即key&#x3D;A[0]。<br>⒊ 从j开始向前搜索，即由后开始向前搜索(j–)，找到第一个小于key的值A[j]，将A[j]和A[i]互换。<br>⒋ 从i开始向后搜索，即由前开始向后搜索(i++)，找到第一个大于key的A[i]，将A[i]和A[j]互换。<br>⒌重复第3、4步，直到i&#x3D;j</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"> public func quickSort(arr: inout Array&lt;Int&gt;, leftIndex:  Int, rightIndex:  Int) &#123;</span><br><span class="line"></span><br><span class="line">    if leftIndex &lt; rightIndex &#123;</span><br><span class="line">        var left = leftIndex</span><br><span class="line">        var right = rightIndex</span><br><span class="line">        let midIndex = getMidIndex(arr: &amp;mArray, leftIndex: &amp;left, rightIndex: &amp;right)</span><br><span class="line">        quickSort(arr: &amp;mArray, leftIndex: leftIndex, rightIndex: midIndex - 1)</span><br><span class="line">        quickSort(arr: &amp;mArray, leftIndex: midIndex + 1, rightIndex: rightIndex)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private func getMidIndex(arr: inout Array&lt;Int&gt;, leftIndex: inout Int, rightIndex: inout Int) -&gt; (Int) &#123;</span><br><span class="line">    let temp = arr[leftIndex]</span><br><span class="line">    while leftIndex &lt; rightIndex &#123;</span><br><span class="line"></span><br><span class="line">        while leftIndex &lt; rightIndex &amp;&amp; temp &lt;= arr[rightIndex] &#123;</span><br><span class="line">            rightIndex -= 1</span><br><span class="line">        &#125;</span><br><span class="line">        if leftIndex &lt; rightIndex &#123;</span><br><span class="line">            arr[leftIndex] = arr[rightIndex]</span><br><span class="line">        &#125;</span><br><span class="line">        while leftIndex &lt; rightIndex &amp;&amp; arr[leftIndex] &lt;= temp &#123;</span><br><span class="line">            leftIndex += 1</span><br><span class="line">        &#125;</span><br><span class="line">        if leftIndex &lt; rightIndex &#123;</span><br><span class="line">            arr[rightIndex] = arr[leftIndex]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    arr[leftIndex] = temp</span><br><span class="line">    return leftIndex</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="7-归并排序（速度仅次于快速排序）"><a href="#7-归并排序（速度仅次于快速排序）" class="headerlink" title="7.归并排序（速度仅次于快速排序）"></a>7.归并排序（速度仅次于快速排序）</h3><p>⒈将序列每相邻两个数字进行归并操作（merge)，形成floor(n&#x2F;2)个序列，排序后每个序列包含两个元素。<br>⒉ 将上述序列再次归并，形成floor(n&#x2F;4)个序列，每个序列包含四个元素。<br>⒊ 重复步骤2，直到所有元素排序完毕。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"> public func mergeSort(arr: inout Array&lt;Int&gt;) &#123;</span><br><span class="line">    var tempArr: Array&lt;Array&lt;Int&gt;&gt; = []</span><br><span class="line">    for item in arr &#123;</span><br><span class="line">       var subArr: Array&lt;Int&gt; = []</span><br><span class="line">       subArr.append(item)</span><br><span class="line">       tempArr.append(subArr)</span><br><span class="line">    &#125;</span><br><span class="line">    while tempArr.count != 1 &#123;</span><br><span class="line">        var i = 0</span><br><span class="line">        while i &lt; tempArr.count - 1 &#123;</span><br><span class="line">            tempArr[i] = mergeTowArr(arr1: tempArr[i], arr2: tempArr[i+1])</span><br><span class="line">            tempArr.remove(at : i+1)</span><br><span class="line">            i += 1</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line">private func mergeTowArr(arr1: Array&lt;Int&gt;, arr2: Array&lt;Int&gt;) -&gt; Array&lt;Int&gt; &#123;</span><br><span class="line">    var mergeArr: Array&lt;Int&gt; = []</span><br><span class="line">    var firstIndex = 0</span><br><span class="line">    var secondIndex = 0</span><br><span class="line">    while firstIndex &lt; arr1.count &amp;&amp; secondIndex &lt; arr2.count &#123;</span><br><span class="line">        if arr1[firstIndex]  &lt; arr2[secondIndex] &#123;</span><br><span class="line">            merge.append(arr1[firstIndex])</span><br><span class="line">            firstIndex += 1</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            merge.append(arr2[secondIndex])</span><br><span class="line">            secondIndex += 1</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    while firstIndex &lt; arr1.count &#123;</span><br><span class="line">         merge.append(arr1[firstIndex])</span><br><span class="line">         firstIndex += 1</span><br><span class="line">    &#125;</span><br><span class="line">    while secondIndex &lt; arr2.count &#123;</span><br><span class="line">         merge.append(arr2[secondIndex])</span><br><span class="line">         secondIndex += 1</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return mergeArr</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-选择排序"><a href="#8-选择排序" class="headerlink" title="8.选择排序"></a>8.选择排序</h3><p>选择排序（Selection sort）是一种简单直观的排序算法。它的工作原理是每一次从待排序的数据元素中选出最小（或最大）的一个元素，存放在序列的起始位置，直到全部待排序的数据元素排完。 选择排序是不稳定的排序方法（比如序列[5， 5， 3]第一次就将第一个[5]与[3]交换，导致第一个5挪动到第二个5后面）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public func selectSort(arr: inout Array&lt;Int&gt;) &#123;</span><br><span class="line">    for i in 0..&lt;arr.count &#123;</span><br><span class="line">        var index = i</span><br><span class="line">        for j in (i + 1)..&lt;arr.count &#123;</span><br><span class="line">            if arr[index] &gt; arr[j] &#123;</span><br><span class="line">                index = j</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if index != i &#123;</span><br><span class="line">            (arr[i],arr[index]) = (arr[index],arr[i])</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="9-堆排序（选择排序的一种）"><a href="#9-堆排序（选择排序的一种）" class="headerlink" title="9.堆排序（选择排序的一种）"></a>9.堆排序（选择排序的一种）</h3><p>通过headMakeFrom将数组arr变为大顶堆，再把大顶堆的第一值和最后一个值交换，数组长度减1。通过heapAdjast将交换后的数组重新排序成大顶堆直到数组长度为0。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">public func heapSort(arr: inout Array&lt;Int&gt;) &#123;//时间复杂度O(n*logn)</span><br><span class="line">    var endIndex = arr.count - 1</span><br><span class="line">    headMakeFrom(arr: &amp;arr)</span><br><span class="line"></span><br><span class="line">    while endIndex &gt; 0 &#123;</span><br><span class="line">        (arr[0],arr[endIndex]) = (arr[endIndex],arr[0])</span><br><span class="line">        heapAdjast(arr: &amp;arr,starIndex: 1, arrLength: endIndex)</span><br><span class="line">        endIndex -= 1</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">private func heapMakeFrom(arr: inout Array&lt;Int&gt;) &#123;</span><br><span class="line">    var lastHead = arr.count/2</span><br><span class="line">    while lastHead &gt; 0 &#123;</span><br><span class="line">        heapAdjast(arr:  &amp;arr, starIndex: lastHead, arrLenght: arr.count)</span><br><span class="line">        lastHead -= 1</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private func heapAdjast(arr: Array&lt;Int&gt;, starIndex: Int, arrLength: Int) &#123;</span><br><span class="line">    var temp = arr[starIndex - 1]</span><br><span class="line">    var parentIndex = starIndex</span><br><span class="line">    var childIndex = 2 * parentIndex</span><br><span class="line">    while childIndex &lt;= arrLength &#123;</span><br><span class="line">        if childIndex &lt; arrLength &amp;&amp; arr[childIndex] &gt; arr[childIndex - 1] &#123;</span><br><span class="line">            childIndex += 1</span><br><span class="line">        &#125;</span><br><span class="line">        if arr[childIndex-1] &gt; temp &#123;</span><br><span class="line">            arr[parentIndex - 1] = arr[childIndex - 1]</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            break </span><br><span class="line">        &#125;</span><br><span class="line">        parentIndex = childIndex</span><br><span class="line">        childIndex = 2 * parentIndex </span><br><span class="line">    &#125;</span><br><span class="line">    arr[parentIndex - 1] = temp</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="10-生成指定尺寸的纯色图片"><a href="#10-生成指定尺寸的纯色图片" class="headerlink" title="10. 生成指定尺寸的纯色图片"></a>10. 生成指定尺寸的纯色图片</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">func imageWithColor(color: UIColor!, size: CGSize) -&gt; UIImage&#123;</span><br><span class="line">    var size = size</span><br><span class="line">    if CGSizeEqualToSize(size, CGSizeZero)&#123;</span><br><span class="line">        size = CGSizeMake(1, 1)</span><br><span class="line">    &#125;</span><br><span class="line">    let rect = CGRectMake(0, 0, size.width, size.height)</span><br><span class="line">    UIGraphicsBeginImageContext(rect.size)</span><br><span class="line">    let context = UIGraphicsGetCurrentContext()</span><br><span class="line">    CGContextSetFillColorWithColor(context, color.CGColor)</span><br><span class="line">    CGContextFillRect(context, rect)</span><br><span class="line"></span><br><span class="line">    let image = UIGraphicsGetImageFromCurrentImageContext()</span><br><span class="line">    UIGraphicsEndImageContext()</span><br><span class="line">    return image</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="11-修改图片尺寸"><a href="#11-修改图片尺寸" class="headerlink" title="11- 修改图片尺寸"></a>11- 修改图片尺寸</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">func imageScaleToSize(image: UIImage, size: CGSize) -&gt; UIImage&#123;</span><br><span class="line">    // 创建一个bitmap的context</span><br><span class="line">    // 并把它设置成为当前正在使用的context</span><br><span class="line">    // Determine whether the screen is retina</span><br><span class="line">    if UIScreen.mainScreen().scale == 2.0&#123;</span><br><span class="line">        UIGraphicsBeginImageContextWithOptions(size, false, 2.0)</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        UIGraphicsBeginImageContext(size)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 绘制改变大小的图片</span><br><span class="line">    image.drawInRect(CGRectMake(0, 0, size.width, size.height))</span><br><span class="line"></span><br><span class="line">    // 从当前context中创建一个改变大小后的图片</span><br><span class="line">    let scaledImage = UIGraphicsGetImageFromCurrentImageContext()</span><br><span class="line"></span><br><span class="line">    // 使当前的context出堆栈</span><br><span class="line">    UIGraphicsEndImageContext()</span><br><span class="line"></span><br><span class="line">    // 返回新的改变大小后的图片</span><br><span class="line">    return scaledImage</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="12-压缩图片大小"><a href="#12-压缩图片大小" class="headerlink" title="12. 压缩图片大小"></a>12. 压缩图片大小</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">func imageCompress(originalImage: UIImage) -&gt; UIImage&#123;</span><br><span class="line">    guard let imageData = UIImageJPEGRepresentation(originalImage, 0.5) else&#123;</span><br><span class="line">        return originalImage</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    let compressImage = UIImage(data: imageData)!</span><br><span class="line">    return compressImage</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -302,7 +286,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://githubio.95783669.xyz/2026/11/09/SelfSginedCertificateAdaptionForMoyaAndKingfisher/">
+    <link itemprop="mainEntityOfPage" href="https://blog.95783669.xyz/2026/11/09/SelfSginedCertificateAdaptionForMoyaAndKingfisher/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -379,7 +363,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://githubio.95783669.xyz/2026/11/09/Swift4QRCodeTool/">
+    <link itemprop="mainEntityOfPage" href="https://blog.95783669.xyz/2026/11/09/Swift4QRCodeTool/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -485,7 +469,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://githubio.95783669.xyz/2026/11/09/Gitlab-RunnerErrorAnalysis/">
+    <link itemprop="mainEntityOfPage" href="https://blog.95783669.xyz/2026/11/09/Gitlab-RunnerErrorAnalysis/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -584,162 +568,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://githubio.95783669.xyz/2026/11/09/JsonToModelPit/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="抢手的哥">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="抢手的哥的技术博客">
-      <meta itemprop="description" content="欢迎来到抢手的哥的技术博客">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | 抢手的哥的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/11/09/JsonToModelPit/" class="post-title-link" itemprop="url">iOS项目中Json转Model的坑</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-11-09 08:57:04" itemprop="dateCreated datePublished" datetime="2026-11-09T08:57:04+08:00">2026-11-09</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="Json转Model"><a href="#Json转Model" class="headerlink" title="Json转Model"></a>Json转Model</h2><p>json转model，是个开发都会遇到过。都已经9102年了，谁还不会用个第三方框架搞。拿起键盘就是干！<img src="http://upload-images.jianshu.io/upload_images/1447375-7e42bf91528876c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="就是干.png"><br>打开podfile，把大名顶顶的YYModel写上，pod install一下。再用上ESJsonFormat，直接根据json，都能把model生成好。</p>
-<h2 id="特殊处理"><a href="#特殊处理" class="headerlink" title="特殊处理"></a>特殊处理</h2><p><strong>啥?返回的字段值不是我们所需的</strong><br>在日常开发中，经常会遇到一些接口字段返回的值，并不是我所需要的类型的情况，这个时候，我们都会对这个字段进行处理。<br>举个栗子：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/** 错误代码 */</span><br><span class="line">@property (nonatomic, assign) NSInteger error_code;</span><br><span class="line">/** 错误消息 */</span><br><span class="line">@property (nonatomic, copy) NSString *error_msg;</span><br><span class="line">/** 是否成功 */</span><br><span class="line">@property (nonatomic, assign) BOOL isSuccess;</span><br></pre></td></tr></table></figure>
-<p>接口的json中的error_code字段，接口会用这个字段告诉我这次请求是否成功。比方说成功的error_code是1，平时我们为了方便开发，会在model里自己加一个自定义的属性isSuccess，来表示本次网络请求回来之后的结果是否成功。通常的做法，要么重写error_code的set方法，在set的时候，做一次error_code&#x3D;&#x3D;1的判断，将判断的结果，赋值给isSuccess，要么就重写isSuccess的get方法，get的时候，返回error_code&#x3D;&#x3D;1的结果。<br>相信这些对于老司机们而言，都属于常规操作了。那我们来看看坑在什么地方？</p>
-<h2 id="入坑"><a href="#入坑" class="headerlink" title="入坑"></a>入坑</h2><p>我们来看这个案例：<br>接口返回了4个字段值，每个字段都用得到，所以新建一个model类来解析。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@interface ExamSubjectVo : NSObject</span><br><span class="line"></span><br><span class="line">/**  考试学科ID */</span><br><span class="line">@property (nonatomic, assign) NSInteger examSubjectValue;</span><br><span class="line">/**  考试学科名称 */</span><br><span class="line">@property (nonatomic, strong) NSString *examSubjectName;</span><br><span class="line">/** 学科分数  */</span><br><span class="line">@property (nonatomic, strong) NSString *subjectScore;</span><br><span class="line">/** 基础学科Id  */</span><br><span class="line">@property (nonatomic, assign) NSInteger subjectBaseId;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
-<p>但是由于有业务需求，且为了方便开发过程区分，需要对考试名称的字段examSubjectName为全科或者语数外的情况，要特殊处理。所以，按照一贯的思维，我们要重写set方法</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (void)setExamSubjectName:(NSString *)examSubjectName&#123;</span><br><span class="line">_examSubjectName = examSubjectName;</span><br><span class="line">if ([examSubjectName isEqualToString:@&quot;全科&quot;]) &#123;</span><br><span class="line">self.subjectBaseId = -100;</span><br><span class="line">&#125;</span><br><span class="line">if ([examSubjectName isEqualToString:@&quot;语数外&quot;]) &#123;</span><br><span class="line">self.subjectBaseId = -200;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>乍一看，也没什么问题，解析的过程中，把字段的值转化为我们需要的。<strong>而且真机实测的时候，所有的测试机都没问题，除了一台iPhone5之外</strong><br>就除了一台iPhone5，debug的时候看到set方法确实也走了，可是最终的subjectBaseId并没有转化成-100或者-200，可见subjectBaseId又被json本身的值覆盖了，也就是说 <strong>set方法的执行顺序，在不同CPU架构设备上存在差异。</strong></p>
-<h2 id="出坑"><a href="#出坑" class="headerlink" title="出坑"></a>出坑</h2><p>那么如何解决问题呢？<br>正是因为存在这样的差异，所以我们只能在model所有的字段全部set完毕之后，再做一些特殊的字段处理，那么如何来处理呢？<br>翻阅YYModel源码，肯定能有所发现，果不其然，有所收获。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">If the default json-to-model transform does not fit to your model object, implement</span><br><span class="line">this method to do additional process. You can also use this method to validate the </span><br><span class="line">model&#x27;s properties.</span><br><span class="line"></span><br><span class="line">@discussion If the model implements this method, it will be called at the end of</span><br><span class="line">`+modelWithJSON:`, `+modelWithDictionary:`, `-modelSetWithJSON:` and `-modelSetWithDictionary:`.</span><br><span class="line">If this method returns NO, the transform process will ignore this model.</span><br><span class="line"></span><br><span class="line">@param dic  The json/kv dictionary.</span><br><span class="line"></span><br><span class="line">@return Returns YES if the model is valid, or NO to ignore this model.</span><br><span class="line">*/</span><br><span class="line">- (BOOL)modelCustomTransformFromDictionary:(NSDictionary *)dic;</span><br></pre></td></tr></table></figure>
-<p>YYModel提供了这么个方法，它会在<code>+modelWithJSON:</code>, <code>+modelWithDictionary:</code>, <code>-modelSetWithJSON:</code> and <code>-modelSetWithDictionary:</code>方法结束的时候调用。<br>所以我们对model特殊字段的处理，都应该放到这个方法去执行</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)modelCustomTransformFromDictionary:(NSDictionary *)dic&#123;</span><br><span class="line">if ([self.examSubjectName isEqualToString:@&quot;全科&quot;]) &#123;</span><br><span class="line">self.subjectBaseId = -100;</span><br><span class="line">&#125;</span><br><span class="line">if ([self.examSubjectName isEqualToString:@&quot;语数外&quot;]) &#123;</span><br><span class="line">self.subjectBaseId = -200;</span><br><span class="line">&#125;</span><br><span class="line">return YES;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这么一来，问题就解决了。<br>注意，YYModel还有一个<code> - (NSDictionary *)modelCustomWillTransformFromDictionary:(NSDictionary *)dic;</code><br>这个方法很类似，但是执行的时机不一样，这个方法是在model转化之前执行，虽不符合本案例的需求，但是很有可能在其他类似的情况能用的上。</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://githubio.95783669.xyz/2026/11/09/IncreasBuildNumberWithFastlane/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="抢手的哥">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="抢手的哥的技术博客">
-      <meta itemprop="description" content="欢迎来到抢手的哥的技术博客">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | 抢手的哥的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/11/09/IncreasBuildNumberWithFastlane/" class="post-title-link" itemprop="url">Fastlane自动打包工具build号自增处理配置方法</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2026-11-09 08:57:04" itemprop="dateCreated datePublished" datetime="2026-11-09T08:57:04+08:00">2026-11-09</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>如题所示，本文讲述build号具体的配置方法，也就是说在已经给工程配置好fastlane自动打包工具的前提下。<br>如果你尚未使用这个工具，可以点击一下几篇文章学习如何使用：<br><a href="http://www.jianshu.com/p/6e6503b47453">【CI】持续集成-引导篇</a><br><a href="http://www.jianshu.com/p/2d88a88467a5">【CI】持续集成-第一篇 fastlane</a><br>下面进入正题</p>
-<h2 id="step1-修改工程配置"><a href="#step1-修改工程配置" class="headerlink" title="step1 修改工程配置"></a>step1 修改工程配置</h2><p>修改buildsettings里面的version配置，current project version 随便填一个。versionsystem 选择apple generic。<br><img src="http://upload-images.jianshu.io/upload_images/1447375-eadcb5ae43006646.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="t1.jpeg"><br>修改info.plist的路径由绝对路径变为相对路径<br><img src="http://upload-images.jianshu.io/upload_images/1447375-c76535321c288da1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="t2.jpg"></p>
-<h2 id="step2-配置fastfile"><a href="#step2-配置fastfile" class="headerlink" title="step2 配置fastfile"></a>step2 配置fastfile</h2><p>推荐用sublime text打开fastfile，编辑器右下角选择Ruby语言，方便编码。<br>定义专门的函数处理</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">def updateProjectBuildNumber</span><br><span class="line"> </span><br><span class="line">currentTime = Time.new.strftime(&quot;%Y%m%d&quot;)</span><br><span class="line">build = get_build_number()</span><br><span class="line">if build.include?&quot;#&#123;currentTime&#125;.&quot;</span><br><span class="line"># =&gt; 为当天版本 计算迭代版本号</span><br><span class="line">lastStr = build[build.length-2..build.length-1]</span><br><span class="line">lastNum = lastStr.to_i</span><br><span class="line">lastNum = lastNum + 1</span><br><span class="line">lastStr = lastNum.to_s</span><br><span class="line">if lastNum &lt; 10</span><br><span class="line">lastStr = lastStr.insert(0,&quot;0&quot;)</span><br><span class="line">end</span><br><span class="line">build = &quot;#&#123;currentTime&#125;.#&#123;lastStr&#125;&quot;</span><br><span class="line">else</span><br><span class="line"># =&gt; 非当天版本 build 号重置</span><br><span class="line">build = &quot;#&#123;currentTime&#125;.01&quot;</span><br><span class="line">end</span><br><span class="line">puts(&quot;*************| 更新build #&#123;build&#125; |*************&quot;)</span><br><span class="line"># =&gt; 更改项目 build 号</span><br><span class="line">increment_build_number(</span><br><span class="line">build_number: &quot;#&#123;build&#125;&quot;</span><br><span class="line">)</span><br><span class="line">end</span><br><span class="line">定义好updateProjectBuildNumber函数后，在自定义的每个lane方法中，调用一下即可。</span><br><span class="line">eg：</span><br><span class="line">lane :uat do</span><br><span class="line"> </span><br><span class="line">updateProjectBuildNumber  // 这里调用</span><br><span class="line">currentTime = Time.new.strftime(&quot;%Y-%m-%d-%H-%M&quot;)</span><br><span class="line">ipaName = &quot;UAT-#&#123;currentTime&#125;.ipa&quot;</span><br><span class="line">gym(</span><br><span class="line">scheme: &quot;XXX-UAT&quot;,</span><br><span class="line">export_method:&quot;ad-hoc&quot;,</span><br><span class="line">archive_path:&quot;./build/uat&quot;,</span><br><span class="line">output_directory:&quot;./build/uat&quot;,</span><br><span class="line">output_name:ipaName</span><br><span class="line">) # Build your app - more options available</span><br><span class="line">#deliver(force: true)</span><br><span class="line">pgyer(api_key: &quot;xxxxx&quot;, user_key: &quot;xxxxx&quot;)</span><br><span class="line"># frameit</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-<p>配置完了 就可以本地打包自增build号了，当然，可以根据自己项目需求自定义build号的规则，百度一下Ruby语法即可。</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://githubio.95783669.xyz/2026/11/09/KoaStaticServer/">
+    <link itemprop="mainEntityOfPage" href="https://blog.95783669.xyz/2026/11/09/KoaStaticServer/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -820,7 +649,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://githubio.95783669.xyz/2026/11/09/MacOSShareWifi/">
+    <link itemprop="mainEntityOfPage" href="https://blog.95783669.xyz/2026/11/09/IncreasBuildNumberWithFastlane/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -838,7 +667,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/11/09/MacOSShareWifi/" class="post-title-link" itemprop="url">关于Mac共享WiFi网络，看这里就够了(2.4G，5G ， ipv6)</a>
+          <a href="/2026/11/09/IncreasBuildNumberWithFastlane/" class="post-title-link" itemprop="url">Fastlane自动打包工具build号自增处理配置方法</a>
         </h2>
 
         <div class="post-meta-container">
@@ -862,41 +691,11 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h3 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h3><p>WiFi这个词大家都不陌生，前几年移动互联网的飞速发展，如今家家户户都有无线路由器，都有自家的WiFi。但是总有一些场景，我们需要WiFi网络来给我们的移动设备使用，但是现场有没有相关的硬件设备，这就催生了一些WiFi使用的需求。在windows系统上，已经有不少成熟的产品，可以快速创建专属的WiFi网络。例如小米随身WiFi，本身就是一个无线网卡，作为AP分享。笔记本电脑一般都自带无线网卡，一些软件也能利用笔记本的无线网卡做热点分享。那么，在Mac平台上我们如何创建自己的专属WiFi呢？</p>
-<h3 id="So-Easy"><a href="#So-Easy" class="headerlink" title="So Easy"></a>So Easy</h3><p>苹果电脑在已经连接了有线网络的情况下（前提条件），无需下载安装其他WiFi共享软件即可实现WiFi共享，但如果连接的是无线网络时则不能共享WiFi，即连着WiFi时不能共享WiFi。<br>1.点击左上角的黑苹果🍎，选择【系统偏好设置】</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/1447375-cb62ad9287cef03f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="step1.png"><br>2.单击【共享】</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/1447375-4cc0258b11d3e344.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="step2.png"></p>
-<p>3.检测一下你电脑的无线网卡有没有开启，如果没开启，点击系统右上角的无线网icon，打开</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/1447375-5eeb6cd66e296020.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="step3.png"></p>
-<p>4.上面的框框，意思是你要把哪个网络共享，我的电脑是自带RJ45网口的，网络环境直接插网线就可以上网，所以我这里选择的是【以太网】，如果是新款的MacBook不带网口的，而是接了USB网卡，这里的来源就要选择【USB网卡设备】。但是还有一种情况，不管你电脑带不带网卡，只要是你要在电脑进行PPPoE上网的（俗称拨号上网，家庭网络这样的认证方式最多），这里的来源就要选择【PPPoE网络】，这里请根据实际情况。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/1447375-b0d8159d71ebb35a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>下面的框框，意思就是把网络通过什么端口共享出去，很明显这里选择WiFi，就是通过无线的方式分享出去。</p>
-<p>5.然后点击【WiFi选项】，弹出一个页面，填写你要创建的WiFi名称，以及安全性，自己创建的WiFi当然想自己用啦，选择【WPA2个人级】的就好，填写WiFi密码 点击好就OK了。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/1447375-d6dfa21f09370eb2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>6.也许第5步你们发现了一个问题，关于频段，我没有具体说明。点开频段之后，弹出了一个选择界面，有很多频段，我们该如何选择？而且11和36之间，怎么会多了一根分割线？</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/1447375-12a2f1fc97ace1ea.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>这里就要补充一些关于WiFi的一些基本知识了。Wi-Fi是一种允许电子设备连接到一个无线局域网（WLAN）的技术,通常使用2.4G UHF或5G SHF ISM 射频频段。 频段是固定，那么所以的设备都在这个频段使用，就会容易造成干扰，就好比马路宽度是一定的，大家都在一条道上来回走，就会碰撞。所以又划分出了信道，就好比把马路划分了很多车道，不同速度等级的各行其道互不干扰。不同国家划分标准不一致，以中国为例，运行在2.4G的WiFi网络，信道划分如下图。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/1447375-3d70320d3a2d08a8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<pre><code>1.IEEE 802.11b/g标准工作在2.4G频段，频率范围为2.400—2.4835GHz，共83.5M带宽
-2.划分为14个子信道
-3.每个子信道宽度为22MHz
-4.相邻信道的中心频点间隔5MHz 
-5.相邻的多个信道存在频率重叠(如1信道与2、3、4、5信道有频率重叠)
-6.整个频段内只有3个（1、6、11）互不干扰信道
-</code></pre>
-<p>如果创建2.4G的WiFi的话，选择的频道的时候，在1、6、11里面选择一种就行了。到这里就可以理解那根分割线是啥意思了，分割线以上的是2.4G的信道，分割线一下就是5G的信道，那么5G的信道如何选择？</p>
-<p>很简单，随便选！（😜嘿嘿嘿）因为现阶段5G用的还是不多，不会有啥干扰。<br>如果你的电脑，点开这个选项，发现只有1到11的信道选择，说明你的电脑的无线网卡，硬件上不支持5GHz的WiFi，那就木有办法咯。</p>
-<p>7.回到我们的话题来，选择好你要的频段，设置好之后，点击勾选【互联网共享】，此时会弹出一个框框，点击【启动】就好啦！</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/1447375-57bd55c1eb869ee3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>成功之后，你会发现，WiFi的小图标变成了这个样子。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/1447375-7cc166273d8a3b16.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>到这里就大功告成啦。</p>
-<h2 id="Wait-说好的IPV6呢？"><a href="#Wait-说好的IPV6呢？" class="headerlink" title="Wait 说好的IPV6呢？"></a>Wait 说好的IPV6呢？</h2><p>先要知道一个概念，目前我们绝大多数使用的网络，都是IPV4的，IP地址有四段0~255的数字组成。 由于<a href="http://baike.baidu.com/item/IPv4">IPv4</a>最大的问题在于网络地址资源有限，严重制约了互联网的应用和发展。IPV6应运而生，IPv6的使用，不仅能解决网络地址资源数量的问题，而且也解决了多种接入设备连入互联网的障碍。IPv6的地址长度为128b，是IPv4地址长度的4倍。于是IPv4点分十进制格式不再适用，采用十六进制表示。简单讲，ipv6能分配的地址非常多，绝对够用。<br>那么我们如何创建一个ipv6的网络呢？</p>
-<h3 id="还是So-Easy"><a href="#还是So-Easy" class="headerlink" title="还是So Easy"></a>还是So Easy</h3><p>1.点击左上角的黑苹果，选择【系统偏好设置】，敲黑板！！按住’Option’按键的同时点选“共享”图标，注意：不要放开’Option’按键，一直按住不放哦；这样操作之后，你会发现下面多了一个选项【创建NAT64网络】，勾选它就OK啦。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/1447375-140c0ef7198e6bc7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h3 id="那么问题来了，NAT64是啥？"><a href="#那么问题来了，NAT64是啥？" class="headerlink" title="那么问题来了，NAT64是啥？"></a>那么问题来了，NAT64是啥？</h3><p>这里我找了一张图</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/1447375-506743972838ede3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p> NAT64是一种有状态的网络地址与协议转换技术，一般只支持通过IPv6网络侧用户发起连接访问IPv4侧网络资源。但NAT64也支持通过手工配置静态映射关系，实现IPv4网络主动发起连接访问IPv6网络。NAT64可实现TCP、UDP、ICMP协议下的IPv6与IPv4网络地址和协议转换。<br> DNS64则主要是配合NAT64工作，主要是将DNS查询信息中的A记录（IPv4地址）合成到AAAA记录（IPv6地址）中，返回合成的AAAA记录用户给IPv6侧用户。<br> NAT64一般与DNS64协同工作，而不需要在IPv6客户端或IPv4服务器端做任何修改。</p>
-<p>一句话，可以简单理解为中转机构。<br>当然了，ipv6目前对大众使用没啥用户需求，但是对于行业相关技术人员，有需要使用ipv6的环境做一些相关的测试。</p>
-<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>到此为止，Mac共享WiFi网络的方法其实很简单，一学就会，掌握这个技巧，可以很高效的运用到你的工作或者生活中，快去试试吧。</p>
+          <p>如题所示，本文讲述build号具体的配置方法，也就是说在已经给工程配置好fastlane自动打包工具的前提下。<br>如果你尚未使用这个工具，可以点击一下几篇文章学习如何使用：<br><a href="http://www.jianshu.com/p/6e6503b47453">【CI】持续集成-引导篇</a><br><a href="http://www.jianshu.com/p/2d88a88467a5">【CI】持续集成-第一篇 fastlane</a><br>下面进入正题</p>
+<h2 id="step1-修改工程配置"><a href="#step1-修改工程配置" class="headerlink" title="step1 修改工程配置"></a>step1 修改工程配置</h2><p>修改buildsettings里面的version配置，current project version 随便填一个。versionsystem 选择apple generic。<br><img src="http://upload-images.jianshu.io/upload_images/1447375-eadcb5ae43006646.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="t1.jpeg"><br>修改info.plist的路径由绝对路径变为相对路径<br><img src="http://upload-images.jianshu.io/upload_images/1447375-c76535321c288da1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="t2.jpg"></p>
+<h2 id="step2-配置fastfile"><a href="#step2-配置fastfile" class="headerlink" title="step2 配置fastfile"></a>step2 配置fastfile</h2><p>推荐用sublime text打开fastfile，编辑器右下角选择Ruby语言，方便编码。<br>定义专门的函数处理</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">def updateProjectBuildNumber</span><br><span class="line"> </span><br><span class="line">currentTime = Time.new.strftime(&quot;%Y%m%d&quot;)</span><br><span class="line">build = get_build_number()</span><br><span class="line">if build.include?&quot;#&#123;currentTime&#125;.&quot;</span><br><span class="line"># =&gt; 为当天版本 计算迭代版本号</span><br><span class="line">lastStr = build[build.length-2..build.length-1]</span><br><span class="line">lastNum = lastStr.to_i</span><br><span class="line">lastNum = lastNum + 1</span><br><span class="line">lastStr = lastNum.to_s</span><br><span class="line">if lastNum &lt; 10</span><br><span class="line">lastStr = lastStr.insert(0,&quot;0&quot;)</span><br><span class="line">end</span><br><span class="line">build = &quot;#&#123;currentTime&#125;.#&#123;lastStr&#125;&quot;</span><br><span class="line">else</span><br><span class="line"># =&gt; 非当天版本 build 号重置</span><br><span class="line">build = &quot;#&#123;currentTime&#125;.01&quot;</span><br><span class="line">end</span><br><span class="line">puts(&quot;*************| 更新build #&#123;build&#125; |*************&quot;)</span><br><span class="line"># =&gt; 更改项目 build 号</span><br><span class="line">increment_build_number(</span><br><span class="line">build_number: &quot;#&#123;build&#125;&quot;</span><br><span class="line">)</span><br><span class="line">end</span><br><span class="line">定义好updateProjectBuildNumber函数后，在自定义的每个lane方法中，调用一下即可。</span><br><span class="line">eg：</span><br><span class="line">lane :uat do</span><br><span class="line"> </span><br><span class="line">updateProjectBuildNumber  // 这里调用</span><br><span class="line">currentTime = Time.new.strftime(&quot;%Y-%m-%d-%H-%M&quot;)</span><br><span class="line">ipaName = &quot;UAT-#&#123;currentTime&#125;.ipa&quot;</span><br><span class="line">gym(</span><br><span class="line">scheme: &quot;XXX-UAT&quot;,</span><br><span class="line">export_method:&quot;ad-hoc&quot;,</span><br><span class="line">archive_path:&quot;./build/uat&quot;,</span><br><span class="line">output_directory:&quot;./build/uat&quot;,</span><br><span class="line">output_name:ipaName</span><br><span class="line">) # Build your app - more options available</span><br><span class="line">#deliver(force: true)</span><br><span class="line">pgyer(api_key: &quot;xxxxx&quot;, user_key: &quot;xxxxx&quot;)</span><br><span class="line"># frameit</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>配置完了 就可以本地打包自增build号了，当然，可以根据自己项目需求自定义build号的规则，百度一下Ruby语法即可。</p>
 
       
     </div>
@@ -923,7 +722,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://githubio.95783669.xyz/2026/11/09/MethodsOfObjective-C/">
+    <link itemprop="mainEntityOfPage" href="https://blog.95783669.xyz/2026/11/09/MethodsOfObjective-C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -1055,7 +854,192 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://githubio.95783669.xyz/2026/11/09/AdaptionForiOS11andiPhoneX/">
+    <link itemprop="mainEntityOfPage" href="https://blog.95783669.xyz/2026/11/09/JsonToModelPit/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="抢手的哥">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="抢手的哥的技术博客">
+      <meta itemprop="description" content="欢迎来到抢手的哥的技术博客">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | 抢手的哥的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/11/09/JsonToModelPit/" class="post-title-link" itemprop="url">iOS项目中Json转Model的坑</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-11-09 08:57:04" itemprop="dateCreated datePublished" datetime="2026-11-09T08:57:04+08:00">2026-11-09</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="Json转Model"><a href="#Json转Model" class="headerlink" title="Json转Model"></a>Json转Model</h2><p>json转model，是个开发都会遇到过。都已经9102年了，谁还不会用个第三方框架搞。拿起键盘就是干！<img src="http://upload-images.jianshu.io/upload_images/1447375-7e42bf91528876c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="就是干.png"><br>打开podfile，把大名顶顶的YYModel写上，pod install一下。再用上ESJsonFormat，直接根据json，都能把model生成好。</p>
+<h2 id="特殊处理"><a href="#特殊处理" class="headerlink" title="特殊处理"></a>特殊处理</h2><p><strong>啥?返回的字段值不是我们所需的</strong><br>在日常开发中，经常会遇到一些接口字段返回的值，并不是我所需要的类型的情况，这个时候，我们都会对这个字段进行处理。<br>举个栗子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/** 错误代码 */</span><br><span class="line">@property (nonatomic, assign) NSInteger error_code;</span><br><span class="line">/** 错误消息 */</span><br><span class="line">@property (nonatomic, copy) NSString *error_msg;</span><br><span class="line">/** 是否成功 */</span><br><span class="line">@property (nonatomic, assign) BOOL isSuccess;</span><br></pre></td></tr></table></figure>
+<p>接口的json中的error_code字段，接口会用这个字段告诉我这次请求是否成功。比方说成功的error_code是1，平时我们为了方便开发，会在model里自己加一个自定义的属性isSuccess，来表示本次网络请求回来之后的结果是否成功。通常的做法，要么重写error_code的set方法，在set的时候，做一次error_code&#x3D;&#x3D;1的判断，将判断的结果，赋值给isSuccess，要么就重写isSuccess的get方法，get的时候，返回error_code&#x3D;&#x3D;1的结果。<br>相信这些对于老司机们而言，都属于常规操作了。那我们来看看坑在什么地方？</p>
+<h2 id="入坑"><a href="#入坑" class="headerlink" title="入坑"></a>入坑</h2><p>我们来看这个案例：<br>接口返回了4个字段值，每个字段都用得到，所以新建一个model类来解析。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@interface ExamSubjectVo : NSObject</span><br><span class="line"></span><br><span class="line">/**  考试学科ID */</span><br><span class="line">@property (nonatomic, assign) NSInteger examSubjectValue;</span><br><span class="line">/**  考试学科名称 */</span><br><span class="line">@property (nonatomic, strong) NSString *examSubjectName;</span><br><span class="line">/** 学科分数  */</span><br><span class="line">@property (nonatomic, strong) NSString *subjectScore;</span><br><span class="line">/** 基础学科Id  */</span><br><span class="line">@property (nonatomic, assign) NSInteger subjectBaseId;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>但是由于有业务需求，且为了方便开发过程区分，需要对考试名称的字段examSubjectName为全科或者语数外的情况，要特殊处理。所以，按照一贯的思维，我们要重写set方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (void)setExamSubjectName:(NSString *)examSubjectName&#123;</span><br><span class="line">_examSubjectName = examSubjectName;</span><br><span class="line">if ([examSubjectName isEqualToString:@&quot;全科&quot;]) &#123;</span><br><span class="line">self.subjectBaseId = -100;</span><br><span class="line">&#125;</span><br><span class="line">if ([examSubjectName isEqualToString:@&quot;语数外&quot;]) &#123;</span><br><span class="line">self.subjectBaseId = -200;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>乍一看，也没什么问题，解析的过程中，把字段的值转化为我们需要的。<strong>而且真机实测的时候，所有的测试机都没问题，除了一台iPhone5之外</strong><br>就除了一台iPhone5，debug的时候看到set方法确实也走了，可是最终的subjectBaseId并没有转化成-100或者-200，可见subjectBaseId又被json本身的值覆盖了，也就是说 <strong>set方法的执行顺序，在不同CPU架构设备上存在差异。</strong></p>
+<h2 id="出坑"><a href="#出坑" class="headerlink" title="出坑"></a>出坑</h2><p>那么如何解决问题呢？<br>正是因为存在这样的差异，所以我们只能在model所有的字段全部set完毕之后，再做一些特殊的字段处理，那么如何来处理呢？<br>翻阅YYModel源码，肯定能有所发现，果不其然，有所收获。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">If the default json-to-model transform does not fit to your model object, implement</span><br><span class="line">this method to do additional process. You can also use this method to validate the </span><br><span class="line">model&#x27;s properties.</span><br><span class="line"></span><br><span class="line">@discussion If the model implements this method, it will be called at the end of</span><br><span class="line">`+modelWithJSON:`, `+modelWithDictionary:`, `-modelSetWithJSON:` and `-modelSetWithDictionary:`.</span><br><span class="line">If this method returns NO, the transform process will ignore this model.</span><br><span class="line"></span><br><span class="line">@param dic  The json/kv dictionary.</span><br><span class="line"></span><br><span class="line">@return Returns YES if the model is valid, or NO to ignore this model.</span><br><span class="line">*/</span><br><span class="line">- (BOOL)modelCustomTransformFromDictionary:(NSDictionary *)dic;</span><br></pre></td></tr></table></figure>
+<p>YYModel提供了这么个方法，它会在<code>+modelWithJSON:</code>, <code>+modelWithDictionary:</code>, <code>-modelSetWithJSON:</code> and <code>-modelSetWithDictionary:</code>方法结束的时候调用。<br>所以我们对model特殊字段的处理，都应该放到这个方法去执行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)modelCustomTransformFromDictionary:(NSDictionary *)dic&#123;</span><br><span class="line">if ([self.examSubjectName isEqualToString:@&quot;全科&quot;]) &#123;</span><br><span class="line">self.subjectBaseId = -100;</span><br><span class="line">&#125;</span><br><span class="line">if ([self.examSubjectName isEqualToString:@&quot;语数外&quot;]) &#123;</span><br><span class="line">self.subjectBaseId = -200;</span><br><span class="line">&#125;</span><br><span class="line">return YES;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这么一来，问题就解决了。<br>注意，YYModel还有一个<code> - (NSDictionary *)modelCustomWillTransformFromDictionary:(NSDictionary *)dic;</code><br>这个方法很类似，但是执行的时机不一样，这个方法是在model转化之前执行，虽不符合本案例的需求，但是很有可能在其他类似的情况能用的上。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://blog.95783669.xyz/2026/11/09/MacOSShareWifi/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="抢手的哥">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="抢手的哥的技术博客">
+      <meta itemprop="description" content="欢迎来到抢手的哥的技术博客">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | 抢手的哥的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/11/09/MacOSShareWifi/" class="post-title-link" itemprop="url">关于Mac共享WiFi网络，看这里就够了(2.4G，5G ， ipv6)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-11-09 08:57:04" itemprop="dateCreated datePublished" datetime="2026-11-09T08:57:04+08:00">2026-11-09</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h3><p>WiFi这个词大家都不陌生，前几年移动互联网的飞速发展，如今家家户户都有无线路由器，都有自家的WiFi。但是总有一些场景，我们需要WiFi网络来给我们的移动设备使用，但是现场有没有相关的硬件设备，这就催生了一些WiFi使用的需求。在windows系统上，已经有不少成熟的产品，可以快速创建专属的WiFi网络。例如小米随身WiFi，本身就是一个无线网卡，作为AP分享。笔记本电脑一般都自带无线网卡，一些软件也能利用笔记本的无线网卡做热点分享。那么，在Mac平台上我们如何创建自己的专属WiFi呢？</p>
+<h3 id="So-Easy"><a href="#So-Easy" class="headerlink" title="So Easy"></a>So Easy</h3><p>苹果电脑在已经连接了有线网络的情况下（前提条件），无需下载安装其他WiFi共享软件即可实现WiFi共享，但如果连接的是无线网络时则不能共享WiFi，即连着WiFi时不能共享WiFi。<br>1.点击左上角的黑苹果🍎，选择【系统偏好设置】</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-cb62ad9287cef03f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="step1.png"><br>2.单击【共享】</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-4cc0258b11d3e344.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="step2.png"></p>
+<p>3.检测一下你电脑的无线网卡有没有开启，如果没开启，点击系统右上角的无线网icon，打开</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-5eeb6cd66e296020.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="step3.png"></p>
+<p>4.上面的框框，意思是你要把哪个网络共享，我的电脑是自带RJ45网口的，网络环境直接插网线就可以上网，所以我这里选择的是【以太网】，如果是新款的MacBook不带网口的，而是接了USB网卡，这里的来源就要选择【USB网卡设备】。但是还有一种情况，不管你电脑带不带网卡，只要是你要在电脑进行PPPoE上网的（俗称拨号上网，家庭网络这样的认证方式最多），这里的来源就要选择【PPPoE网络】，这里请根据实际情况。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-b0d8159d71ebb35a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>下面的框框，意思就是把网络通过什么端口共享出去，很明显这里选择WiFi，就是通过无线的方式分享出去。</p>
+<p>5.然后点击【WiFi选项】，弹出一个页面，填写你要创建的WiFi名称，以及安全性，自己创建的WiFi当然想自己用啦，选择【WPA2个人级】的就好，填写WiFi密码 点击好就OK了。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-d6dfa21f09370eb2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>6.也许第5步你们发现了一个问题，关于频段，我没有具体说明。点开频段之后，弹出了一个选择界面，有很多频段，我们该如何选择？而且11和36之间，怎么会多了一根分割线？</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-12a2f1fc97ace1ea.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>这里就要补充一些关于WiFi的一些基本知识了。Wi-Fi是一种允许电子设备连接到一个无线局域网（WLAN）的技术,通常使用2.4G UHF或5G SHF ISM 射频频段。 频段是固定，那么所以的设备都在这个频段使用，就会容易造成干扰，就好比马路宽度是一定的，大家都在一条道上来回走，就会碰撞。所以又划分出了信道，就好比把马路划分了很多车道，不同速度等级的各行其道互不干扰。不同国家划分标准不一致，以中国为例，运行在2.4G的WiFi网络，信道划分如下图。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-3d70320d3a2d08a8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<pre><code>1.IEEE 802.11b/g标准工作在2.4G频段，频率范围为2.400—2.4835GHz，共83.5M带宽
+2.划分为14个子信道
+3.每个子信道宽度为22MHz
+4.相邻信道的中心频点间隔5MHz 
+5.相邻的多个信道存在频率重叠(如1信道与2、3、4、5信道有频率重叠)
+6.整个频段内只有3个（1、6、11）互不干扰信道
+</code></pre>
+<p>如果创建2.4G的WiFi的话，选择的频道的时候，在1、6、11里面选择一种就行了。到这里就可以理解那根分割线是啥意思了，分割线以上的是2.4G的信道，分割线一下就是5G的信道，那么5G的信道如何选择？</p>
+<p>很简单，随便选！（😜嘿嘿嘿）因为现阶段5G用的还是不多，不会有啥干扰。<br>如果你的电脑，点开这个选项，发现只有1到11的信道选择，说明你的电脑的无线网卡，硬件上不支持5GHz的WiFi，那就木有办法咯。</p>
+<p>7.回到我们的话题来，选择好你要的频段，设置好之后，点击勾选【互联网共享】，此时会弹出一个框框，点击【启动】就好啦！</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-57bd55c1eb869ee3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>成功之后，你会发现，WiFi的小图标变成了这个样子。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-7cc166273d8a3b16.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>到这里就大功告成啦。</p>
+<h2 id="Wait-说好的IPV6呢？"><a href="#Wait-说好的IPV6呢？" class="headerlink" title="Wait 说好的IPV6呢？"></a>Wait 说好的IPV6呢？</h2><p>先要知道一个概念，目前我们绝大多数使用的网络，都是IPV4的，IP地址有四段0~255的数字组成。 由于<a href="http://baike.baidu.com/item/IPv4">IPv4</a>最大的问题在于网络地址资源有限，严重制约了互联网的应用和发展。IPV6应运而生，IPv6的使用，不仅能解决网络地址资源数量的问题，而且也解决了多种接入设备连入互联网的障碍。IPv6的地址长度为128b，是IPv4地址长度的4倍。于是IPv4点分十进制格式不再适用，采用十六进制表示。简单讲，ipv6能分配的地址非常多，绝对够用。<br>那么我们如何创建一个ipv6的网络呢？</p>
+<h3 id="还是So-Easy"><a href="#还是So-Easy" class="headerlink" title="还是So Easy"></a>还是So Easy</h3><p>1.点击左上角的黑苹果，选择【系统偏好设置】，敲黑板！！按住’Option’按键的同时点选“共享”图标，注意：不要放开’Option’按键，一直按住不放哦；这样操作之后，你会发现下面多了一个选项【创建NAT64网络】，勾选它就OK啦。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-140c0ef7198e6bc7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h3 id="那么问题来了，NAT64是啥？"><a href="#那么问题来了，NAT64是啥？" class="headerlink" title="那么问题来了，NAT64是啥？"></a>那么问题来了，NAT64是啥？</h3><p>这里我找了一张图</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1447375-506743972838ede3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p> NAT64是一种有状态的网络地址与协议转换技术，一般只支持通过IPv6网络侧用户发起连接访问IPv4侧网络资源。但NAT64也支持通过手工配置静态映射关系，实现IPv4网络主动发起连接访问IPv6网络。NAT64可实现TCP、UDP、ICMP协议下的IPv6与IPv4网络地址和协议转换。<br> DNS64则主要是配合NAT64工作，主要是将DNS查询信息中的A记录（IPv4地址）合成到AAAA记录（IPv6地址）中，返回合成的AAAA记录用户给IPv6侧用户。<br> NAT64一般与DNS64协同工作，而不需要在IPv6客户端或IPv4服务器端做任何修改。</p>
+<p>一句话，可以简单理解为中转机构。<br>当然了，ipv6目前对大众使用没啥用户需求，但是对于行业相关技术人员，有需要使用ipv6的环境做一些相关的测试。</p>
+<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>到此为止，Mac共享WiFi网络的方法其实很简单，一学就会，掌握这个技巧，可以很高效的运用到你的工作或者生活中，快去试试吧。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://blog.95783669.xyz/2026/11/09/AdaptionForiOS11andiPhoneX/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">

@@ -18,12 +18,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha256-4Lad8m4ZWW1Lgb9+sMVLYEfnIh7BjV1NQMEe79Pviks=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"githubio.95783669.xyz","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.29.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":null,"show_result":true},"fold":{"enable":false,"height":500},"language":false,"highlight_theme":"light"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":true,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js" defer></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.95783669.xyz","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.29.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":null,"show_result":true},"fold":{"enable":false,"height":500},"language":false,"highlight_theme":"light"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":true,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js" defer></script>
 
     <meta name="description" content="HTTPS握手先说声https握手，发送 HTTPS 请求首先要进行 SSL&#x2F;TLS 握手，握手过程大致如下： 1.客户端发起握手请求，携带随机数、支持算法列表等参数。2.服务端收到请求，选择合适的算法，下发公钥证书和随机数。3.客户端对服务端证书进行校验，并发送随机数信息，该信息使用公钥加密。4.服务端通过私钥获取随机数信息。5.双方根据以上交互的信息生成session ticket，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Moya，KingFisher中使用自签名证书发起HTTPS请求">
-<meta property="og:url" content="https://githubio.95783669.xyz/2026/11/09/SelfSginedCertificateAdaptionForMoyaAndKingfisher/index.html">
+<meta property="og:url" content="https://blog.95783669.xyz/2026/11/09/SelfSginedCertificateAdaptionForMoyaAndKingfisher/index.html">
 <meta property="og:site_name" content="抢手的哥的技术博客">
 <meta property="og:description" content="HTTPS握手先说声https握手，发送 HTTPS 请求首先要进行 SSL&#x2F;TLS 握手，握手过程大致如下： 1.客户端发起握手请求，携带随机数、支持算法列表等参数。2.服务端收到请求，选择合适的算法，下发公钥证书和随机数。3.客户端对服务端证书进行校验，并发送随机数信息，该信息使用公钥加密。4.服务端通过私钥获取随机数信息。5.双方根据以上交互的信息生成session ticket，">
 <meta property="og:locale" content="zh_CN">
@@ -33,10 +33,10 @@
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://githubio.95783669.xyz/2026/11/09/SelfSginedCertificateAdaptionForMoyaAndKingfisher/">
+<link rel="canonical" href="https://blog.95783669.xyz/2026/11/09/SelfSginedCertificateAdaptionForMoyaAndKingfisher/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://githubio.95783669.xyz/2026/11/09/SelfSginedCertificateAdaptionForMoyaAndKingfisher/","path":"2026/11/09/SelfSginedCertificateAdaptionForMoyaAndKingfisher/","title":"Moya，KingFisher中使用自签名证书发起HTTPS请求"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.95783669.xyz/2026/11/09/SelfSginedCertificateAdaptionForMoyaAndKingfisher/","path":"2026/11/09/SelfSginedCertificateAdaptionForMoyaAndKingfisher/","title":"Moya，KingFisher中使用自签名证书发起HTTPS请求"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>Moya，KingFisher中使用自签名证书发起HTTPS请求 | 抢手的哥的技术博客</title>
@@ -199,7 +199,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://githubio.95783669.xyz/2026/11/09/SelfSginedCertificateAdaptionForMoyaAndKingfisher/">
+    <link itemprop="mainEntityOfPage" href="https://blog.95783669.xyz/2026/11/09/SelfSginedCertificateAdaptionForMoyaAndKingfisher/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -274,8 +274,8 @@
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2026/11/09/NetEaswIMReceiption/" rel="next" title="网易云信IM已读回执开发总结">
-                  网易云信IM已读回执开发总结 <i class="fa fa-angle-right"></i>
+                <a href="/2026/11/09/MethodsOfSwift/" rel="next" title="Swift常用方法总结----不定期更新">
+                  Swift常用方法总结----不定期更新 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
